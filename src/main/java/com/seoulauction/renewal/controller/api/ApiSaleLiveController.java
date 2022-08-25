@@ -445,7 +445,7 @@ public class ApiSaleLiveController {
         CommonMap map = new CommonMap();
         map.put("artist_no", artistNo);
 
-        CommonMap artistInfoMap = saleService.selectArtistInfo(map);
+        CommonMap artistInfoMap = saleLiveService.selectArtistInfo(map);
         if(artistInfoMap != null) {
             artistInfoMap.put("images", s3Service.getS3FileDataAll("artist",  artistInfoMap.get("id")));
         }

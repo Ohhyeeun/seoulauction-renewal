@@ -1,10 +1,13 @@
 package com.seoulauction.renewal.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.form.OfflineBiddingForm;
 import com.seoulauction.renewal.mapper.aws.AWSSaleMapper;
+import com.seoulauction.renewal.mapper.aws.ArtistMapper;
 import com.seoulauction.renewal.mapper.kt.SaleLiveMapper;
 import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +27,8 @@ public class SaleLiveService {
 
     private final SaleLiveMapper saleLiveMapper;
     private final AWSSaleMapper awsSaleMapper;
+    private final ArtistMapper artistMapper;
+
     private final AuctionService auctionService;
 
     @Value("${image.root.path}")
@@ -269,6 +274,30 @@ public class SaleLiveService {
             lotInfoMap.put("IMAGE_URL", IMAGE_URL);
         }
         return lotInfoMap;
+    }
+
+    public CommonMap selectArtistInfo(CommonMap commonMap) {
+//        CommonMap resultMap = artistMapper.selectArtistInfo(commonMap);
+        return settingLotData(artistMapper.selectArtistInfo(commonMap));
+
+//        log.info("asdfasfedasdf");
+//
+//        ObjectMapper mapper = new ObjectMapper();
+//
+//            resultMap.keySet().forEach(c->{
+//                try {
+//
+//                    log.info(" result : {}" , resultMap.get(c));
+//
+//
+//                    resultMap.put(c ,mapper.readValue(String.valueOf(resultMap.get(c)), Map.class));
+//                } catch (JsonProcessingException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            });
+
+//        return resultMap;
+
     }
 
     //랏 데이터를 세팅 ( 이미지 PATH , MATE )

@@ -11,10 +11,20 @@
     </select>
 
     <select id="selectArtistInfo" parameterType="CommonMap" resultType="CommonMap">
-        select a.id, a.artist_no, a.country_code, a.name,
-               a.birth, a.death, a.education, a.exhibition,
-               a.profile, a.homepage, a.sns_account, a.media,
-               a.articles, a.is_open
+        select a.id
+             , a.artist_no
+             , a.country_code
+             , a.name			NAME_JSON
+             , a.birth
+             , a.death
+             , a.education		EDUCATION_JSON
+             , a.exhibition		EXHIBITION_JSON
+             , a.profile		PROFILE_JSON
+             , a.homepage
+             , a.sns_account	SNS_ACCOUNT_JSON
+             , a.media			MEDIA_JSON
+             , a.articles		ARTICLES_JSON
+             , a.is_open
         from artist a
         where a.is_open = 'Y' and  a.status = 'A'
         and a.artist_no = #{artist_no}
