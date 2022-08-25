@@ -269,6 +269,13 @@ public class SaleLiveService {
         }
         return lotInfoMap;
     }
+    public CommonMap selectAdminSaleInfo(CommonMap map){
+        return settingLotData(saleLiveMapper.selectAdminSaleInfo(map));
+    }
+
+    public List<CommonMap> selectAdminOffBid(CommonMap map){
+        return saleLiveMapper.selectAdminOffBid(map);
+    }
 
     //랏 데이터를 세팅 ( 이미지 PATH , MATE )
     private CommonMap settingLotData(CommonMap map){
@@ -314,6 +321,8 @@ public class SaleLiveService {
         }
         return map;
     }
+
+
 
 }
 
