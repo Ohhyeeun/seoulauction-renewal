@@ -790,8 +790,25 @@
                 window.location.href = makeUrl(pageData);
             }
 
+            $scope.callApiPollingData = async function(){
+                let [saleInfoData, lotListData, lotNaviData] = await Promise.all([
+                    getSaleInfo($scope.sale_no),
+                    getLotList(pageData),
+                    getSaleImages($scope.sale_no),
+                    // getCategories($scope.sale_no),
+                    // getPaddleNumber($scope.sale_no),
+                ]);
+
+                $scope.lotList = lotListData.data.data.list;
+                $scope.lotTotalCount = lotListData.data.data.count;
+                $scope.saleImages = lotNaviData.data.data;
+
+                await setLotListData($scope.lotList);
+                await renderPaginationSection($scope.currentPage, $scope.lotTotalCount, $scope.pageSize);
+            }
+
             // 호출 부
-            $scope.load = function () {
+            $scope.load = async function () {
                 let run = async function () {
                     let [saleInfoData, lotListData, lotNaviData, categories, paddleInfoData] = await Promise.all([
                         getSaleInfo($scope.sale_no),
@@ -814,7 +831,7 @@
                     await setPaddleButtonMsg($scope.sale_status, $scope.paddNo);
                     await renderPaginationSection($scope.currentPage, $scope.lotTotalCount, $scope.pageSize);
 
-                    $scope.saleInfo = $scope.lotList.slice(0, $scope.itemsize);
+                    // $scope.saleInfo = $scope.lotList.slice(0, $scope.itemsize);
 
                     $scope.$apply();
 
@@ -849,8 +866,10 @@
                     });
 
                 }
-                run();
-
+                await run();
+                if($scope.sale_status !== 'END'){
+                    setInterval(await $scope.callApiPollingData, 60000);
+                }
             }
 
             $scope.changeViewType = function (value) {
