@@ -686,6 +686,7 @@
 		     , S.SALE_KIND_CD
 		     , S.CURR_CD
 		     , S.TO_DT
+			 , L.IMG_DISP_YN
 		  FROM CUST_INTE_LOT CL INNER JOIN CUST CU ON CL.CUST_NO = CU.CUST_NO
 							   INNER JOIN
 							   (
