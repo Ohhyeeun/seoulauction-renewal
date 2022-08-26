@@ -88,6 +88,8 @@ function sleepAlarmNow(){
 }
 //지금변경하기
 function goModPassword(){
+
+    sleepAlarmNow();
 	location.href = '/mypage/passwordModify';
 }
 
