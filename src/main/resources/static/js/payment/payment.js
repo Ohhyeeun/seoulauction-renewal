@@ -77,33 +77,46 @@ function rcptCheck() {
     }
 
     let tmpReqReserved = $("form[name=payForm] input[name=tmpReqReserved]").val();
+    let rcptNo;
     switch ($("input:radio[name=rcpt_type]:checked").val()) {
         case '1':
-            if($("input:radio[name=rcpt_yn]:checked").val() === "Y") {
-                let rcptNo = $("#rcpt_type_no1").val();
-                if(!rcptNo) {
-                    alert("현금영수증 번호를 입력해주세요.");
-                    $("#rcpt_type_no1").focus();
-                    return false;
-                }
-
-                tmpReqReserved += ",rcpt_type=1,rcpt_type_no="+rcptNo;
-                break;
+            rcptNo = $("#rcpt_type_no1").val();
+            if(!rcptNo) {
+                alert("현금영수증 번호를 입력해주세요.");
+                $("#rcpt_type_no1").focus();
+                return false;
             }
+
+            // 휴대폰번호 유효성 체크
+            if (!/(\d{2,3})-?(\d{3,4})-?(\d{4})/.test(rcptNo)){
+                alert("유효하지 않은 휴대폰 번호입니다.");
+                $("#rcpt_type_no1").focus();
+                return false;
+            }
+
+            tmpReqReserved += ",rcpt_type=1";
             break;
 
         case '2':
-            let rcptNo = $("#rcpt_type_no2").val();
+            rcptNo = $("#rcpt_type_no2").val();
             if(!rcptNo) {
                 alert("현금영수증 번호를 입력해주세요.");
                 $("#rcpt_type_no2").focus();
                 return false;
             }
 
-            tmpReqReserved += ",rcpt_type=2,rcpt_type_no="+rcptNo;
+            // 사업자번호 유효성 체크
+            if (!/(\d{3})-?(\d{2})-?(\d{5})/.test(rcptNo)){
+                alert("유효하지 않은 사업자등록번호입니다.");
+                $("#rcpt_type_no2").focus();
+                return false;
+            }
+
+            tmpReqReserved += ",rcpt_type=2";
             break;
     }
 
+    tmpReqReserved += ",rcpt_type_no="+rcptNo.replace(/-/g, '');
     $("form[name=payForm] input[name=ReqReserved]").val(tmpReqReserved);
     return true;
 }
