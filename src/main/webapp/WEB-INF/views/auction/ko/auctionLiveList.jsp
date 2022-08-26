@@ -216,10 +216,10 @@
                                                     </div>
                                                 </article>
                                                 <%--출품--%>
-                                                <article ng-if="item.STAT_CD !== 'reentry'" class="item-article" ng-class="{result:sale_status === 'END' || item.IMAGE_MAGNIFY}">
+                                                <article ng-if="item.STAT_CD !== 'reentry'" class="item-article" ng-class="{result: item.CLOSE_YN || sale_status === 'END' || item.IMAGE_MAGNIFY }">
                                                     <div class="image-area">
                                                         <figure class="img-ratio">
-                                                            <a ng-href="{{item.CLOSE_YN ? '' : '/auction/live/view/'+sale_no+'/'+item.LOT_NO}}">
+                                                            <a ng-href="{{!is_employee && item.CLOSE_YN ? '' : '/auction/live/view/'+sale_no+'/'+item.LOT_NO}}">
                                                                 <div class="img-align">
 <%--                                                                    <img ng-src="{{item.IMAGE_FULL_PATH}}"  alt="LOT {{item.LOT_NO}}">--%>
                                                                     <img ng-src="{{'https://www.seoulauction.com/nas_img'+item.LOT_IMG_PATH+'/list/'+item.LOT_IMG_NAME}}"  alt="LOT {{item.LOT_NO}}">
@@ -426,6 +426,7 @@
         app.controller('ctl', function ($scope, consts, common, is_login, locale, $filter) {
             const pageData = loadPageData();
             $scope.is_login = IS_LOGIN;
+            $scope.is_employee = IS_EMPLOYEE;
             $scope.locale = locale;
             $scope.sale_no = SALE_NO;
             $scope.base_currency = 'KRW';
@@ -772,7 +773,7 @@
                     item.MAX_BID_PRICE = item.MAX_BID_PRICE !== null? numberWithCommas(parseInt(item.MAX_BID_PRICE)) : null;
 
 
-                    if (['LIVE_ENG','END'].indexOf($scope.sale_status) && item.CLOSE_YN && item.MAX_BID_PRICE !== null) {
+                    if (['LIVE_ING','END'].indexOf($scope.sale_status) > -1 && item.CLOSE_YN && item.MAX_BID_PRICE !== null) {
                         item.isShowBidPrice = true;
                     } else {
                         item.isShowBidPrice = false;
