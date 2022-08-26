@@ -609,13 +609,15 @@
                 const NOW_DATETIME = moment();
                 const NOW_DATE = moment().format('YYYYMMDD');
 
+                console.log(saleData.CLOSE_YN)
+
                 if(NOW_DATE < TO_DT_MMDD) {
                     saleStatus = 'READY';
                 }else if((NOW_DATE >= TO_DT_MMDD) && (NOW_DATETIME < LIVE_BID_DT)) {
                     saleStatus = 'BID_END';
-                }else if((NOW_DATE >= TO_DT_MMDD) && (NOW_DATETIME >= LIVE_BID_DT)  && saleData.CLOSE_YN !== 'Y') {
+                }else if((NOW_DATE >= TO_DT_MMDD) && (NOW_DATETIME >= LIVE_BID_DT)  && !saleData.CLOSE_YN) {
                     saleStatus = 'LIVE_ING';
-                }else if((NOW_DATE >= TO_DT_MMDD) && saleData.CLOSE_YN === 'Y'){
+                }else if((NOW_DATE >= TO_DT_MMDD) && saleData.CLOSE_YN){
                     saleStatus = "END";
                     if (!IS_EMPLOYEE && !IS_LOGIN) {
                         alert("권한이 없거나 허용되지 않은 접근입니다.");
