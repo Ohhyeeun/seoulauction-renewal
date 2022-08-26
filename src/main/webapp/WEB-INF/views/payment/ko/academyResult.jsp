@@ -38,6 +38,7 @@
                                             <p class="tt1">결제가 완료되었습니다.</p>
                                         </li>
                                         <!-- //[0803]결제완료코멘트 추가 -->
+                                        <c:if test="${param.payMethod == 'VBANK'}">
                                         <!-- [0803]결제완료코멘트 추가 -->
                                         <li class="comment_pay">
                                             <p class="tt1">가상계좌 신청이 완료 되었습니다.</p>
@@ -47,7 +48,6 @@
                                             </div>
                                         </li>
                                         <!-- //[0803]결제완료코멘트 추가 -->
-                                        <c:if test="${param.payMethod == 'VBANK'}">
                                         <li>
                                             <div class="account_info">
                                                 <p class="tit">가상계좌 정보</p>
@@ -118,7 +118,7 @@
                                                 <li>
                                                     <span class="th">총 결제금액</span>
                                                     <fmt:formatNumber type="number" maxFractionDigits="3" var="pay_price" value="${resultMap.pay_price}" />
-                                                    <span class="td pay">${pay_price} 원
+                                                    <span class="td pay">수강료 ${pay_price} 원
                                                         <br class="only-mb" />+ 할인금액 0 원
                                                         <br class="only-mb" />= <i class="total">총 결제금액 ${pay_price} 원</i></span>
                                                 </li>

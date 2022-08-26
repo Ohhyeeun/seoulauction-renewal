@@ -13,7 +13,7 @@
             <!-- //header -->
 
             <!-- container -->
-            <div id="container">
+            <div id="container" ng-controller="academyCtl">
                 <div id="contents" class="contents">
 
                     <section class="basis-section last-section">
@@ -35,7 +35,9 @@
                                             <div class="table_box">
                                                 <div class="guide">
                                                     <div class="product-box">
-                                                        <p class="img"><img src="https://www.seoulauction.com/nas_img/${resultMap.IMG_PATH}/${resultMap.FILE_NAME}" alt="" /></p>
+                                                        <p class="img">
+                                                            <img id="academy-img" data="${resultMap.ACADEMY_CD}" alt="" />
+                                                        </p>
                                                         <dl class="product_info">
                                                             <dt class="tt4">
                                                                 ${ct:getJSONString(resultMap.TITLE_JSON, 'ko')}
@@ -99,42 +101,14 @@
                                                         <div class="form-area personal">
                                                             <div class="con">
                                                                 <div class="form-wrap">
-                                                                    <input type="text" placeholder="휴대폰 번호를 입력해주세요" id="" class="h42">
+                                                                    <input type="text" placeholder="휴대폰 번호를 입력해주세요" id="rcpt_type_no1" class="h42" maxlength="13" onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this);" onblur="phoneNumberBlur(this);">
                                                                 </div>
                                                             </div>
-                                                            <!-- [0812]삭제(기존작업백업) -->
-<%--                                                            <div class="radio-wrap">--%>
-<%--                                                                <span class="trp radio-box">--%>
-<%--                                                                    <input id="radio2-1" type="radio" name="rcpt_yn" value="Y" checked>--%>
-<%--                                                                    <i></i>--%>
-<%--                                                                    <label for="radio2-1">신청하기</label>--%>
-<%--                                                                </span>--%>
-<%--                                                                <span class="trp radio-box">--%>
-<%--                                                                    <input id="radio2-2" type="radio" name="rcpt_yn" value="N">--%>
-<%--                                                                    <i></i>--%>
-<%--                                                                    <label for="radio2-2">신청안함</label>--%>
-<%--                                                                </span>--%>
-<%--                                                            </div>--%>
-<%--                                                            <div class="con-wrap">--%>
-<%--                                                                <div class="tit js-selt_choice">--%>
-<%--                                                                    <div class="select-box">--%>
-<%--                                                                        <select class="select2Basic42" id="">--%>
-<%--                                                                            <option value="1">휴대폰 번호</option>--%>
-<%--                                                                        </select>--%>
-<%--                                                                    </div>--%>
-<%--                                                                </div>--%>
-<%--                                                                <div class="con">--%>
-<%--                                                                    <div class="form-wrap form-con1">--%>
-<%--                                                                        <input type="text" placeholder="휴대폰 번호를 입력해주세요" id="rcpt_type_no1" class="h42" maxlength="11" onkeyup="onlyNumber(this, 'number');">--%>
-<%--                                                                    </div>--%>
-<%--                                                                </div>--%>
-<%--                                                            </div>--%> 
-                                                            <!-- //[0812]개인소득공제신청양식 변경 -->
                                                         </div>
                                                         <div class="form-area business">
                                                             <div class="con">
                                                                 <div class="form-wrap">
-                                                                    <input type="text" placeholder="사업자번호를 입력해 주세요" id="rcpt_type_no2" class="h42" maxlength="20" onkeyup="onlyNumber(this, 'number');">
+                                                                    <input type="text" placeholder="사업자번호를 입력해 주세요" id="rcpt_type_no2" class="h42" maxlength="12" onchange="businessNumberHyphen(this);" onkeydown="businessNumberHyphen(this);">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -194,7 +168,26 @@
         </div>
     </div>
 </body>
+<script>
+    function getAcademyImg(param){
+        if(param == "artauction"){ // 대학생 아카데미
+            return "academy-thum_student.jpg";
+        }else if(param == "artbrunch"){ // CEO
+            return "academy-thum_ceo.jpg";
+        }else if(param == "artculture"){ //아트마켓
+            return "academy-thum_market.jpg";
+        }else if(param == "artisttalk"){ //작가론
+            return "academy-thum_authorism.jpg";
+        }else if(param == "culture"){ // 건축
+            return "academy-thum_architecture.jpg";
+        }else if(param == "lecture"){ // 특강
+            return "academy-thum_lecture.jpg";
+        }
+    }
 
+    const academy_cd = $("#academy-img").attr("data");
+    $("#academy-img").attr("src", "/images/pc/service/"+getAcademyImg(academy_cd));
+</script>
 <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
 <!-- 아래 js는 PC 결제창 전용 js입니다.(모바일 결제창 사용시 필요 없음) -->
 <script src="https://web.nicepay.co.kr/v3/webstd/js/nicepay-3.0.js" type="text/javascript"></script>

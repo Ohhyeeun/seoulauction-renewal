@@ -645,6 +645,26 @@ function phoneNumberBlur(obj) {
 	}
 }
 
+function businessNumberHyphen(obj) {
+    let input = obj.value.replace(/[^0-9]/g, '');
+    let tmp = '';
+    if (input.length < 4) {
+        obj.value = input;
+    } else if (input.length < 6) {
+        tmp += input.substr(0, 3);
+        tmp += '-';
+        tmp += input.substr(3);
+        obj.value = tmp;
+    } else if (input.length < 11) {
+        tmp += input.substr(0, 3);
+        tmp += '-';
+        tmp += input.substr(3, 2);
+        tmp += '-';
+        tmp += input.substr(5);
+        obj.value = tmp;
+    }
+}
+
 function inquiryPhoneNumberBlur(obj) {
 		obj.value = obj.value.replaceAll('-','');
 }
