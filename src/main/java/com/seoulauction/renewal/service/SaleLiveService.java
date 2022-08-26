@@ -285,29 +285,7 @@ public class SaleLiveService {
         return saleLiveMapper.selectAdminOffBid(map);
     }
 
-    public CommonMap selectArtistInfo(CommonMap commonMap) {
-//        CommonMap resultMap = artistMapper.selectArtistInfo(commonMap);
-        return settingLotData(artistMapper.selectArtistInfo(commonMap));
-
-//        log.info("asdfasfedasdf");
-//
-//        ObjectMapper mapper = new ObjectMapper();
-//
-//            resultMap.keySet().forEach(c->{
-//                try {
-//
-//                    log.info(" result : {}" , resultMap.get(c));
-//
-//
-//                    resultMap.put(c ,mapper.readValue(String.valueOf(resultMap.get(c)), Map.class));
-//                } catch (JsonProcessingException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            });
-
-//        return resultMap;
-
-    }
+    public CommonMap selectArtistInfo(CommonMap commonMap) { return settingLotData(artistMapper.selectArtistInfo(commonMap)); }
 
     //랏 데이터를 세팅 ( 이미지 PATH , MATE )
     private CommonMap settingLotData(CommonMap map){
