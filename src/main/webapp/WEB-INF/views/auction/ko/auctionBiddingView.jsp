@@ -1076,8 +1076,11 @@
 
             //info
             el_nowLotNo.innerHTML = data.LOT_NO;
-            el_artistName.innerHTML = data.ARTIST_NAME_JSON[locale];
-            el_birthOfDeath.innerHTML = "b."+ data.BORN_YEAR+"-"+data.DIE_YEAR;
+            el_artistName.innerHTML = data.ARTIST_NAME_JSON[locale]? data.ARTIST_NAME_JSON[locale] : '';
+            if(data.BORN_YEAR){
+                const dieYear = data.DIE_YEAR? "-"+data.DIE_YEAR : '';
+                el_birthOfDeath.innerHTML = "b."+ data.BORN_YEAR + dieYear;
+            }
             el_lotTitle.innerHTML = data.LOT_TITLE_JSON[locale];
             el_expePriceFromTo.innerHTML = baseCurrency+' '+numberWithCommas(data.EXPE_PRICE_FROM_JSON[baseCurrency])+' ~ '+numberWithCommas(data.EXPE_PRICE_TO_JSON[baseCurrency]);
 
