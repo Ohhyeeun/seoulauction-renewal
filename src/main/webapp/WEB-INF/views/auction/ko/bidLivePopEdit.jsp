@@ -255,21 +255,33 @@
                                 </tr>
                                 </thead>
                                 <tbody id="tblOffBidListBody">
-                                <tr ng-repeat="item in bidHist">
-                                    <td>
-                                        <span>{{item.bid_cost}}</span>
+                                <tr ng-repeat="item in bidList">
+
+                                    <%--노티스가 아닐떄--%>
+                                    <td ng-show="item.BID_NOTICE == null">
+                                        <span ng-if="item.BID_KIND_CD == 'online'"><font color="blue" style="font-weight:bolder">{{item.BID_PRICE}}</font></span>
+                                        <span ng-if="item.BID_KIND_CD != 'online'">{{item.BID_PRICE}}</span>
                                     </td>
-                                    <td>
-                                        <span>KRW</span>
+                                    <td ng-show="item.BID_NOTICE == null">
+                                        <span ng-if="item.BID_KIND_CD == 'online'"><font color="blue" style="font-weight:bolder">KRW</font></span>
+                                        <span ng-if="item.BID_KIND_CD != 'online'">KRW</span>
                                     </td>
-                                    <td>
-                                        <span>{{item.bid_kind_cd}}</span>
+                                    <td ng-show="item.BID_NOTICE == null">
+                                        <span ng-if="item.BID_KIND_CD == 'online'"><font color="blue" style="font-weight:bolder">{{item.BID_KIND_CD}}</font></span>
+                                        <span ng-if="item.BID_KIND_CD != 'online'">{{item.BID_KIND_CD}}</span>
                                     </td>
-                                    <td>
-                                        <span>{{item.customer.user_id | userIdTxt}}</span>
+                                    <td ng-show="item.BID_NOTICE == null">
+                                        <span ng-if="item.BID_KIND_CD == 'online'"><font color="blue" style="font-weight:bolder">굿</font></span>
+                                        <span ng-if="item.BID_KIND_CD != 'online'">굿</span>
                                     </td>
+
+                                    <%--노티스가 맞을떄--%>
+                                    <td ng-if="item.BID_NOTICE != null" colspan="5" style="color:red; text-align:center;">
+                                        <span ng-if="locale == 'ko'">{{item.BID_NOTICE}}</span><span ng-if="locale != 'ko'">{{bid.BID_NOTICE_EN}}</span>
+                                    </td>
+
                                     <td ng-show="item.bid_kind_cd != 'online'">
-                                        <button type="button" class="btn_insert" ng-click="deletebid(item.bid_token);">
+                                        <button type="button" class="btn_insert" ng-click="deletebid(item.BID_NO);">
                                             삭제
                                         </button>
                                     </td>
@@ -457,7 +469,7 @@
         }
 
         // 응찰내역
-        $scope.bidHist = [];
+        $scope.bidList = [];
 
         // bid_change_cost 현재가
         $scope.bid_change_cost = 0;
@@ -477,7 +489,11 @@
 
                     if(success){
 
-                        $scope.curLot = data.data;
+                        console.log(data.data);
+
+                        $scope.curLot = data.data.lot;
+
+                        $scope.bidList = data.data.off_list;
                         if($scope.curLot) {
                             $scope.curLot.EXPE_PRICE_TO_JSON.KRW = numberWithCommas($scope.curLot.EXPE_PRICE_TO_JSON.KRW);
                             $scope.curLot.EXPE_PRICE_FROM_JSON.KRW = numberWithCommas($scope.curLot.EXPE_PRICE_FROM_JSON.KRW);
@@ -486,6 +502,7 @@
                             $scope.bid_change_cost = $scope.curLot.START_PRICE;
                             $scope.$apply();
                         }
+
                     }
 
                 })

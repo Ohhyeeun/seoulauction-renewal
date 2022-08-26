@@ -592,7 +592,7 @@ public class ApiSaleLiveController {
     /**
      *
      * @param saleNo
-     * 관리자용 오프라인  랏동기화 이후 경매 중인 랏 가져오기.
+     * 관리자용 오프라인 랏동기화 이후 경매 중인 랏 + 오프라인 비드 데이터 가져오기.
      */
     @GetMapping(value="/admin/sales/{saleNo}/lots/{lotNo}/sync-cu-lot")
     public ResponseEntity<RestResponse> adminSaleCurLot(

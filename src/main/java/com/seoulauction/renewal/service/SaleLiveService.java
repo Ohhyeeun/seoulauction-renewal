@@ -295,7 +295,11 @@ public class SaleLiveService {
         //랏 동기화.
         lotSync(map);
 
-        return settingLotData(saleLiveMapper.selectAdminLotInfo(map));
+        CommonMap resultMap = new CommonMap();
+        resultMap.put("lot" , settingLotData(saleLiveMapper.selectAdminLotInfo(map)));
+        resultMap.put("off_list" , saleLiveMapper.selectAdminOffBid(map));
+
+        return resultMap;
     }
 
     public CommonMap selectArtistInfo(CommonMap commonMap) { return settingLotData(artistMapper.selectArtistInfo(commonMap)); }
