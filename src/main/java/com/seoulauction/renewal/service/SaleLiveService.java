@@ -1,7 +1,5 @@
 package com.seoulauction.renewal.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.exception.SAException;
@@ -17,7 +15,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -277,12 +277,29 @@ public class SaleLiveService {
 
         return lotInfoMap;
     }
+    public List<CommonMap> selectAdminOffBid(CommonMap map){
+        return saleLiveMapper.selectAdminOffBid(map);
+    }
+
     public CommonMap selectAdminSaleInfo(CommonMap map){
         return settingLotData(saleLiveMapper.selectAdminSaleInfo(map));
     }
 
-    public List<CommonMap> selectAdminOffBid(CommonMap map){
-        return saleLiveMapper.selectAdminOffBid(map);
+    /**
+     * 랏 동기화 이후 해당 데이터를 가져옴.
+     * @param map
+     * @return
+     */
+    public CommonMap selectAdminLotInfo(CommonMap map){
+
+        //랏 동기화.
+        lotSync(map);
+
+        CommonMap resultMap = new CommonMap();
+        resultMap.put("lot" , settingLotData(saleLiveMapper.selectAdminLotInfo(map)));
+        resultMap.put("off_list" , saleLiveMapper.selectAdminOffBid(map));
+
+        return resultMap;
     }
 
     public CommonMap selectArtistInfo(CommonMap commonMap) { return settingLotData(artistMapper.selectArtistInfo(commonMap)); }
