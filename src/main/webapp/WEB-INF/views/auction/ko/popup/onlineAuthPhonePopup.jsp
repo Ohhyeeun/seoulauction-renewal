@@ -27,7 +27,7 @@
                   <div class="form_body">
                     <div class="input-group">
                       <input type="text" id="auth-request-hp" class="form-control" value="" placeholder="">
-                      <button class="btn btn_light_gray_line" type="button"><span>인증번호 요청</span></button>
+                      <button id="send-sms-btn" class="btn btn_light_gray_line" type="button"><span>인증번호 요청</span></button>
                     </div>
                     <div class="re-check">
                       <div class="form_body">

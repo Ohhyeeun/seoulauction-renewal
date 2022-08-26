@@ -102,24 +102,7 @@
                           <span id="data-lot-title">&nbsp;</span>
                         </div>
                       </div>
-                      <div class="price-area">
-                        <dl class="price-list">
-                          <dt>추정가</dt>
-                          <dd id="data-expect-price">&nbsp;</dd>
-                        </dl>
-                        <dl class="price-list">
-                          <dt>시작가</dt>
-                          <dd id="data-start-price">&nbsp;</dd>
-                        </dl>
-                        <dl class="price-list">
-                          <dt id="data-last-price-title">현재가</dt>
-                          <dd id="data-last-price">&nbsp;</dd>
-                        </dl>
-                        <dl class="price-list">
-                          <dt>마감일</dt>
-                          <dd id="data-to-date">4/22(금) 14:00</dd>
-                        </dl>
-                      </div>
+                      <div class="price-area" id="lot-detail-price-area"></div>
                       <div class="button-area">
                         <div class="btn_set only-pc">
                           <div class="btn_item">
