@@ -57,7 +57,7 @@
                                 </article>
 
                                 <%--라이브 응찰 신청기간--%>
-                                <article ng-if="saleInfoData.LIVE_BID_YN == 'Y'" class="proceeding-article" >
+                                <article ng-if="sale_status !== 'END'" class="proceeding-article" >
                                     <a ng-click="goLiveBid();" class="js-terms_required">
                                         <div class="article-inner">
                                             <div class="column view">
@@ -219,7 +219,7 @@
                                                 <article ng-if="item.STAT_CD !== 'reentry'" class="item-article" ng-class="{result:sale_status === 'END' || item.IMAGE_MAGNIFY}">
                                                     <div class="image-area">
                                                         <figure class="img-ratio">
-                                                            <a href="/auction/live/view/{{sale_no}}/{{item.LOT_NO}}">
+                                                            <a ng-href="{{item.CLOSE_YN ? '' : '/auction/live/view/'+sale_no+'/'+item.LOT_NO}}">
                                                                 <div class="img-align">
 <%--                                                                    <img ng-src="{{item.IMAGE_FULL_PATH}}"  alt="LOT {{item.LOT_NO}}">--%>
                                                                     <img ng-src="{{'https://www.seoulauction.com/nas_img'+item.LOT_IMG_PATH+'/list/'+item.LOT_IMG_NAME}}"  alt="LOT {{item.LOT_NO}}">
@@ -408,6 +408,7 @@
 
 
 
+        const IS_LOGIN = sessionStorage.getItem("is_login") === 'true';
         const IS_REGULAR = ${isRegular};
         const IS_CUST_REQUIRED = ${isCustRequired};
         const IS_EMPLOYEE = ${IS_EMPLOYEE};
@@ -420,11 +421,11 @@
         }
 
         app.value('locale', 'ko');
-        app.value('is_login', true);
+        app.value('is_login', IS_LOGIN);
         app.requires.push.apply(app.requires, ["ngAnimate", "ngDialog"]);
         app.controller('ctl', function ($scope, consts, common, is_login, locale, $filter) {
             const pageData = loadPageData();
-            $scope.is_login = is_login;
+            $scope.is_login = IS_LOGIN;
             $scope.locale = locale;
             $scope.sale_no = SALE_NO;
             $scope.base_currency = 'KRW';
@@ -523,7 +524,7 @@
             $scope.goLiveBid = function() {
                 const saleStatus = $scope.sale_status;
                 const paddleNo = $scope.paddNo;
-                const isLogin = sessionStorage.getItem("is_login") === 'true';
+                const isLogin = IS_LOGIN;
                 if(saleStatus === 'READY' && !isLogin){
                     //로그인 페이지 이동
                     if(!checkLogin()) return;
@@ -547,7 +548,6 @@
                     }
                 }else if(saleStatus === 'LIVE_ING' && !isLogin){
                     //player only 페이지 이동
-                    console.log(DEVICE_KIND)
                     if(DEVICE_KIND === 'is_pc'){
                         window.open("/auction/live/bid/player/"+$scope.sale_no,"bidder", "resizable=no, status=no, menubar=no, toolbar=no, location=no, directories=no");
                     }else{
@@ -609,18 +609,17 @@
                 const NOW_DATETIME = moment();
                 const NOW_DATE = moment().format('YYYYMMDD');
 
-                console.log(NOW_DATE, TO_DT_MMDD, NOW_DATETIME > LIVE_BID_DT, saleData.CLOSE_YN);
-
                 if(NOW_DATE < TO_DT_MMDD) {
                     saleStatus = 'READY';
                 }else if((NOW_DATE >= TO_DT_MMDD) && (NOW_DATETIME < LIVE_BID_DT)) {
                     saleStatus = 'BID_END';
-                }else if((NOW_DATE >= TO_DT_MMDD) && (NOW_DATETIME >= LIVE_BID_DT)) {
+                }else if((NOW_DATE >= TO_DT_MMDD) && (NOW_DATETIME >= LIVE_BID_DT)  && saleData.CLOSE_YN !== 'Y') {
                     saleStatus = 'LIVE_ING';
-                }else if(saleData.CLOSE_YN){
+                }else if((NOW_DATE >= TO_DT_MMDD) && saleData.CLOSE_YN === 'Y'){
                     saleStatus = "END";
-                    if (!IS_EMPLOYEE && sessionStorage.getItem("is_login") === 'false') {
+                    if (!IS_EMPLOYEE && !IS_LOGIN) {
                         alert("권한이 없거나 허용되지 않은 접근입니다.");
+                        history.back();
                     }
                 }
 
@@ -636,7 +635,7 @@
 
                 $scope.btnPaddleNo = '';
 
-                const isLogin = sessionStorage.getItem("is_login");
+                const isLogin = IS_LOGIN;
                 const isRegular = IS_REGULAR;
                 const paddleNo = paddNo;
                 const sale_status = saleStatus;
@@ -758,7 +757,6 @@
             }
 
             const setLotListData = async (dataList) => {
-                console.log(dataList)
                 let baseCurrency = $scope.base_currency;
                 let subCurrency = $scope.sub_currency;
 
@@ -771,7 +769,8 @@
                     item.EXPE_PRICE_TO_JSON[subCurrency] = numberWithCommas(item.EXPE_PRICE_TO_JSON[subCurrency]);
                     item.MAX_BID_PRICE = item.MAX_BID_PRICE !== null? numberWithCommas(parseInt(item.MAX_BID_PRICE)) : null;
 
-                    if ($scope.sale_status === 'LIVE_ING' && item.CLOSE_YN && item.MAX_BID_PRICE !== null && IS_REGULAR) {
+
+                    if (['LIVE_ENG','END'].indexOf($scope.sale_status) && item.CLOSE_YN && item.MAX_BID_PRICE !== null) {
                         item.isShowBidPrice = true;
                     } else {
                         item.isShowBidPrice = false;

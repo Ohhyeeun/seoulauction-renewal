@@ -115,6 +115,13 @@
         }
         return outNum;
     }
+    //숫자를 천단위마다 콤마 해줌.
+    function numberWithCommas(x) {
+        if(x === undefined){
+            return x;
+        }
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
 </script>
 <body>
 <div class="pop_wrap">
@@ -133,19 +140,19 @@
                              align="center">
                             <div class="bid_live_img_box" align="center">
                                 <img oncontextmenu="return false"
-                                     ng-src="{{curLot.IMAGE_URL}}{{curLot.FILE_PATH}}/{{curLot.FILE_NAME}}"
+                                     ng-src="{{curLot.IMAGE_FULL_PATH}}"
                                      alt="{{curLot.TITLE}}"
                                      style="max-width: 100%; max-height: 100%; vertical-align: middle;"/>
                             </div>
                         </div>
                     </div><!--web_only-->
                     <div class="client_m_only client_m_vertical">
-                        <div ng-show="lot.LOT_NO != null"
+                        <div ng-show="curLot.LOT_NO != null"
                              style="display:table; margin:auto; position:relative; overflow:hidden;" align="center">
                             <div class="bid_live_img_box" align="center">
 
                                 <img oncontextmenu="return false"
-                                     ng-src="{{curLot.IMAGE_URL}}{{curLot.FILE_NAME | imagePath1 : curLot.FILE_NAME : 'detail'}}"
+                                     ng-src="{{curLot.IMAGE_FULL_PATH}}"
                                      alt="{{curLot.TITLE}}"
                                      style="max-width: 100%; max-height: 100%; vertical-align:middle;"/>
                             </div>
@@ -191,12 +198,12 @@
                         <span ng-if="curLot.EXPE_PRICE_INQ_YN != 'Y'">
     							<!-- 기준통화 -->
 								<p>
-	    							<span ng-bind="curLot.EXPE_PRICE_FROM_JSON.KRW"></span> ~
+	    							KRW <span ng-bind="curLot.EXPE_PRICE_FROM_JSON.KRW"></span> ~
 	    							<span ng-bind="curLot.EXPE_PRICE_TO_JSON.KRW"></span>
 								</p>
                             <!-- USD -->
 								<p>
-									<span ng-bind="curLot.EXPE_PRICE_FROM_JSON.USD"></span> ~
+									USD <span ng-bind="curLot.EXPE_PRICE_FROM_JSON.USD"></span> ~
 	    							<span ng-bind="curLot.EXPE_PRICE_TO_JSON.USD"></span>
 								</p>
                             <!-- 서브통화 -->
@@ -248,21 +255,33 @@
                                 </tr>
                                 </thead>
                                 <tbody id="tblOffBidListBody">
-                                <tr ng-repeat="item in bidHist">
-                                    <td>
-                                        <span>{{item.bid_cost}}</span>
+                                <tr ng-repeat="item in bidList">
+
+                                    <%--노티스가 아닐떄--%>
+                                    <td ng-show="item.BID_NOTICE == null">
+                                        <span ng-if="item.BID_KIND_CD == 'online'"><font color="blue" style="font-weight:bolder">{{item.BID_PRICE}}</font></span>
+                                        <span ng-if="item.BID_KIND_CD != 'online'">{{item.BID_PRICE}}</span>
                                     </td>
-                                    <td>
-                                        <span>KRW</span>
+                                    <td ng-show="item.BID_NOTICE == null">
+                                        <span ng-if="item.BID_KIND_CD == 'online'"><font color="blue" style="font-weight:bolder">KRW</font></span>
+                                        <span ng-if="item.BID_KIND_CD != 'online'">KRW</span>
                                     </td>
-                                    <td>
-                                        <span>{{item.bid_kind_cd}}</span>
+                                    <td ng-show="item.BID_NOTICE == null">
+                                        <span ng-if="item.BID_KIND_CD == 'online'"><font color="blue" style="font-weight:bolder">{{item.BID_KIND_CD}}</font></span>
+                                        <span ng-if="item.BID_KIND_CD != 'online'">{{item.BID_KIND_CD}}</span>
                                     </td>
-                                    <td>
-                                        <span>{{item.customer.user_id | userIdTxt}}</span>
+                                    <td ng-show="item.BID_NOTICE == null">
+                                        <span ng-if="item.BID_KIND_CD == 'online'"><font color="blue" style="font-weight:bolder">굿</font></span>
+                                        <span ng-if="item.BID_KIND_CD != 'online'">굿</span>
                                     </td>
+
+                                    <%--노티스가 맞을떄--%>
+                                    <td ng-if="item.BID_NOTICE != null" colspan="5" style="color:red; text-align:center;">
+                                        <span ng-if="locale == 'ko'">{{item.BID_NOTICE}}</span><span ng-if="locale != 'ko'">{{bid.BID_NOTICE_EN}}</span>
+                                    </td>
+
                                     <td ng-show="item.bid_kind_cd != 'online'">
-                                        <button type="button" class="btn_insert" ng-click="deletebid(item.bid_token);">
+                                        <button type="button" class="btn_insert" ng-click="deletebid(item.BID_NO);">
                                             삭제
                                         </button>
                                     </td>
@@ -295,17 +314,27 @@
                                 &nbsp;
                                 <span class="btn_style01 green02 bidlive_btn"><button type="button"
                                                                                       ng-click="lotsync();">LOT동기화</button></span>
-                                <span class="btn_style01 green02 bidlive_btn"><button type="button"
-                                                                                      ng-click="lotwinner();">
-										<span ng-if="lot.LIVE_CLOSE_YN == 'Y'" style="color:red; font-weight:bold;">LOT마감해제</span><span
-                                        ng-if="lot.LIVE_CLOSE_YN != 'Y'"
-                                        style="color:blue; font-weight:bold;">LOT마감</span></button>
-									</span>
+                                <span class="btn_style01 green02 bidlive_btn"><button type="button" ng-click="lotwinner();">
+                                    <span ng-if="lot.LIVE_CLOSE_YN == 'Y'" style="color:red; font-weight:bold;">LOT 경매 시작</span>
+                                    <span ng-if="lot.LIVE_CLOSE_YN != 'Y'" style="color:blue; font-weight:bold;">LOT 마감</span></button>
+                                </span>
                             </div>
                         </div>
                         <!-- 테스트용 (직원용) -->
                         <div style="float:left; margin-right: 15px; padding: 10px;">
-                            <!-- 시작가 & 호가 -->
+
+                            <div class="hogatable" >
+                                <label for="bidPriceInputGrow5">
+                                    <font style="padding-left:15px; padding-right:5px; display:table-cell; vertical-align:middle;">시작가</font>
+                                </label>
+                                <input readonly type="text" name="bidPriceInputGrow5" ng-model="curLot.START_PRICE | currency" onkeyup="getNumber(this)"/>
+                                <span class="btn_style01 gray02 bidlive_btn">
+                                        <button type="button" ng-click="growbidchange(curLot.START_PRICE , false);">-</button></span>
+                                <span class="btn_style01 yellow bidlive_btn">
+                                        <button type="button" ng-click="growbidchange(curLot.START_PRICE , true);">+</button></span>
+                            </div>
+                            <br>
+                            <!-- 호가 -->
                             <div class="hogatable" ng-repeat="item in qoute_list">
                                 <label for="bidPriceInputGrow5">
                                     <font style="padding-left:15px; padding-right:5px; display:table-cell; vertical-align:middle;">호가</font>
@@ -314,27 +343,43 @@
                                        name="bidPriceInputGrow5" onkeyup="getNumber(this)"/>
                                 <span class="btn_style01 gray02 bidlive_btn">
                                     <button type="button"
-                                            ng-click="biddown(item.step);">-</button></span>
+                                            ng-click="growbidchange(item.step , false);">-</button></span>
                                 <span class="btn_style01 yellow bidlive_btn">
                                     <button type="button"
-                                            ng-click="bidup(item.step);">+</button></span>
+                                            ng-click="growbidchange(item.step , true);">+</button></span>
                             </div>
+
+                            <br>
+                            <!-- 호가 - 여분 -->
+                            <div class="hogatable">
+                                <label for="bidPriceInputGrow5">
+                                    <font style="padding-left:15px; padding-right:5px; display:table-cell; vertical-align:middle;">호가 - 입력</font>
+                                </label>
+                                <input type="text" ng-model="grow_custom" name="bidPriceInputGrow5" onkeyup="getNumber(this)"/>
+                                <span class="btn_style01 gray02 bidlive_btn">
+                                        <button type="button"  ng-click="growbidchange(grow_custom , false);">-</button></span>
+                                <span class="btn_style01 yellow bidlive_btn">
+                                        <button type="button"  ng-click="growbidchange(grow_custom , true);">+</button></span>
+                            </div>
+                            <br>
                             <!-- 현재가 -->
                             <div class="hogatable">
                                 <label for="bidPriceInputStart">
                                     <font style="padding-left:15px; padding-right:5px; display:table-cell; vertical-align:middle;">현재가</font>
                                 </label>
                                 <!-- 신규비딩금액을 bid_change_cost로 명명한다.-->
-                                <input type="text" ng-model="bid_change_cost" id="bidPriceInputStart"
+                                <input type="text" ng-model="bid_change_cost | currency" id="bidPriceInputStart"
                                        name="bidPriceInputStart" onkeyup="getNumber(this)" style="width:170px;"/>
                             </div>
+
+
                         </div><!-- //시작가 & 호가 -->
                         <!-- 응찰 버튼 (직원용) -->
                         <div style="padding: 10px; float: left; height: 300px;">
 								<span class="btn_style01 green02 bid_live_Edit_btn">
 									<button type="button" ng-click="bidchange();">현재가 조정</button>
 								</span>
-                            <span class="btn_style01 green02 bid_live_Edit_btn">
+                                <span class="btn_style01 green02 bid_live_Edit_btn">
 									<button type="button" ng-click="bid();"
                                             style="height: 220px; line-height: 220px;">현장 응찰</button>
 								</span>
@@ -378,8 +423,6 @@
     app.filter('currency', function(){
         return function(val) {
             return val.toLocaleString('ko-KR');
-
-
         };
     })
 
@@ -426,15 +469,46 @@
         }
 
         // 응찰내역
-        $scope.bidHist = [];
+        $scope.bidList = [];
 
-
+        // bid_change_cost 현재가
+        $scope.bid_change_cost = 0;
+        $scope.grow_custom = 0;
         //랏 이동
         $scope.lotmove = function (step) {
+            $scope.newLot +=step;
         }
 
         // 랏 동기화
         $scope.lotsync = function () {
+            axios.get('/api/auction/live/admin/sales/'+$scope.saleNo+'/lots/'+$scope.newLot+'/sync-cu-lot')
+                .then(function(response) {
+
+                    const data = response.data;
+                    let success = data.success;
+
+                    if(success){
+
+                        console.log(data.data);
+
+                        $scope.curLot = data.data.lot;
+
+                        $scope.bidList = data.data.off_list;
+                        if($scope.curLot) {
+                            $scope.curLot.EXPE_PRICE_TO_JSON.KRW = numberWithCommas($scope.curLot.EXPE_PRICE_TO_JSON.KRW);
+                            $scope.curLot.EXPE_PRICE_FROM_JSON.KRW = numberWithCommas($scope.curLot.EXPE_PRICE_FROM_JSON.KRW);
+                            $scope.curLot.EXPE_PRICE_TO_JSON.USD = numberWithCommas($scope.curLot.EXPE_PRICE_TO_JSON.USD);
+                            $scope.curLot.EXPE_PRICE_FROM_JSON.USD = numberWithCommas($scope.curLot.EXPE_PRICE_FROM_JSON.USD);
+                            $scope.bid_change_cost = $scope.curLot.START_PRICE;
+                            $scope.$apply();
+                        }
+
+                    }
+
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
         }
 
         // 낙찰
@@ -444,7 +518,24 @@
         $scope.deletebid = function (bidToken) {
         }
         // cost 변경
-        $scope.biddown = function (cost) {
+        $scope.growbidchange = function (cost , up) {
+
+            if(cost == '0'){
+                return;
+            }
+
+            let number = isNaN(cost) ? Number(cost.replaceAll(',','')) : cost;
+            $scope.bid_change_cost = isNaN($scope.bid_change_cost) ? Number($scope.bid_change_cost.replaceAll(',','')) : $scope.bid_change_cost;
+
+            if(up){
+                $scope.bid_change_cost += number;
+            } else {
+                if( ($scope.bid_change_cost - number) >= 0) {
+                    $scope.bid_change_cost -= number;
+                } else {
+                    $scope.bid_change_cost = 0;
+                }
+            }
         }
         $scope.bidup = function (cost) {
         }
@@ -461,6 +552,8 @@
             <%--   location.href = "/login";--%>
             <%--   return;--%>
             <%--}--%>
+            $scope.lotsync();
+
             let run = async function () {
                 // 호출 부
                 const getSaleInfo = (saleNo) => {
