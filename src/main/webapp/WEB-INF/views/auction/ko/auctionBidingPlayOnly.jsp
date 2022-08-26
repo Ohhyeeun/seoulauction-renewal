@@ -83,8 +83,9 @@
                             <div class="bidding_pc">
                                 <div class="bidding-offline-wrap">
                                     <article class="bidding-offline-center">
-                                        <div class="notice">
-                                            <i class="icon-notice"></i><span class="txt"> </span>
+                                        <div class="notice notice-swiper" style="height: 50px; overflow: hidden">
+                                            <i class="icon-notice"></i>
+                                            <span class="slide-wrapper"></span>
                                         </div>
                                         <div class="video_area">
                                             <div class="view_box">
@@ -159,7 +160,7 @@
 <!--[if lt IE 9]> <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
 <script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>
-
+<script type="text/javascript" src="https://llrtsprod.s.llnwi.net/v1/sdk/html/current/llnwrtssdk.min.js"></script>
 
 <jsp:include page="../../common/commonJs.jsp"/>
 <jsp:include page="../../common/commonJSNotMain.jsp"/>
@@ -196,8 +197,9 @@
     const locale = document.documentElement.lang;
     const pathname = window.location.pathname;
     const pathSaleNo = pathname.replace(/^\/auction\/live\/bid\/player\/(\d+).*/, '$1');
-    console.log(pathname,pathSaleNo)
-    const SALE_NO = pathSaleNo ? Number(pathSaleNo) : null;;
+
+    const SALE_NO = pathSaleNo ? Number(pathSaleNo) : null;
+
 
     window.onload = async () => {
 
@@ -205,6 +207,7 @@
 
         // setInterval(await getPollingData, 1000);
     }
+
 
 
     /* call API */
@@ -222,6 +225,16 @@
         } catch (error) {
             console.error(error);
         }
+    }
+
+    const getPollingData = async () => {
+        let [ noticesData] = await Promise.all([
+            getNotices(SALE_NO),
+        ]);
+
+        //공지사항
+        const noticeList = noticesData.data.data;
+        bindingNoticeInfo(noticeList);
     }
 
     const init = async () => {
@@ -244,10 +257,28 @@
         document.getElementById("sale_title").innerText = saleThTitle;
     }
 
+    const saleNoticeSwiper = new Swiper(`.notice-swiper`, {
+        autoplay: {
+            delay: 4000,
+        },
+        initialSlide : 1,
+        allowTouchMove:false, // 마우스 및 손가락 터치 시 슬라이드 이동 가능여부
+        touchMoveStopPropagation: true,    //touchmove 중지
+        direction:'vertical',
+        loop: true,
+    });
+
     const bindingNoticeInfo = (data) => {
-        const el_saleNotice = document.querySelector('.bidding-offline-center .notice');
+        let noticeSlide = [];
+        data.forEach(item => {
+            noticeSlide.push(`<span class="swiper-slide txt">`+item.CONTENT_JSON[locale]+`</span>`);
+        })
+        saleNoticeSwiper.appendSlide(noticeSlide);
     }
 </script>
+<script type="text/javascript" src="/js/pages_common_ko.js" ></script>
+<script src="/js/simple.js?ver=1.0.0"></script>
+
 </body>
 
 </html>
