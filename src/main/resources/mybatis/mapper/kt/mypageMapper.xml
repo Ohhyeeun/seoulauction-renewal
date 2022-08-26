@@ -696,7 +696,7 @@
 		                      	LEFT OUTER JOIN ARTIST A ON L.ARTIST_NO = A.ARTIST_NO
 		                      	LEFT OUTER JOIN LOT_IMG LI ON CL.SALE_NO = LI.SALE_NO AND CL.LOT_NO = LI.LOT_NO AND LI.IMG_NO = (SELECT T.IMG_NO FROM LOT_IMG T WHERE T.SALE_NO = L.SALE_NO AND T.LOT_NO = L.LOT_NO ORDER BY T.DISP_ORD LIMIT 1)
 							   WHERE CL.CUST_NO =  #{action_user_no}
-							   AND L.STAT_CD != 'reentry'
+							   AND L.STAT_CD != 'reentry' AND L.WWW_DISP_YN = 'Y'
 							     ORDER BY S.TO_DT DESC, CL.REG_DT DESC;
 	</select>
 
