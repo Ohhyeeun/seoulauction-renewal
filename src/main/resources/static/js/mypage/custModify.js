@@ -683,8 +683,12 @@ function setArtist(val){
 };
 
 function setArtists(){
-	if($('input:checkbox[name=artistChk]:checked').length + inteArtistList.length > 10){
-		alert("관심작가는 최대 10명까지 등록가능합니다.");
+	if($('input:checkbox[name=artistChk]:checked').length + inteArtistList.length > 50){
+		if(langType == 'ko') {
+			alert("관심작가는 최대 50명까지 등록가능합니다.");
+		}else{
+			alert("You can register up to 50 artists of interest.");
+		}
 		return;
 	}
 
