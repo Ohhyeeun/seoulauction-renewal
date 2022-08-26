@@ -6,7 +6,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <jsp:include page="../../common/angular.jsp"/>
 <!DOCTYPE html>
-<html lang="ko" ng-app="myApp">
+<html lang="ko" >
 <head>
     <!-- header -->
     <meta name="naver-site-verification" content="e43736eddfc3d46038024a9d2132da077391aadf"/>
@@ -81,7 +81,7 @@
                             </div>
                             <div class="btn-area">
                                 <div class="select-box pc-ver">
-                                    <select id="selectCurrency" >
+                                    <select id="pc-currency-select-box" >
                                         <%-- <option ng-repeat="item in currencyTypes" value="{{item.value}}">
                                              {{item.name}}
                                          </option>--%>
@@ -214,8 +214,8 @@
                                             </div>
                                             <div class="view_info">
                                                 <p class="view_count">
-                                                    <i class="icon-viewer"></i><span class="unit">시청자</span> <span
-                                                        class="num" ng-bind="viewers"></span>
+<%--                                                    <i class="icon-viewer"></i><span class="unit">시청자</span> <span--%>
+<%--                                                        class="num" ng-bind="viewers"></span>--%>
                                                 </p>
                                                 <button class="btn btn_gray btn_refresh"><i class="ic_refresh"></i>새로고침</button>
                                             </div>
@@ -235,10 +235,8 @@
                                                     <div class="type1_info_box">
                                                         <div>
                                                             <div class="select-box">
-                                                                <select class="" id="currency_type2" ng-model="currencyType" ng-change="selectCurrency()">
-                                                                    <option ng-repeat="item in currencyTypes" value="{{item.value}}">
-                                                                        {{item.name}}
-                                                                    </option>
+                                                                <select id="mo-currency-select-box" >
+
                                                                 </select>
                                                                 <i class="form-bidding_select_arrow"></i>
                                                             </div>
@@ -518,7 +516,7 @@
     <script>
         const is_login = false;
         const locale = document.documentElement.lang;
-        let classForDevice = '.bidding_mo';
+        let classForDevice = '.mobileVer';
 
         const saleNo = ${saleNo}; //경매번호
         const userId = '${member.loginId}';
@@ -614,6 +612,7 @@
         }
 
         async function getPollingData(){
+            //TODO:공지사항추가
             const currentLotData = await getCurrentLotInfo();
             const currentLotInfo = currentLotData.data.data;
 
@@ -742,8 +741,9 @@
                                     `+item.curr_cd+`
                                 </option>;`
             })
-            const currencyArea = document.getElementById("selectCurrency");
-            currencyArea.insertAdjacentHTML("beforeend", currencyDom)
+            const selectorName = classForDevice === '.pcVer'? 'pc-currency-select-box' : 'mo-currency-select-box';
+            const currencyArea = document.getElementById(selectorName);
+            currencyArea.innerHTML = currencyDom
         }
 
         const bindingElementsByAuth = (paddleNo) =>{
@@ -1034,7 +1034,7 @@
 
         const clickLotItem = (lotIdx) =>{
             if(classForDevice === '.mobileVer'){
-                closeTotalLotList(document);
+                $(document).mouseup();//close lot list layer
             }
             const data = lotList.filter(item => item.LOT_NO == lotIdx)[0];
 
