@@ -25,6 +25,7 @@ public interface SaleLiveMapper {
     void updateLotSync1(CommonMap map);
     void updateLotSync2(CommonMap map);
     CommonMap selectAdminSaleInfo(CommonMap map);
+    CommonMap selectAdminLotInfo(CommonMap map);
     List<CommonMap> selectAdminOffBid(CommonMap map);
 
     List<CommonMap> selectSaleLotImages(CommonMap commonMap);

@@ -23,12 +23,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @Log4j2
@@ -575,6 +575,7 @@ public class ApiSaleLiveController {
         return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectBidNotice(commonMap)));
     }
 
+
     /**
      *
      * @param saleNo
@@ -586,6 +587,22 @@ public class ApiSaleLiveController {
         commonMap.put("sale_no", saleNo);
 
         return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectAdminSaleInfo(commonMap)));
+    }
+
+    /**
+     *
+     * @param saleNo
+     * 관리자용 오프라인  랏동기화 이후 경매 중인 랏 가져오기.
+     */
+    @GetMapping(value="/admin/sales/{saleNo}/lots/{lotNo}/sync-cu-lot")
+    public ResponseEntity<RestResponse> adminSaleCurLot(
+            @PathVariable("saleNo") int saleNo,
+            @PathVariable("lotNo") int lotNo) {
+        CommonMap commonMap = new CommonMap();
+        commonMap.put("sale_no", saleNo);
+        commonMap.put("lot_no", lotNo);
+
+        return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectAdminLotInfo(commonMap)));
     }
 
     /**
