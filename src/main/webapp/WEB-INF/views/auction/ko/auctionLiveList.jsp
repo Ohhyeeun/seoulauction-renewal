@@ -400,17 +400,24 @@
 
         var terms_required = $(".js-terms_required").trpLayerFixedPopup("#terms_required-wrap");
         var paddle_number = $(".js-paddle_number").trpLayerFixedPopup("#paddle_number-wrap");
-
         (function(){
             //약관체크
             $(".js_all-terms").trpCheckBoxAllsImg(".js_all", ".js_item");
+
         })();
+
 
 
         const IS_REGULAR = ${isRegular};
         const IS_CUST_REQUIRED = ${isCustRequired};
         const IS_EMPLOYEE = ${IS_EMPLOYEE};
         const SALE_NO = ${saleNo};
+        const LOCALE = document.documentElement.lang;
+        let DEVICE_KIND = 'is_pc';
+
+        window.onload = function(){
+            DEVICE_KIND = document.body.getAttribute('data-device');
+        }
 
         app.value('locale', 'ko');
         app.value('is_login', true);
@@ -540,7 +547,13 @@
                     }
                 }else if(saleStatus === 'LIVE_ING' && !isLogin){
                     //player only 페이지 이동
-                    window.open("/auction/live/bid/player","bidder", "resizable=no, status=no, menubar=no, toolbar=no, location=no, directories=no");
+                    console.log(DEVICE_KIND)
+                    if(DEVICE_KIND === 'is_pc'){
+                        window.open("/auction/live/bid/player/"+$scope.sale_no,"bidder", "resizable=no, status=no, menubar=no, toolbar=no, location=no, directories=no");
+                    }else{
+                        window.location.href = "/auction/live/bid/player/mobile/"+$scope.sale_no;
+                    }
+
                     return;
                 }else if(saleStatus === 'LIVE_ING' && isLogin){
                     //응찰페이지 이동
@@ -804,7 +817,7 @@
                 $scope.saleImages = lotNaviData.data.data;
 
                 await setLotListData($scope.lotList);
-                await renderPaginationSection($scope.currentPage, $scope.lotTotalCount, $scope.pageSize);
+                // await renderPaginationSection($scope.currentPage, $scope.lotTotalCount, $scope.pageSize);
             }
 
             // 호출 부

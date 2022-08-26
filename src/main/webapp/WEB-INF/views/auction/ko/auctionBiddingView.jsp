@@ -726,7 +726,7 @@
 
         /* 데이터 바인딩 */
         const bindingSaleInfo = (data) => {
-            const saleThTitle = localeOrdinal(data.SALE_TH) + data.SALE_TITLE_JSON[locale];
+            const saleThTitle = localeOrdinal(data.SALE_TH,locale) + data.SALE_TITLE_JSON[locale];
             document.getElementById("sale_title").innerText = saleThTitle;
         }
 
