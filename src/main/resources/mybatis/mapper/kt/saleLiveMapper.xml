@@ -439,12 +439,16 @@
             , COLUMN_JSON(AT.ARTIST_NAME_BLOB)      ARTIST_NAME_JSON
             , L.ARTIST_NO
             , AT.BORN_YEAR
+            , AT.DIE_YEAR
             , ( SELECT C.CD_NM FROM CODE C WHERE C.CD_ID = L.MATE_CD AND GRP_ID ='material') MATE_CD_KO
             , ( SELECT C.CD_NM_EN FROM CODE C WHERE C.CD_ID = L.MATE_CD AND GRP_ID ='material') MATE_CD_EN
-            , L.CLOSE_YN
+            , L.CLOSE_YN                            LOT_CLOSE_YN
+            , (SELECT LC.CLOSE_YN FROM LOT LC inner join SALE S WHERE LC.SALE_NO = S.SALE_NO AND LC.LOT_NO =
+            (<![CDATA[SELECT MAX(LC1.LOT_NO) FROM LOT LC1 inner join SALE S1 ON LC1.SALE_NO = S1.SALE_NO AND LC1.STAT_CD <> 'reentry')]]>) AS SALE_CLOSE_YN
             , L.EXPE_PRICE_INQ_YN
             , COLUMN_JSON(L.EXPE_PRICE_FROM_BLOB)   EXPE_PRICE_FROM_JSON
             , COLUMN_JSON(L.EXPE_PRICE_TO_BLOB)     EXPE_PRICE_TO_JSON
+            , (SELECT MAX(BID_PRICE) FROM BID WHERE SALE_NO = L.SALE_NO AND LOT_NO = L.LOT_NO) MAX_BID_PRICE
             , CONCAT('['
             , GROUP_CONCAT('{',
             '"UNIT_CD":"', ifnull(LS.UNIT_CD, 'cm') ,'",',
@@ -463,11 +467,9 @@
             , LI.FILE_NAME                          LOT_IMG_NAME
             , L.IMG_DISP_YN
             , if(CD_ART.CD_ID in('traditional_painting', 'local_painting', 'foreign_painting'), 'Y', 'N') AS VIEW_SCALE_YN
-            , L.TO_DT LOT_EXPIRE_DATE
             , IF ((select COUNT(*) from CUST_INTE_LOT CIL where CIL.SALE_NO =
             L.SALE_NO and CIL.LOT_NO = L.LOT_NO and CUST_NO = #{cust_no} ) > 0 , 'Y' , 'N') FAVORITE_YN
             , COLUMN_JSON(L.CMMT_BLOB)              CMMT_JSON -- 작품설명
-            , (SELECT COLUMN_JSON(NOTICE_DTL_BLOB) FROM SALE WHERE SALE_NO = 713) NOTICE_DTL_JSON -- NOTICE
             , L.EDITION -- 에디션
             , COLUMN_JSON(L.SIGN_INFO_BLOB)         SIGN_INFO_JSON -- 서명 값
             , COLUMN_JSON(L.COND_RPT_BLOB)          COND_RPT_JSON -- CONDITION

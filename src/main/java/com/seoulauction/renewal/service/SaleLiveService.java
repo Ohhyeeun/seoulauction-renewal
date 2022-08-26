@@ -272,6 +272,9 @@ public class SaleLiveService {
         } else {
             lotInfoMap.put("IMAGE_URL", IMAGE_URL);
         }
+        //IMAGE_FULL_PATH 제외
+        lotInfoMap.remove("IMAGE_FULL_PATH");
+
         return lotInfoMap;
     }
     public CommonMap selectAdminSaleInfo(CommonMap map){
