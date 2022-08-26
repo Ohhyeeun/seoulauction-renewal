@@ -118,14 +118,9 @@
                                         </div>
                                     </article>
                                     <article class="bidding-offline-center">
-                                        <div class="notice"> <%-- notice-swiper --%>
+                                        <div class="notice notice-swiper" style="overflow: hidden">
                                             <i class="icon-notice"></i>
-                                            <span class="txt">공지공지공지</span>
-                                            <%--                                            <div class="swiper-wrapper">--%>
-                                            <%--                                                <span class="swiper-slide txt">공지공지공지</span>--%>
-                                            <%--                                                <span class="swiper-slide txt">12313공지공지공지</span>--%>
-                                            <%--                                            </div>--%>
-
+                                            <span class="swiper-wrapper"></span>
                                         </div>
                                         <div class="video_area">
                                             <div class="view_box">
@@ -204,8 +199,9 @@
                             <div class="bidding_mo mobileVer m-ver" >
                                 <div class="bidding-offline-wrap">
                                     <article class="bidding-offline-center">
-                                        <div class="notice">
-                                            <i class="icon-notice"></i><span class="txt">공지공지공지</span>
+                                        <div class="notice notice-swiper" style="overflow: hidden;">
+                                            <i class="icon-notice"></i>
+                                            <span class="swiper-wrapper"></span>
                                         </div>
                                         <div class="video_area">
                                             <div class="view_box">
@@ -501,27 +497,20 @@
             });
         }
 
-        /* const saleNoticeSwiper = new Swiper(".notice-swiper", {
-             autoplay: {
-                 delay: 4000,
-             },
-             initialSlide : 1,
-             allowTouchMove:false, /!* 마우스 및 손가락 터치 시 슬라이드 이동 가능여부 *!/
-             touchMoveStopPropagation: true,   /!* touchmove 중지 *!/
-             direction:'vertical',
-             loop: true,
-         });*/
+
     </script>
 
     <script>
         const is_login = false;
         const locale = document.documentElement.lang;
-        let classForDevice = '.mobileVer';
+        let deviceKind = 'is_pc';
+        let classForDevice = '.pcVer';
 
         const saleNo = ${saleNo}; //경매번호
         const userId = '${member.loginId}';
         const userNo = ${member.userNo};
         const baseCurrency = 'KRW';
+        let saleNoticeSwiper;
 
         let lotList = [{}];
         let lotTotalCount = 0;
@@ -548,25 +537,34 @@
             {curr_cd : 'USD', base_price:1, rate : 1285.600}
         ]
 
-        const dumy_notices = [{
-            ko: "라이브 경매에 오신것을 환영합니다.",
-            en: "영문 공지 영문 공지"
-        },
-            {
-                ko: "국문공지 국문공지",
-                en: "영문공지 영문공지"
-            }]
-
         window.onload = async () => {
-            classForDevice = document.body.getAttribute('data-device') === 'is_pc'? '.pcVer' : '.mobileVer';
-            await dataInit();
+            await init();
+            setInterval(await getPollingData, 1000);
+        }
 
+        window.onresize = async () =>{
+            await init();
             setInterval(await getPollingData, 1000);
         }
 
 
-        function dataInit(){
-            const init = async function () {
+
+        async function init (){
+            deviceKind = document.body.getAttribute('data-device');
+            classForDevice = deviceKind === 'is_pc'? '.pcVer' : '.mobileVer';
+
+            saleNoticeSwiper = new Swiper(`\${classForDevice} .notice-swiper`, {
+                autoplay: {
+                    delay: 4000,
+                },
+                initialSlide : 1,
+                allowTouchMove:false, // 마우스 및 손가락 터치 시 슬라이드 이동 가능여부
+                touchMoveStopPropagation: true,    //touchmove 중지
+                direction:'vertical',
+                loop: true,
+            });
+
+            const dataInit = async function () {
                 let [paddleInfoData, saleInfoData, currencyInfoData, noticesData, categoriesData, lotListData] = await Promise.all([
                     getPaddleInfo(saleNo),
                     getSaleInfo(saleNo),
@@ -608,7 +606,9 @@
                     bindingLotListInfo(lotList, lotTotalCount);
 
             }
-            init();
+
+            await dataInit();
+
         }
 
         async function getPollingData(){
@@ -730,8 +730,17 @@
             document.getElementById("sale_title").innerText = saleThTitle;
         }
 
+
+
         const bindingNoticeInfo = (data) => {
-            const el_saleNotice = document.querySelector('.bidding-offline-center .notice');
+            let noticeSlide = [];
+            data.forEach(item => {
+                noticeSlide.push(`<span class="swiper-slide txt">`+item.CONTENT_JSON[locale]+`</span>`);
+            })
+            saleNoticeSwiper.appendSlide(noticeSlide);
+
+            const el_noticeSwiper = document.querySelector(`\${classForDevice} .notice-swiper`);
+            el_noticeSwiper.style.height = classForDevice === '.pcVer'? '50px' : '58px';
         }
 
         const bindingCurrencyInfo = (data) => {
