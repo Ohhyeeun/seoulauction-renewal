@@ -1,11 +1,10 @@
 let prevData;
 
 /**
- * saleNo, lotNo 를 받아서,
- * 변경된 값만 메인 쓰레드에 전달
+ * Online Detail Network API Polling Worker
+ * saleNo, lotNo 를 받아서, 변경된 값만 메인 쓰레드에 전달
  */
 addEventListener('message', async function (e) {
-  
   const data = e.data;
   const { saleNo, lotNo } = data;
   if (!saleNo || !lotNo) return;
@@ -13,22 +12,22 @@ addEventListener('message', async function (e) {
   try {
     const resp = await fetch(`/api/auction/online/refresh/sales/${saleNo}/lots/${lotNo}`);
     const result = await resp.json();
-    const { data } = result;
-    if ('DB_NOW' in data) {
-      delete data.DB_NOW;
+    const resultData = result.data;
+
+    // DB_NOW 는 제거
+    if ('DB_NOW' in resultData) {
+      delete resultData.DB_NOW;
     }
 
     // 이전 Object 변경사항과 비교해서 변경된 사항만 교체
-    const diffData = updatedDiff(prevData, data);
-
+    const diffData = updatedDiff(prevData, resultData);
     if (!isEmpty(diffData)) {
       this.postMessage(diffData);
     }
 
-    prevData = data;
+    prevData = resultData;
   } catch (error) {
     console.log(error);
-    // postMessage(null);
   }
 });
 

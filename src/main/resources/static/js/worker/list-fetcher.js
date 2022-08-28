@@ -1,127 +1,86 @@
+let prevData;
 
 /**
- * asdasdaasd
- * Network API Polling Worker
+ * Online List Network API Polling Worker
+ * saleNo, lotList 를 받아서, 변경된 값만 메인 쓰레드에 전달
  */
 addEventListener('message', async function (e) {
   const data = e.data;
-  if (data.saleNo && data.lots) {
-    try {
-      const resp = await fetch(`/api/auction/online/refresh/sales/${data.saleNo}/lots?lotList=${data.lots}`);
-      const result = await resp.json();
+  const { saleNo, lots } = data;
+  if (!saleNo || !lots) return;
 
-      if (!result.success) {
-        postMessage([]);
-        return;
-      }
+  try {
+    const resp = await fetch(`/api/auction/online/refresh/sales/${saleNo}/lots?lotList=${lots}`);
+    const result = await resp.json();
+    const resultData = result.data;
 
-      /** @type {Array<Object>} */
-      const resultData = result.data;
+    const currentData = resultData.map(item => {
+      const { DB_NOW, ...rest } = item;
+      return rest;
+    });
 
-      if (resultData.length > 0) {
-        const currency = 'KRW';
-        const resultDataString = resultData.map(item => {
-          const lotNo = item.LOT_NO;
-          const expectPriceFrom = JSON.parse(item.EXPE_PRICE_FROM_JSON)[currency];
-          const expectPriceTo = JSON.parse(item.EXPE_PRICE_TO_JSON)[currency];
-          const isNotExpectPrice = !expectPriceFrom && !expectPriceTo;
-
-          const remainTime = timerFormat(new Date(item?.TO_DT).getTime() - new Date().getTime()); // 남은 timestamp
-          let remainTimeFormat = '';
-          if (remainTime) {
-            remainTimeFormat = [
-              remainTime[0] > 0 ? remainTime[0] + '일 ' : '',
-              remainTime[1] > 0 ? `${toFixTen(remainTime[1])}:` : '00:',
-              remainTime[2] > 0 ? `${toFixTen(remainTime[2])}:` : '00:',
-              remainTime[3] > 0 ? toFixTen(remainTime[3]) : '00',
-            ].filter(Boolean).join('');
-          }
-
-          const startPrice = item.START_PRICE || 0;
-          const currentPrice = item.LAST_PRICE >= 0 && item.END_YN === 'N' ? format(item.LAST_PRICE) : '-';
-          const isAuctioned = item.LAST_PRICE >= 0 && item.BID_CNT > 0 && (item.END_YN == 'Y' || item.CLOSE_YN == 'Y');
-
-          const hammerPrice = data.LAST_PRICE; // 낙찰가
-          let hammerPriceField = '';
-          if (isAuctioned) {
-            hammerPriceField = `<strong>${currency} ${format(hammerPrice)}</strong><em>(응찰${format(bidCount)})</em>`;
-          }
-
-          return {
-            lotNo,
-            expectPrice: `
-              <dt>추정가</dt>
-              <dd>${isNotExpectPrice ? '별도문의' : currency + ' ' + format(expectPriceFrom)}</dd>
-              <dd>${isNotExpectPrice ? '' : '~ ' + format(expectPriceTo)}</dd>
-            `,
-            startPrice: `
-              <dt>시작가</dt>
-              <dd>${currency} ${startPrice > 0 ? format(startPrice) : '-'}</dd>
-            `,
-            currentPrice: `
-              <dt>현재가</dt>
-              <dd>${currency} ${currentPrice}</dd>
-            `,
-            hammerPrice: `
-              <dt>낙찰가</dt>
-              <dd>${hammerPriceField}</dd>
-            `,
-            remainTimeValues: `
-              <span>${remainTimeFormat}</span>
-            `,
-          }
-        });
-        postMessage(resultDataString);
-        return;
-      }
-
-      postMessage([]);
-    } catch (error) {
-      postMessage([]);
+    // 이전 Object 변경사항과 비교해서 변경된 사항이 있을 경우,
+    // 새로운 항목들을 전부 전송
+    const diffData = updatedDiff(prevData, currentData);
+    if (!isEmpty(diffData)) {
+      this.postMessage(currentData);
     }
+
+    prevData = currentData;
+  } catch (error) {
+    console.log(error);
   }
 });
 
-function format(num, precision = 0) {
-  if (precision) {
-    const modifier = 10 ** precision;
-    return new Intl.NumberFormat().format(Math.floor(num * modifier) / modifier);
+/**
+ * Diff 라이브러리
+ */
+
+// @see https://github.com/mattphillips/deep-object-diff/blob/main/src/updated.js
+function updatedDiff(lhs, rhs) {
+  if (lhs === rhs) return {};
+
+  if (!isObject(lhs) || !isObject(rhs)) return rhs;
+
+  const l = lhs;
+  const r = rhs;
+
+  if (isDate(l) || isDate(r)) {
+    if (l.valueOf() == r.valueOf()) return {};
+    return r;
   }
 
-  return new Intl.NumberFormat().format(num);
+  return Object.keys(r).reduce((acc, key) => {
+    if (hasOwnProperty(l, key)) {
+      const difference = updatedDiff(l[key], r[key]);
+
+      // If the difference is empty, and the lhs is an empty object or the rhs is not an empty object
+      if (isEmptyObject(difference) && !isDate(difference) && (isEmptyObject(l[key]) || !isEmptyObject(r[key]))) return acc; // return no diff
+
+      acc[key] = difference;
+      return acc;
+    }
+
+    return acc;
+  }, {});
+};
+
+function isDate(d) {
+  return d instanceof Date;
 }
 
-function timerFormat(countDown) {
-  const second = 1000;
-  const minute = second * 60;
-  const hour = minute * 60;
-  const day = hour * 24;
-
-  if (countDown < 0) {
-    return null;
-  }
-
-  // calculate time left
-  return [
-    Math.floor(countDown / day), // days
-    Math.floor((countDown % day) / hour), // hours
-    Math.floor((countDown % hour) / minute), // minutes
-    Math.floor((countDown % minute) / second), // seconds
-  ];
+function isEmpty (o) {
+  return Object.keys(o).length === 0;
 }
 
-function remainTimeFormat(remainTime) {
-  if (!remainTime) return '';
-  if (remainTime.length !== 4) return '';
-
-  return [
-    remainTime[0] > 0 ? remainTime[0] + '일 ' : '',
-    remainTime[1] > 0 ? toFixTen(remainTime[1]) + ':' : '',
-    remainTime[2] > 0 ? toFixTen(remainTime[2]) + ':' : '',
-    remainTime[3] > 0 ? toFixTen(remainTime[3]) : '',
-  ].filter(Boolean).join('');
+function isObject(o) {
+  return o != null && typeof o === 'object';
 }
 
-function toFixTen(num) {
-  return num >= 10 ? num.toString() : `0${num}`;
+function hasOwnProperty(o, ...args) {
+  return Object.prototype.hasOwnProperty.call(o, ...args);
+}
+
+function isEmptyObject(o) {
+  return isObject(o) && isEmpty(o);
 }
