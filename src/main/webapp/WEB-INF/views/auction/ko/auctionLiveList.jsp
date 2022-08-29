@@ -618,14 +618,17 @@
                     saleStatus = 'BID_END';
                 }else if((NOW_DATE >= TO_DT_MMDD) && (NOW_DATETIME >= LIVE_BID_DT)  && !saleData.CLOSE_YN) {
                     saleStatus = 'LIVE_ING';
-                }else if((NOW_DATE >= TO_DT_MMDD) && saleData.CLOSE_YN){
+                }else if((NOW_DATE >= TO_DT_MMDD) || saleData.CLOSE_YN){
                     saleStatus = "END";
-                    if (!IS_EMPLOYEE && !IS_LOGIN) {
+                    if(!checkLogin()) return false;
+                    if (!IS_EMPLOYEE) {
                         alert("권한이 없거나 허용되지 않은 접근입니다.");
                         history.back();
                     }
+                }else{
                 }
 
+                alert(saleStatus);
                 $scope.sale_status = saleStatus;
                 $scope.$apply();
             }
@@ -727,7 +730,6 @@
                         delete params.tag;
                     }
 
-                    console.log(params);
                     const paramString = "?" + window.Qs.stringify(params);
                     return axios.get('/api/auction/live/list/'+ SALE_NO + paramString);
                 } catch (error) {
@@ -772,8 +774,9 @@
                     item.EXPE_PRICE_TO_JSON[subCurrency] = numberWithCommas(item.EXPE_PRICE_TO_JSON[subCurrency]);
                     item.MAX_BID_PRICE = item.MAX_BID_PRICE !== null? numberWithCommas(parseInt(item.MAX_BID_PRICE)) : null;
 
-
-                    if (['LIVE_ING','END'].indexOf($scope.sale_status) > -1 && item.CLOSE_YN && item.MAX_BID_PRICE !== null) {
+                    const userHasShowAuth = IS_REGULAR || IS_EMPLOYEE;
+                    const isHammerLot = item.CLOSE_YN && item.MAX_BID_PRICE !== null;
+                    if (['LIVE_ING','END'].indexOf($scope.sale_status) > -1 && isHammerLot && userHasShowAuth) {
                         item.isShowBidPrice = true;
                     } else {
                         item.isShowBidPrice = false;
