@@ -35,6 +35,7 @@ function changePayMethod(obj) {
     btn.removeClass("btn_black").addClass("btn_default");
     $(obj).removeClass("btn_default").addClass("btn_black");
     $("form[name=payForm] #inputPayMethod").val($(obj).attr("data"));
+
     if($(obj).attr("data") === "VBANK") {
         $(".receipts, .text_wrap").show();
     } else {
@@ -78,6 +79,8 @@ function rcptCheck() {
 
     let tmpReqReserved = $("form[name=payForm] input[name=tmpReqReserved]").val();
     let rcptNo;
+
+
     switch ($("input:radio[name=rcpt_type]:checked").val()) {
         case '1':
             rcptNo = $("#rcpt_type_no1").val();

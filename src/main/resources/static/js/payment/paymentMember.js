@@ -1,5 +1,8 @@
 $(function(){
 
+    //기본 신용/체크카드로 가상계좌 부분 하이드.
+    $(".receipts, .text_wrap").hide();
+
     //약관 동의 확인
     $("#paymentStartBtn").on('click',function (){
 
