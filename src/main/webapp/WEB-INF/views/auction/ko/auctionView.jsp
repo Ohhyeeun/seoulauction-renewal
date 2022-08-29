@@ -214,7 +214,7 @@
                                                            ng-click="popSet(sale_no, lot_no, user_id, cust_no);"><span>응찰</span>
                                                         </a>
                                                         <%-- //0812 경매 마감 시 경매결과 보기 버튼 --%> 
-                                                        <a class="btn btn_gray" href="#" role="button"><span>경매결과 보기</span></a>
+<%--                                                        <a class="btn btn_gray" href="#" role="button"><span>경매결과 보기</span></a>--%>
                                                         <%-- //0812 경매 마감 시 경매결과 보기 버튼 --%>
                                                    </div>
                                                 </div>
@@ -473,6 +473,7 @@
                         <div class="btn-box">
                             <button id="bid_btn" ng-click="popSet(sale_no, lot_no, user_id, cust_no);">응찰</button>
                         </div>
+
                     </div>
                 </article>
                 <input type="hidden" id="sale_no" value="{{sale_no}}"/>

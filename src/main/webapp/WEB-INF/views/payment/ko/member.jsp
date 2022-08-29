@@ -85,12 +85,12 @@
                                                     <dd class="con">
                                                         <div class="btn-area js-selt_division">
                                                             <span class="trp radio-box">
-                                                                <input id="radio1-1" type="radio" name="radioSet1" checked>
+                                                                <input id="radio1-1" type="radio" name="rcpt_type" value="1" checked>
                                                                 <i></i>
                                                                 <label for="radio1-1">개인 소득 공제</label>
                                                             </span>
                                                             <span class="trp radio-box">
-                                                                <input id="radio1-2" type="radio" name="radioSet1">
+                                                                <input id="radio1-2" type="radio" name="rcpt_type" value="2">
                                                                 <i></i>
                                                                 <label for="radio1-2">사업자 지출 증빙</label>
                                                             </span>
@@ -99,14 +99,14 @@
                                                             <!-- [0812]개인소득공제신청양식 변경 -->
                                                             <div class="con">
                                                                 <div class="form-wrap">
-                                                                    <input type="text" placeholder="휴대폰 번호를 입력해주세요" id="" class="h42">
+                                                                    <input type="text" placeholder="휴대폰 번호를 입력해주세요" id="rcpt_type_no1" class="h42">
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="form-area business">
                                                             <div class="con">
                                                                 <div class="form-wrap">
-                                                                    <input type="text" placeholder="사업자번호를 입력해 주세요" id="" class="h42">
+                                                                    <input type="text" placeholder="사업자번호를 입력해 주세요" id="rcpt_type_no2" class="h42">
                                                                 </div>
                                                             </div>
                                                         </div>
