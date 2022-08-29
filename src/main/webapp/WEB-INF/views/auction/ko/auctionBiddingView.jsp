@@ -524,7 +524,6 @@
         let selectedCategory = 'all'
 
         let paddleNo = 0; //패들번호
-        let noticeMassages = [{}]; //공지사항
 
         const selectedCurrencyType = "KRW";
 
@@ -614,23 +613,30 @@
         }
 
         async function getPollingData(){
+            let [currentLotData, noticesData] = await Promise.all([
+                getCurrentLotInfo(saleNo),
+                getNotices(saleNo)
+            ]);
 
-            const currentLotData = await getCurrentLotInfo();
+            const noticeList = noticesData.data.data;
+            if(noticeList.length > 0){
+                // bindingNoticeInfo(noticeList);
+            }
+
             const currentLotInfo = currentLotData.data.data;
-
             currentLotNo = currentLotInfo.LOT_NO;
-            await bindingCurrentLotInfo(currentLotInfo);
+            bindingCurrentLotInfo(currentLotInfo);
 
             if(currentLotNo !== prevLotNo ){
                 prevLotNo = currentLotNo;
-                await clickLotItem(currentLotNo);
+                clickLotItem(currentLotNo);
                 moveScrollToCurrentLot();
             }
 
             if(currentLotNo !== 0) {
                 const bidingData = await getCurrentLotBiddingInfo(saleNo, currentLotNo);
                 const bidingInfo = bidingData.data.data;
-                await bindingCurrentLotBidingInfo(bidingInfo);
+                bindingCurrentLotBidingInfo(bidingInfo);
 
                 const lotListData = await getLotList(saleNo, selectedType, selectedCategory);
                 lotList = lotListData.data.data;
