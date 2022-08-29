@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -74,16 +75,7 @@ public class SaleLiveService {
         List<CommonMap> result = saleLiveMapper.selectLiveTypes(map);
 
         //간혈적으로 정렬이 안되어 정렬 재적용.
-        result.sort((s1 , s2) -> {
-
-                 //타입이 같다면 compareTo 역순.
-                 if(s1.getString("TYPE").equals(s2.getString("TYPE"))) {
-                    return s2.getString("CD_NM").compareTo(s1.getString("CD_NM"));
-                 //기본적으로 compareTo.
-                }else {
-                    return s1.getString("CD_NM").compareTo(s2.getString("CD_NM"));
-                }
-        });
+        result.sort(Comparator.comparing(s -> s.getString("TYPE")));
         return result;
     }
     public List<CommonMap> selectLiveMyBidding(CommonMap map){
