@@ -286,7 +286,7 @@ public class SaleLiveService {
     public CommonMap selectAdminLotInfo(CommonMap map){
 
         //랏 동기화.
-        lotSync(map);
+        //lotSync(map);
 
         CommonMap resultMap = new CommonMap();
         resultMap.put("lot" , settingLotData(saleLiveMapper.selectAdminLotInfo(map)));

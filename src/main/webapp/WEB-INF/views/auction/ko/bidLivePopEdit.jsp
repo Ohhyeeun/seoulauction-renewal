@@ -255,6 +255,7 @@
                                 </tr>
                                 </thead>
                                 <tbody id="tblOffBidListBody">
+                                <tr ng-show="bidList.length == 0"><td colspan="5"><span ng-if="locale == 'ko'">응찰 대기중</span>
                                 <tr ng-repeat="item in bidList">
 
                                     <%--노티스가 아닐떄--%>
@@ -312,8 +313,7 @@
                                 <span class="btn_style01 green02 bidlive_btn"><button type="button"
                                                                                       ng-click="lotmove(1);">+</button></span>
                                 &nbsp;
-                                <span class="btn_style01 green02 bidlive_btn"><button type="button"
-                                                                                      ng-click="lotsync();">LOT동기화</button></span>
+                                <span class="btn_style01 green02 bidlive_btn"><button type="button" ng-click="lotsync();">{{lotSyncText}}</button></span>
                                 <span class="btn_style01 green02 bidlive_btn"><button type="button" ng-click="lotwinner();">
                                     <span ng-if="lot.LIVE_CLOSE_YN == 'Y'" style="color:red; font-weight:bold;">LOT 경매 시작</span>
                                     <span ng-if="lot.LIVE_CLOSE_YN != 'Y'" style="color:blue; font-weight:bold;">LOT 마감</span></button>
@@ -447,8 +447,10 @@
         $scope.userId = '${member.loginId}';
         $scope.custNo = ${member.userNo};
         $scope.newLot = 1;
-
-        $scope.bidToken = "";
+        $scope.interval = null;
+        $scope.isSync = false;
+        $scope.intervalTime = 1000; // 1초마다 데이터 가져옴.
+        $scope.lotSyncText = '랏 동기화'; // 1초마다 데이터 가져옴.
 
         $scope.qoute_list =[{
             step: '100,000'
@@ -474,13 +476,16 @@
         // bid_change_cost 현재가
         $scope.bid_change_cost = 0;
         $scope.grow_custom = 0;
+
         //랏 이동
         $scope.lotmove = function (step) {
+            $scope.lotSyncText = '랏 동기화';
+            clearInterval($scope.interval);
             $scope.newLot +=step;
         }
 
-        // 랏 동기화
-        $scope.lotsync = function () {
+        //경매 및 오프라인 비드 데이터 가져오기.
+        $scope.getdata = function () {
             axios.get('/api/auction/live/admin/sales/'+$scope.saleNo+'/lots/'+$scope.newLot+'/sync-cu-lot')
                 .then(function(response) {
 
@@ -488,8 +493,6 @@
                     let success = data.success;
 
                     if(success){
-
-                        console.log(data.data);
 
                         $scope.curLot = data.data.lot;
 
@@ -499,8 +502,13 @@
                             $scope.curLot.EXPE_PRICE_FROM_JSON.KRW = numberWithCommas($scope.curLot.EXPE_PRICE_FROM_JSON.KRW);
                             $scope.curLot.EXPE_PRICE_TO_JSON.USD = numberWithCommas($scope.curLot.EXPE_PRICE_TO_JSON.USD);
                             $scope.curLot.EXPE_PRICE_FROM_JSON.USD = numberWithCommas($scope.curLot.EXPE_PRICE_FROM_JSON.USD);
-                            $scope.bid_change_cost = $scope.curLot.START_PRICE;
-                            $scope.$apply();
+                            $scope.curLot.START_PRICE = numberWithCommas($scope.curLot.START_PRICE);
+                            $scope.bid_change_cost = numberWithCommas($scope.curLot.START_PRICE);
+                            $scope.grow_custom = 0;
+
+                            if ($scope.$$phase !== '$apply' && $scope.$$phase !== '$digest') {
+                                $scope.$apply();
+                            }
                         }
 
                     }
@@ -510,16 +518,68 @@
                     console.log(error);
                 });
         }
+        //오프라인 데이터 가져오기 - 폴링
+        $scope.getOffBidData = function () {
+            axios.get('/api/auction/live/admin/sales/'+$scope.saleNo+'/lots/'+$scope.newLot+'/off-bids')
+                .then(function(response) {
+
+                    const data = response.data;
+                    console.log(data);
+                    let success = data.success;
+                    if(success){
+                        $scope.bidList = data.data;
+                        if ($scope.$$phase !== '$apply' && $scope.$$phase !== '$digest') {
+                            $scope.$apply();
+                        }
+                    }
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+        }
+
+        // 랏 동기화
+        $scope.lotsync = function () {
+
+            //if(!$scope.isSync) {
+
+                $scope.isSync = true;
+
+                axios.post('/api/auction/live/admin/sales/' + $scope.saleNo + '/lots/' + $scope.newLot + '/sync')
+                    .then(function (response) {
+                        if (response.data.success) {
+                            $scope.lotSyncText = '랏 동기화 중...';
+                            clearInterval($scope.interval);
+                            $scope.getdata();
+                            $scope.interval = setInterval(function () {
+                                $scope.getOffBidData();
+                            }, $scope.intervalTime);
+                        }
+                    });
+            //} else {
+
+                // $scope.lotSyncText = '랏 동기화';
+                // clearInterval($scope.interval);
+                // $scope.isSync = false;
+            //}
+        }
 
         // 낙찰
         $scope.lotwinner = function (lotNo) {
         }
         // 비딩 삭제
-        $scope.deletebid = function (bidToken) {
+        $scope.deletebid = function (bidNo) {
 
+            if(confirm('삭제하시겠습니까?')){
+                axios.post('/api/auction/live/admin/bid/'+bidNo+'/off-del')
+                    .then(function(response) {
 
-
-
+                        if(response.data.success){
+                            alert('삭제가 완료 되었습니다.');
+                            $scope.getOffBidData();
+                        }
+                });
+            }
         }
         // cost 변경
         $scope.growbidchange = function (cost , up) {
@@ -541,7 +601,9 @@
                 }
             }
             $scope.bid_change_cost = numberWithCommas($scope.bid_change_cost);
-            $scope.$apply();
+            if ($scope.$$phase !== '$apply' && $scope.$$phase !== '$digest') {
+                $scope.$apply();
+            }
 
         }
         $scope.bidup = function (cost) {
@@ -555,44 +617,6 @@
 
         // 호출 부
         $scope.load = function () {
-            <%--if (${member.userNo} === 0){--%>
-            <%--   location.href = "/login";--%>
-            <%--   return;--%>
-            <%--}--%>
-            $scope.lotsync();
-
-            let run = async function () {
-                // 호출 부
-                const getSaleInfo = (saleNo) => {
-                    try {
-                        return axios.get('/api/auction/list/${saleNo}');
-                    } catch (error) {
-                        console.error(error);
-                    }
-                };
-
-                const getSaleImages = (saleNo, lotNo) => {
-                    try {
-                        return axios.get('/api/auction/sale_images/${saleNo}');
-                    } catch (error) {
-                        console.error(error);
-                    }
-                }
-
-                let [r1, r2] = await Promise.all([getSaleInfo($scope.saleNo),
-                    getSaleImages($scope.saleNo)]);
-                $scope.saleInfoAll = r1.data.data;
-                $scope.saleImages = r2.data.data;
-
-                for (let i = 0; i < $scope.saleInfoAll.length; i++) {
-                    if ($scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW != null) {
-                        $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW = $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW.toLocaleString('ko-KR');
-                        $scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW = $scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW.toLocaleString('ko-KR');
-                    }
-                }
-                $scope.$apply();
-            }
-            run();
         }
     });
 </script>

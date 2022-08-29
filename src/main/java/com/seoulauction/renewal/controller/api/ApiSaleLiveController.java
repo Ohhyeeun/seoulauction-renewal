@@ -648,10 +648,10 @@ public class ApiSaleLiveController {
      * LOT 동기화
      */
     @Secured("ROLE_EMPLOYEE_USER")
-    @PostMapping(value="/admin/sales/{saleNo}/sync")
+    @PostMapping(value="/admin/sales/{saleNo}/lots/{lotNo}/sync")
     public ResponseEntity<RestResponse> adminLotSync(
             @PathVariable("saleNo") int saleNo,
-            @RequestParam("lotNo") int lotNo
+            @PathVariable("lotNo") int lotNo
     ) {
         CommonMap commonMap = new CommonMap();
         commonMap.put("sale_no", saleNo);
