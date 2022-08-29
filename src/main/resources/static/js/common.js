@@ -59,7 +59,7 @@ $(function() {
                         const returnDom = `<a href='/auction/${path}list/${item.SALE_NO}' class="Ingbanner" >
                                             <figure class="border-txt-darkg Ingbanner-img">
                                                 <img src="https://www.seoulauction.com/nas_img/${item.FILE_PATH}/${item.FILE_NAME}" 
-                                                     onerror="${item.DEFAULT_IMAGE_PATH}"
+                                                     onerror="this.src='${item.DEFAULT_IMAGE_PATH}'"
                                                     alt="ing_auction01">
                                             </figure>
                                             <div class="Ingbanner-txt text-over">
