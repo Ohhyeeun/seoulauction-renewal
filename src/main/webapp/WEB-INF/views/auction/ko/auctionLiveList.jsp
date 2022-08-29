@@ -620,7 +620,7 @@
                     saleStatus = 'LIVE_ING';
                 }else if((NOW_DATE >= TO_DT_MMDD) || saleData.CLOSE_YN){
                     saleStatus = "END";
-                    if(!checkLogin()) return false;
+                    if(!checkLogin()) return ;
                     if (!IS_EMPLOYEE) {
                         alert("권한이 없거나 허용되지 않은 접근입니다.");
                         history.back();
@@ -628,7 +628,6 @@
                 }else{
                 }
 
-                alert(saleStatus);
                 $scope.sale_status = saleStatus;
                 $scope.$apply();
             }
@@ -640,11 +639,11 @@
                 $("article.proceeding-article div.article-inner i.icon-link_arrow").css("display", "");
 
                 $scope.btnPaddleNo = '';
-
                 const isLogin = IS_LOGIN;
                 const isRegular = IS_REGULAR;
                 const paddleNo = paddNo;
                 const sale_status = saleStatus;
+                console.log(sale_status, isLogin, paddleNo)
 
                 if(sale_status === 'READY') {
                     /* 로그인 & 준회원 & 정회원(패들x) */
@@ -676,8 +675,8 @@
                     }
                 }else if(sale_status === 'LIVE_ING'){
                     if(!isLogin){
-                        paddNoteMsg = "라이브 경매 참가";
-                        paddNoteEtc = "나의 패들번호 ";
+                        paddNoteMsg = "라이브 경매 보기";
+                        paddNoteEtc = "사전 신청한 회원만 응찰 가능합니다.";
                     }else if(isLogin && paddleNo < 1){
                         paddNoteMsg = "라이브 경매 보기";
                         paddNoteEtc = "사전 신청한 회원만 응찰 가능합니다.";
