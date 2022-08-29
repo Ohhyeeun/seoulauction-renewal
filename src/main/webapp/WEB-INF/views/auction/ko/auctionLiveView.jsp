@@ -954,8 +954,10 @@
 
             displayLot.artistName = lotData.ARTIST_NAME_JSON[locale];
 
-            const birthOfDeath = lotData.DIE_YEAR ? lotData.BORN_YEAR +  "-" + lotData.DIE_YEAR : lotData.BORN_YEAR;
-            displayLot.birthOfDeath = "b."+ birthOfDeath;
+            if(lotData.BORN_YEAR){
+                const dieYear = lotData.DIE_YEAR? "-"+lotData.DIE_YEAR : '';
+                displayLot.birthOfDeath = "b."+ lotData.BORN_YEAR + dieYear;
+            }
 
             displayLot.lotTitle = lotData.TITLE_JSON[locale];
 
@@ -978,11 +980,12 @@
             displayLot.lotExpireDate = lotData.TITLE_JSON[locale];
             
             //작품정보
-            displayLot.mate = lotData.MATE_CD[locale]; //재질
-            displayLot.sizeArray = JSON.parse(lotData.LOT_SIZE_ARRAY); //규격
+            displayLot.mate = returnLocaleValOrEmptyStr(lotData.MATE_CD, locale); //재질
+            displayLot.sizeArray = returnLocaleValOrEmptyStr(JSON.parse(lotData.LOT_SIZE_ARRAY),locale); //규격
             displayLot.edition = lotData.EDITION; //에디션
-            displayLot.makeYear = lotData.MAKE_YEAR_JSON[locale]; //제작년도
-            displayLot.sign = lotData.SIGN_INFO_JSON[locale]; //서명
+            displayLot.makeYear = returnLocaleValOrEmptyStr(lotData.MAKE_YEAR_JSON, locale); //제작년도
+            displayLot.sign = returnLocaleValOrEmptyStr(lotData.SIGN_INFO_JSON, locale); //서명
+
 
             displayLot.condition = lotData.COND_RPT_JSON[locale];
             displayLot.provenance = lotData.PROV_INFO_JSON[locale];
@@ -1000,6 +1003,7 @@
             $scope.displayLotInfo = displayLot;
             $scope.$apply();
         }
+
 
         const setArtistInfo = (artistData) =>{
             console.log(artistData)
