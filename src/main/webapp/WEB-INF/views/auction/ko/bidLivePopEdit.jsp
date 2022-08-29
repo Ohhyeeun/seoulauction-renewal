@@ -271,8 +271,8 @@
                                         <span ng-if="item.BID_KIND_CD != 'online'">{{item.BID_KIND_CD}}</span>
                                     </td>
                                     <td ng-show="item.BID_NOTICE == null">
-                                        <span ng-if="item.BID_KIND_CD == 'online'"><font color="blue" style="font-weight:bolder">굿</font></span>
-                                        <span ng-if="item.BID_KIND_CD != 'online'">굿</span>
+                                        <span ng-if="item.BID_KIND_CD == 'online'"><font color="blue" style="font-weight:bolder">{{item.PADD_NO}}</font></span>
+                                        <span ng-if="item.BID_KIND_CD != 'online'">{{item.PADD_NO}}</span>
                                     </td>
 
                                     <%--노티스가 맞을떄--%>
@@ -327,7 +327,7 @@
                                 <label for="bidPriceInputGrow5">
                                     <font style="padding-left:15px; padding-right:5px; display:table-cell; vertical-align:middle;">시작가</font>
                                 </label>
-                                <input readonly type="text" name="bidPriceInputGrow5" ng-model="curLot.START_PRICE | currency" onkeyup="getNumber(this)"/>
+                                <input readonly type="text" name="bidPriceInputGrow5" ng-model="curLot.START_PRICE" onkeyup="getNumber(this)"/>
                                 <span class="btn_style01 gray02 bidlive_btn">
                                         <button type="button" ng-click="growbidchange(curLot.START_PRICE , false);">-</button></span>
                                 <span class="btn_style01 yellow bidlive_btn">
@@ -339,7 +339,7 @@
                                 <label for="bidPriceInputGrow5">
                                     <font style="padding-left:15px; padding-right:5px; display:table-cell; vertical-align:middle;">호가</font>
                                 </label>
-                                <input type="text" ng-model="item.step | currency" id="bidPriceInputGrow5"
+                                <input type="text" ng-model="item.step" id="bidPriceInputGrow5"
                                        name="bidPriceInputGrow5" onkeyup="getNumber(this)"/>
                                 <span class="btn_style01 gray02 bidlive_btn">
                                     <button type="button"
@@ -368,7 +368,7 @@
                                     <font style="padding-left:15px; padding-right:5px; display:table-cell; vertical-align:middle;">현재가</font>
                                 </label>
                                 <!-- 신규비딩금액을 bid_change_cost로 명명한다.-->
-                                <input type="text" ng-model="bid_change_cost | currency" id="bidPriceInputStart"
+                                <input type="text" ng-model="bid_change_cost" id="bidPriceInputStart"
                                        name="bidPriceInputStart" onkeyup="getNumber(this)" style="width:170px;"/>
                             </div>
 
@@ -422,7 +422,7 @@
     // 현재가 처리
     app.filter('currency', function(){
         return function(val) {
-            return val.toLocaleString('ko-KR');
+            return val;
         };
     })
 
@@ -451,15 +451,15 @@
         $scope.bidToken = "";
 
         $scope.qoute_list =[{
-            step:100000
+            step: '100,000'
         },{
-            step:200000
+            step: '200,000'
         },{
-            step:300000
+            step: '300,000'
         },{
-            step:500000
+            step: '500,000'
         },{
-            step:1000000
+            step: '1,000,000'
         }]
 
 
@@ -516,6 +516,10 @@
         }
         // 비딩 삭제
         $scope.deletebid = function (bidToken) {
+
+
+
+
         }
         // cost 변경
         $scope.growbidchange = function (cost , up) {
@@ -536,6 +540,9 @@
                     $scope.bid_change_cost = 0;
                 }
             }
+            $scope.bid_change_cost = numberWithCommas($scope.bid_change_cost);
+            $scope.$apply();
+
         }
         $scope.bidup = function (cost) {
         }
