@@ -539,12 +539,13 @@
 
         window.onload = async () => {
             await init();
-            setInterval(await getPollingData, 1000);
+
+
         }
 
         window.onresize = async () =>{
             await init();
-            setInterval(await getPollingData, 1000);
+
         }
 
 
@@ -608,11 +609,12 @@
             }
 
             await dataInit();
+            setInterval(await getPollingData, 1000);
 
         }
 
         async function getPollingData(){
-            //TODO:공지사항추가
+
             const currentLotData = await getCurrentLotInfo();
             const currentLotInfo = currentLotData.data.data;
 
@@ -733,11 +735,14 @@
 
 
         const bindingNoticeInfo = (data) => {
+            saleNoticeSwiper.removeAllSlides();
+
             let noticeSlide = [];
             data.forEach(item => {
                 noticeSlide.push(`<span class="swiper-slide txt">`+item.CONTENT_JSON[locale]+`</span>`);
             })
             saleNoticeSwiper.appendSlide(noticeSlide);
+            saleNoticeSwiper.update();
 
             const el_noticeSwiper = document.querySelector(`\${classForDevice} .notice-swiper`);
             el_noticeSwiper.style.height = classForDevice === '.pcVer'? '50px' : '58px';
