@@ -610,8 +610,6 @@
                 const NOW_DATETIME = moment();
                 const NOW_DATE = moment().format('YYYYMMDD');
 
-                console.log(saleData.CLOSE_YN)
-
                 if(NOW_DATE < TO_DT_MMDD) {
                     saleStatus = 'READY';
                 }else if((NOW_DATE >= TO_DT_MMDD) && (NOW_DATETIME < LIVE_BID_DT)) {
@@ -643,7 +641,6 @@
                 const isRegular = IS_REGULAR;
                 const paddleNo = paddNo;
                 const sale_status = saleStatus;
-                console.log(sale_status, isLogin, paddleNo)
 
                 if(sale_status === 'READY') {
                     /* 로그인 & 준회원 & 정회원(패들x) */
@@ -890,7 +887,6 @@
             }
 
             $scope.changeViewType = function (value) {
-                console.log(value)
                 $scope.selectViewType = value;
 
                 const pageData = loadPageData();
@@ -903,7 +899,6 @@
             let viewMorePage = 2;
             let viewMoreSize = 20;
             const viewMoreObserver = new IntersectionObserver(entries => {
-                console.log("viewMoreObserver");
                 entries.forEach(async entry => {
                     if (entry.isIntersecting) {
                         const pageData = loadPageData();
@@ -913,7 +908,6 @@
                         const lotListData = resultData.data.data;
                         viewMoreButton.style.display = 'none';
 
-                        console.log(lotListData);
                         $scope.lotList = lotListData.list;
                         $scope.lotTotalCount = lotListData.count
 
