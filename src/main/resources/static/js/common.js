@@ -1273,6 +1273,14 @@ function isNotObjectEmpty(param) {
     return param.constructor === Object && Object.keys(param).length !== 0;
 }
 
+function returnLocaleValOrEmptyStr(obj, locale){
+    if(obj !== undefined && isNotObjectEmpty(obj))
+        return obj[locale];
+    else{
+        return '';
+    }
+}
+
 
 function js_size_text_cm(sizeJson){
     // console.log(sizeJson[0])
