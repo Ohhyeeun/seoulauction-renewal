@@ -30,8 +30,9 @@
                             <div class="bidding_mo">
                                 <div class="bidding-offline-wrap">
                                     <article class="bidding-offline-center">
-                                        <div class="notice">
-                                            <i class="icon-notice"></i><span class="txt"> </span>
+                                        <div class="notice notice-swiper" style="height: 58px;overflow: hidden">
+                                            <i class="icon-notice"></i>
+                                            <span class="swiper-wrapper"> </span>
                                         </div>
                                         <div class="video_area">
                                             <div class="view_box">
@@ -148,8 +149,19 @@
     window.onload = async () => {
 
         await init();
+        setInterval(await getPollingData, 10000);
+    }
 
-        // setInterval(await getPollingData, 1000);
+    const getPollingData = async () => {
+        let [ noticesData] = await Promise.all([
+            getNotices(SALE_NO),
+        ]);
+
+        //공지사항
+        const noticeList = noticesData.data.data;
+        if(noticeList.length > 0){
+            bindingNoticeInfo(noticeList);
+        }
     }
 
     /* call API */
@@ -181,7 +193,9 @@
 
         //공지사항
         const noticeList = noticesData.data.data;
-        bindingNoticeInfo(noticeList);
+        if(noticeList.length > 0){
+            bindingNoticeInfo(noticeList);
+        }
     }
 
     const bindingSaleInfo = (data) => {
@@ -189,8 +203,25 @@
         document.getElementById("sale_title").innerText = saleThTitle;
     }
 
+    const saleNoticeSwiper = new Swiper(`.notice-swiper`, {
+        autoplay: {
+            delay: 4000,
+        },
+        initialSlide : 1,
+        allowTouchMove:false, // 마우스 및 손가락 터치 시 슬라이드 이동 가능여부
+        touchMoveStopPropagation: true,    //touchmove 중지
+        direction:'vertical',
+        loop: true,
+    });
+
     const bindingNoticeInfo = (data) => {
-        const el_saleNotice = document.querySelector('.bidding-offline-center .notice');
+        let noticeSlide = [];
+        saleNoticeSwiper.removeAllSlides();
+        data.forEach(item => {
+            noticeSlide.push(`<span class="swiper-slide txt">`+item.CONTENT_JSON[locale]+`</span>`);
+        })
+        saleNoticeSwiper.appendSlide(noticeSlide);
+        saleNoticeSwiper.update();
     }
 </script>
 </body>

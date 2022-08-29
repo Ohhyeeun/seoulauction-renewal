@@ -585,7 +585,9 @@
 
                 //공지사항
                 const noticeList = noticesData.data.data;
-                bindingNoticeInfo(noticeList);
+                if(noticeList.length > 0){
+                    bindingNoticeInfo(noticeList);
+                }
 
                 //통화
                 const currencyTypes = currencyInfoData;

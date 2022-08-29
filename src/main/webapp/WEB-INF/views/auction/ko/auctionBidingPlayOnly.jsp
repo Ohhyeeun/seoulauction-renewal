@@ -233,7 +233,9 @@
 
         //공지사항
         const noticeList = noticesData.data.data;
-        bindingNoticeInfo(noticeList);
+        if(noticeList.length > 0){
+            bindingNoticeInfo(noticeList);
+        }
     }
 
     const init = async () => {
@@ -271,7 +273,6 @@
 
     const bindingNoticeInfo = (data) => {
         let noticeSlide = [];
-        // saleNoticeSwiper.initialSlide()
         saleNoticeSwiper.removeAllSlides();
         data.forEach(item => {
             noticeSlide.push(`<span class="swiper-slide txt">`+item.CONTENT_JSON[locale]+`</span>`);
