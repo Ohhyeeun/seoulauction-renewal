@@ -47,13 +47,17 @@
 						when S.SALE_KIND_CD in ('online','online_zb')
 				    	then (select MAX(L.TO_DT) from LOT L where L.SALE_NO = S.SALE_NO GROUP BY L.SALE_NO)
 						when S.SALE_KIND_CD in ('main','hongkong','plan')
-						then (select (case when LC.CLOSE_YN = 'Y'
+						then (
+						       select ( case when LC.CLOSE_YN = 'Y'
 										THEN LC.TO_DT
 						    			ELSE DATE_ADD(NOW(), INTERVAL 1 HOUR)
-									END) from LOT LC
+									    END
+						               )
+						                 from LOT LC
 									     where LC.SALE_NO = S.SALE_NO
-									       AND LC.LOT_NO = (SELECT MAX(LC1.LOT_NO) FROM LOT LC1 WHERE LC1.SALE_NO = S.SALE_NO AND LC1.STAT_CD <> 'reentry'))
-					end
+									     AND LC.LOT_NO = (SELECT MAX(LC1.LOT_NO) FROM LOT LC1 WHERE LC1.SALE_NO = S.SALE_NO AND LC1.STAT_CD <> 'reentry')
+						     )
+					    end
 -- 				and (
 -- 				  case
 -- 					  when S.SALE_KIND_CD in ('online','online_zb')
@@ -114,10 +118,21 @@
 	<select id="selectLotsBySaleNo" parameterType="CommonMap" resultType="CommonMap">
 		-- 랏
 		select
-			*
+			-- *
+		    L.SALE_NO SALE_NO
+		   ,L.LOT_NO LOT_NO
+		   ,L.IMG_DISP_YN IMG_DISP_YN
+		   ,LI.FILE_PATH FILE_PATH
+		   ,LI.FILE_NAME FILE_NAME
 		   ,COLUMN_JSON(L.TITLE_BLOB) EXPE_PRICE_TITLE -- 타이틀
 		   ,COLUMN_JSON(L.EXPE_PRICE_FROM_BLOB) EXPE_PRICE_FROM_JSON -- 낮은 추정가
 		   ,COLUMN_JSON(L.EXPE_PRICE_TO_BLOB) EXPE_PRICE_TO_JSON -- 높은 추정가
+		   ,L.START_PRICE -- 시작가
+		   ,(SELECT MAX(BID_PRICE) FROM BID B WHERE B.SALE_NO = L.SALE_NO AND B.LOT_NO = L.LOT_NO) MAX_BID_PRICE -- 현재가 ( 낙찰여부가 있을경우 낙찰가 ! )
+		   ,(SELECT COUNT(*) FROM BID B WHERE B.SALE_NO = L.SALE_NO AND B.LOT_NO = L.LOT_NO) BID_COUNT -- 비딩 카운트
+		   ,(SELECT BD_OFF.BID_PRICE FROM BID_OFFLINE BD_OFF WHERE BD_OFF.BID_NOTICE is NULL
+		    AND BD_OFF.SALE_NO = L.SALE_NO AND BD_OFF.LOT_NO = L.LOT_NO ORDER BY BD_OFF.BID_NO DESC, BD_OFF.BID_DT DESC LIMIT 1) AS LAST_PRICE -- 오프라인 용 현재가
+		   ,IF(( SELECT COUNT(*) FROM SUCCESS_BID SB WHERE SB.SALE_NO = L.SALE_NO AND SB.LOT_NO = L.LOT_NO > 0 ) , 'Y' , 'N') AS SB_YN -- 낙찰여부
 		   ,IMG_DISP_YN
 			<if test="cust_no != null">
 		   ,IFNULL(IL.DEL_YN,'Y') FAVORITE_YN /*N 이면 좋아요가 있음. Y면 좋아요가 아님.*/

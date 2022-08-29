@@ -76,6 +76,7 @@ public class AuctionService {
     public CommonMap selectSaleInfo(CommonMap commonMap) {
         CommonMap resultMap = auctionMapper.selectSaleInfo(commonMap);
         resultMap.put("buttonList", mainMapper.selectBrochures(commonMap));
+        resultMap.settingYNValueToBoolean();
         return resultMap;
     }
 

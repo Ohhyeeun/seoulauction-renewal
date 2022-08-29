@@ -5,14 +5,18 @@ import com.seoulauction.renewal.domain.SAUserDetails;
 import com.seoulauction.renewal.exception.SAException;
 import com.seoulauction.renewal.form.OfflineBiddingForm;
 import com.seoulauction.renewal.mapper.aws.AWSSaleMapper;
+import com.seoulauction.renewal.mapper.aws.ArtistMapper;
 import com.seoulauction.renewal.mapper.kt.SaleLiveMapper;
 import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,15 +27,15 @@ public class SaleLiveService {
 
     private final SaleLiveMapper saleLiveMapper;
     private final AWSSaleMapper awsSaleMapper;
+    private final ArtistMapper artistMapper;
+
     private final AuctionService auctionService;
 
     @Value("${image.root.path}")
     private String IMAGE_URL;
 
     public CommonMap selectLiveSale(CommonMap map){
-
-        CommonMap result = saleLiveMapper.selectLiveSale(map);
-        return settingLotData(result);
+        return settingLotData(saleLiveMapper.selectLiveSale(map));
     }
     public List<CommonMap> selectLiveSaleLots(CommonMap map){
 
@@ -47,7 +51,7 @@ public class SaleLiveService {
     public CommonMap selectLiveSaleLotByOne(CommonMap map){
 
         SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
-        if(saUserDetails !=null){
+        if(saUserDetails !=null) {
             map.put("cust_no" , saUserDetails.getUserNo());
         } else {
             map.put("cust_no" , 0);
@@ -56,7 +60,7 @@ public class SaleLiveService {
         CommonMap result = saleLiveMapper.selectLiveSaleLotByOne(map);
 
         //만약 라이브경매값이 없는경우 첫번째 랏을 리턴.
-        if(result == null){
+        if(result == null) {
             map.put("lot_no" , 1);
             result = saleLiveMapper.selectLiveSaleLotByOne(map);
             result.settingJsonStrToObject();
@@ -66,7 +70,21 @@ public class SaleLiveService {
         return settingLotData(result);
     }
     public List<CommonMap> selectLiveTypes(CommonMap map){
-        return saleLiveMapper.selectLiveTypes(map);
+
+        List<CommonMap> result = saleLiveMapper.selectLiveTypes(map);
+
+        //간혈적으로 정렬이 안되어 정렬 재적용.
+        result.sort((s1 , s2) -> {
+
+                 //타입이 같다면 compareTo 역순.
+                 if(s1.getString("TYPE").equals(s2.getString("TYPE"))) {
+                    return s2.getString("CD_NM").compareTo(s1.getString("CD_NM"));
+                 //기본적으로 compareTo.
+                }else {
+                    return s1.getString("CD_NM").compareTo(s2.getString("CD_NM"));
+                }
+        });
+        return result;
     }
     public List<CommonMap> selectLiveMyBidding(CommonMap map){
 
@@ -198,9 +216,8 @@ public class SaleLiveService {
 
     @Transactional("ktTransactionManager")
     public void lotSync(CommonMap map){
-        saleLiveMapper.updateLotSync1(map);
-
         //lot no 가 있을경우에는 lot 전용 sync 실행.
+        saleLiveMapper.updateLotSync1(map);
         if(map.get("lot_no") !=null){
             saleLiveMapper.updateLotSync2(map);
         }
@@ -217,7 +234,7 @@ public class SaleLiveService {
         return saleLiveMapper.selectSaleLotImages(commonMap);
     }
 
-    public List<CommonMap> selectSaleList(CommonMap map){
+    public CommonMap selectSaleList(CommonMap map){
 
         SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
         if(saUserDetails !=null){
@@ -226,8 +243,67 @@ public class SaleLiveService {
             map.put("cust_no" , 0);
         }
 
-        return saleLiveMapper.selectSaleList(map).stream().peek(this::settingLotData).collect(Collectors.toList());
+        CommonMap resultMap = new CommonMap();
+        resultMap.put("list" , saleLiveMapper.selectSaleList(map).stream().peek(this::settingLotData).collect(Collectors.toList()));
+        resultMap.put("count" , saleLiveMapper.selectSaleListCount(map));
+
+        return resultMap;
     }
+
+
+    public CommonMap selectLotInfo(CommonMap map){
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if(saUserDetails !=null){
+            map.put("cust_no" , saUserDetails.getUserNo());
+        } else {
+            map.put("cust_no" , 0);
+        }
+
+        CommonMap lotInfoMap = settingLotData(saleLiveMapper.selectLotInfo(map));
+        //직원 여부
+        boolean isEmployee = false;
+        //만약 로그인을 했고 직원 이면.
+        if( saUserDetails !=null) {
+            isEmployee = saUserDetails.getAuthorities().stream().anyMatch(c -> c.getAuthority().equals("ROLE_EMPLOYEE_USER"));
+        }
+        if (lotInfoMap.get("IMG_DISP_YN").equals("N") && !isEmployee) {
+            lotInfoMap.put("IMAGE_URL", "");
+            lotInfoMap.put("LOT_IMG_PATH", "");
+            lotInfoMap.put("LOT_IMG_NAME", "/images/bg/no_image.jpg");
+        } else {
+            lotInfoMap.put("IMAGE_URL", IMAGE_URL);
+        }
+        //IMAGE_FULL_PATH 제외
+        lotInfoMap.remove("IMAGE_FULL_PATH");
+
+        return lotInfoMap;
+    }
+    public List<CommonMap> selectAdminOffBid(CommonMap map){
+        return saleLiveMapper.selectAdminOffBid(map);
+    }
+
+    public CommonMap selectAdminSaleInfo(CommonMap map){
+        return settingLotData(saleLiveMapper.selectAdminSaleInfo(map));
+    }
+
+    /**
+     * 랏 동기화 이후 해당 데이터를 가져옴.
+     * @param map
+     * @return
+     */
+    public CommonMap selectAdminLotInfo(CommonMap map){
+
+        //랏 동기화.
+        lotSync(map);
+
+        CommonMap resultMap = new CommonMap();
+        resultMap.put("lot" , settingLotData(saleLiveMapper.selectAdminLotInfo(map)));
+        resultMap.put("off_list" , saleLiveMapper.selectAdminOffBid(map));
+
+        return resultMap;
+    }
+
+    public CommonMap selectArtistInfo(CommonMap commonMap) { return settingLotData(artistMapper.selectArtistInfo(commonMap)); }
 
     //랏 데이터를 세팅 ( 이미지 PATH , MATE )
     private CommonMap settingLotData(CommonMap map){
@@ -244,8 +320,8 @@ public class SaleLiveService {
             } else {
                 map.remove("IMAGE_FULL_PATH");
             }
-            map.remove("LOT_IMG_PATH");
-            map.remove("LOT_IMG_NAME");
+//            map.remove("LOT_IMG_PATH");
+//            map.remove("LOT_IMG_NAME");
 
             //재질
             if (map.get("MATE_CD_KO") != null && map.get("MATE_CD_EN") != null) {
@@ -259,9 +335,22 @@ public class SaleLiveService {
 
             map.remove("MATE_CD_KO");
             map.remove("MATE_CD_EN");
+
+            //작가 필터
+            if(map.get("ARTIST_NAME_JSON") !=null) {
+                HashMap<String, Object> artistMap = (HashMap<String, Object>) map.get("ARTIST_NAME_JSON");
+                List<String> artistFilters = new ArrayList<>();
+                artistFilters.add("김환기");
+                artistFilters.add("박수근");
+                //작가 정보가 안비어있고, 결과값이 있을경우.
+                map.put("IMAGE_MAGNIFY", MapUtils.isNotEmpty(artistMap) && artistFilters.stream().anyMatch(f -> f.equals(artistMap.get("ko"))));
+            }
+
         }
         return map;
     }
+
+
 
 }
 

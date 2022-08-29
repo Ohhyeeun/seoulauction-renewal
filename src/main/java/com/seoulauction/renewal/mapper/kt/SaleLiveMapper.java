@@ -24,7 +24,12 @@ public interface SaleLiveMapper {
     String selectLotClose(CommonMap map);
     void updateLotSync1(CommonMap map);
     void updateLotSync2(CommonMap map);
+    CommonMap selectAdminSaleInfo(CommonMap map);
+    CommonMap selectAdminLotInfo(CommonMap map);
+    List<CommonMap> selectAdminOffBid(CommonMap map);
 
     List<CommonMap> selectSaleLotImages(CommonMap commonMap);
     List<CommonMap> selectSaleList(CommonMap map);
+    int selectSaleListCount(CommonMap map);
+    CommonMap selectLotInfo(CommonMap map);
 }

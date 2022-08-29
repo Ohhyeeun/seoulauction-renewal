@@ -6,7 +6,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <jsp:include page="../../common/angular.jsp"/>
 <!DOCTYPE html>
-<html lang="ko" ng-app="myApp">
+<html lang="ko" >
 <head>
     <!-- header -->
     <meta name="naver-site-verification" content="e43736eddfc3d46038024a9d2132da077391aadf"/>
@@ -81,7 +81,7 @@
                             </div>
                             <div class="btn-area">
                                 <div class="select-box pc-ver">
-                                    <select id="selectCurrency" >
+                                    <select id="pc-currency-select-box" >
                                         <%-- <option ng-repeat="item in currencyTypes" value="{{item.value}}">
                                              {{item.name}}
                                          </option>--%>
@@ -118,14 +118,9 @@
                                         </div>
                                     </article>
                                     <article class="bidding-offline-center">
-                                        <div class="notice"> <%-- notice-swiper --%>
+                                        <div class="notice notice-swiper" style="overflow: hidden">
                                             <i class="icon-notice"></i>
-                                            <span class="txt">공지공지공지</span>
-                                            <%--                                            <div class="swiper-wrapper">--%>
-                                            <%--                                                <span class="swiper-slide txt">공지공지공지</span>--%>
-                                            <%--                                                <span class="swiper-slide txt">12313공지공지공지</span>--%>
-                                            <%--                                            </div>--%>
-
+                                            <span class="swiper-wrapper"></span>
                                         </div>
                                         <div class="video_area">
                                             <div class="view_box">
@@ -204,8 +199,9 @@
                             <div class="bidding_mo mobileVer m-ver" >
                                 <div class="bidding-offline-wrap">
                                     <article class="bidding-offline-center">
-                                        <div class="notice">
-                                            <i class="icon-notice"></i><span class="txt">공지공지공지</span>
+                                        <div class="notice notice-swiper" style="overflow: hidden;">
+                                            <i class="icon-notice"></i>
+                                            <span class="swiper-wrapper"></span>
                                         </div>
                                         <div class="video_area">
                                             <div class="view_box">
@@ -214,8 +210,8 @@
                                             </div>
                                             <div class="view_info">
                                                 <p class="view_count">
-                                                    <i class="icon-viewer"></i><span class="unit">시청자</span> <span
-                                                        class="num" ng-bind="viewers"></span>
+                                                    <%--                                                    <i class="icon-viewer"></i><span class="unit">시청자</span> <span--%>
+                                                    <%--                                                        class="num" ng-bind="viewers"></span>--%>
                                                 </p>
                                                 <button class="btn btn_gray btn_refresh"><i class="ic_refresh"></i>새로고침</button>
                                             </div>
@@ -235,10 +231,8 @@
                                                     <div class="type1_info_box">
                                                         <div>
                                                             <div class="select-box">
-                                                                <select class="" id="currency_type2" ng-model="currencyType" ng-change="selectCurrency()">
-                                                                    <option ng-repeat="item in currencyTypes" value="{{item.value}}">
-                                                                        {{item.name}}
-                                                                    </option>
+                                                                <select id="mo-currency-select-box" >
+
                                                                 </select>
                                                                 <i class="form-bidding_select_arrow"></i>
                                                             </div>
@@ -503,27 +497,20 @@
             });
         }
 
-        /* const saleNoticeSwiper = new Swiper(".notice-swiper", {
-             autoplay: {
-                 delay: 4000,
-             },
-             initialSlide : 1,
-             allowTouchMove:false, /!* 마우스 및 손가락 터치 시 슬라이드 이동 가능여부 *!/
-             touchMoveStopPropagation: true,   /!* touchmove 중지 *!/
-             direction:'vertical',
-             loop: true,
-         });*/
+
     </script>
 
     <script>
         const is_login = false;
         const locale = document.documentElement.lang;
-        let classForDevice = '.bidding_mo';
+        let deviceKind = 'is_pc';
+        let classForDevice = '.pcVer';
 
         const saleNo = ${saleNo}; //경매번호
         const userId = '${member.loginId}';
         const userNo = ${member.userNo};
         const baseCurrency = 'KRW';
+        let saleNoticeSwiper;
 
         let lotList = [{}];
         let lotTotalCount = 0;
@@ -550,25 +537,35 @@
             {curr_cd : 'USD', base_price:1, rate : 1285.600}
         ]
 
-        const dumy_notices = [{
-            ko: "라이브 경매에 오신것을 환영합니다.",
-            en: "영문 공지 영문 공지"
-        },
-            {
-                ko: "국문공지 국문공지",
-                en: "영문공지 영문공지"
-            }]
-
         window.onload = async () => {
-            classForDevice = document.body.getAttribute('data-device') === 'is_pc'? '.pcVer' : '.mobileVer';
-            await dataInit();
+            await init();
 
-            setInterval(await getPollingData, 1000);
+
+        }
+
+        window.onresize = async () =>{
+            await init();
+
         }
 
 
-        function dataInit(){
-            const init = async function () {
+
+        async function init (){
+            deviceKind = document.body.getAttribute('data-device');
+            classForDevice = deviceKind === 'is_pc'? '.pcVer' : '.mobileVer';
+
+            saleNoticeSwiper = new Swiper(`\${classForDevice} .notice-swiper`, {
+                autoplay: {
+                    delay: 4000,
+                },
+                initialSlide : 1,
+                allowTouchMove:false, // 마우스 및 손가락 터치 시 슬라이드 이동 가능여부
+                touchMoveStopPropagation: true,    //touchmove 중지
+                direction:'vertical',
+                loop: true,
+            });
+
+            const dataInit = async function () {
                 let [paddleInfoData, saleInfoData, currencyInfoData, noticesData, categoriesData, lotListData] = await Promise.all([
                     getPaddleInfo(saleNo),
                     getSaleInfo(saleNo),
@@ -598,7 +595,7 @@
 
                 //카테고리
                 const categories = categoriesData.data.data;
-                categories.unshift({CD_ID:'all', CD_NM:'전체'});
+                categories.unshift({CD_ID:'all', CD_NM:'전체', CD_NM_EN : 'All'});
                 bindingCategoriesInfo(categories);
 
 
@@ -610,10 +607,14 @@
                     bindingLotListInfo(lotList, lotTotalCount);
 
             }
-            init();
+
+            await dataInit();
+            setInterval(await getPollingData, 1000);
+
         }
 
         async function getPollingData(){
+
             const currentLotData = await getCurrentLotInfo();
             const currentLotInfo = currentLotData.data.data;
 
@@ -709,7 +710,7 @@
         /*랏 목록*/
         const getLotList=(saleNo, type, cd_id)=>{
             try {
-                const paramQuery = cd_id !== 'all'? '?'+type+'='+cd_id : '';
+                const paramQuery = cd_id !== 'all'? '?'+type+'='+encodeURI(cd_id) : '';
                 return axios.get('/api/auction/live/sales/'+saleNo+'/lots'+paramQuery);
             } catch (error) {
                 console.error(error);
@@ -727,12 +728,24 @@
 
         /* 데이터 바인딩 */
         const bindingSaleInfo = (data) => {
-            const saleThTitle = localeOrdinal(data.SALE_TH) + data.SALE_TITLE_JSON[locale];
+            const saleThTitle = localeOrdinal(data.SALE_TH,locale) + data.SALE_TITLE_JSON[locale];
             document.getElementById("sale_title").innerText = saleThTitle;
         }
 
+
+
         const bindingNoticeInfo = (data) => {
-            const el_saleNotice = document.querySelector('.bidding-offline-center .notice');
+            saleNoticeSwiper.removeAllSlides();
+
+            let noticeSlide = [];
+            data.forEach(item => {
+                noticeSlide.push(`<span class="swiper-slide txt">`+item.CONTENT_JSON[locale]+`</span>`);
+            })
+            saleNoticeSwiper.appendSlide(noticeSlide);
+            saleNoticeSwiper.update();
+
+            const el_noticeSwiper = document.querySelector(`\${classForDevice} .notice-swiper`);
+            el_noticeSwiper.style.height = classForDevice === '.pcVer'? '50px' : '58px';
         }
 
         const bindingCurrencyInfo = (data) => {
@@ -742,8 +755,9 @@
                                     `+item.curr_cd+`
                                 </option>;`
             })
-            const currencyArea = document.getElementById("selectCurrency");
-            currencyArea.insertAdjacentHTML("beforeend", currencyDom)
+            const selectorName = classForDevice === '.pcVer'? 'pc-currency-select-box' : 'mo-currency-select-box';
+            const currencyArea = document.getElementById(selectorName);
+            currencyArea.innerHTML = currencyDom
         }
 
         const bindingElementsByAuth = (paddleNo) =>{
@@ -945,8 +959,9 @@
             let categoryDom = ``;
             data.map(item => {
                 const isSelect = item.CD_ID === 'all'? 'on' : '';
+                const categoryName = locale === 'ko'? item.CD_NM : item.CD_NM_EN;
                 categoryDom += `<div class="btn_item">
-                                    <a href="javascript:void(0);" onClick="changeCategory(this,'\${item.TYPE}','\${item.CD_ID}')" class="lot-btn_tabmenu `+isSelect+`" >`+item.CD_NM+`</a>
+                                    <a href="javascript:void(0);" onClick="changeCategory(this,'\${item.TYPE}','\${item.CD_ID}')" class="lot-btn_tabmenu `+isSelect+`" >`+categoryName+`</a>
                                 </div>`;
             });
             document.querySelector(`\${classForDevice} [lot-list-menu]`).innerHTML =  categoryDom;
@@ -980,7 +995,7 @@
                                             <div class="view-img">
                                                 <div class="img-box">
                                                     <div class="box-inner">
-                                                        <img src="\${item.IMAGE_FULL_PATH}" alt="LOT \${item.LOT_NO}">
+                                                        <img src="https://www.seoulauction.com/nas_img/\${item.LOT_IMG_PATH}/\${item.LOT_IMG_NAME}" alt="LOT \${item.LOT_NO}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1033,7 +1048,7 @@
 
         const clickLotItem = (lotIdx) =>{
             if(classForDevice === '.mobileVer'){
-                closeTotalLotList(document);
+                $(document).mouseup();//close lot list layer
             }
             const data = lotList.filter(item => item.LOT_NO == lotIdx)[0];
 
@@ -1047,7 +1062,7 @@
                 document.getElementById("btnMoveCurrentLot").style.display = 'block';
             }
 
-            el_lotImage.src = data.IMAGE_FULL_PATH;
+            el_lotImage.src = `https://www.seoulauction.com/nas_img/\${data.LOT_IMG_PATH}/\${data.LOT_IMG_NAME}`
             el_lotInfo.querySelector(".num span").innerHTML = data.LOT_NO;
             el_lotInfo.querySelector(".title span").innerHTML = isNotObjectEmpty(data.ARTIST_NAME_JSON) ? data.ARTIST_NAME_JSON[locale] : '';
             el_lotInfo.querySelector(".desc span").innerHTML = data.LOT_TITLE_JSON[locale];
@@ -1064,7 +1079,7 @@
 
         const bindingCurrentLotInfo = (data) =>{
             const el_nowLotImg = document.querySelector(`\${classForDevice} [now-lot-image]`);
-            el_nowLotImg.src = data.IMAGE_FULL_PATH;
+            el_nowLotImg.src = `https://www.seoulauction.com/nas_img/\${data.LOT_IMG_PATH}/\${data.LOT_IMG_NAME}`;
             el_nowLotImg.alt = "LOT "+ data.LOT_NO;
 
             const el_nowLotNo = document.querySelector(`\${classForDevice} [now-lot-no]`);
@@ -1075,8 +1090,11 @@
 
             //info
             el_nowLotNo.innerHTML = data.LOT_NO;
-            el_artistName.innerHTML = data.ARTIST_NAME_JSON[locale];
-            el_birthOfDeath.innerHTML = "b."+ data.BORN_YEAR+"-"+data.DIE_YEAR;
+            el_artistName.innerHTML = data.ARTIST_NAME_JSON[locale]? data.ARTIST_NAME_JSON[locale] : '';
+            if(data.BORN_YEAR){
+                const dieYear = data.DIE_YEAR? "-"+data.DIE_YEAR : '';
+                el_birthOfDeath.innerHTML = "b."+ data.BORN_YEAR + dieYear;
+            }
             el_lotTitle.innerHTML = data.LOT_TITLE_JSON[locale];
             el_expePriceFromTo.innerHTML = baseCurrency+' '+numberWithCommas(data.EXPE_PRICE_FROM_JSON[baseCurrency])+' ~ '+numberWithCommas(data.EXPE_PRICE_TO_JSON[baseCurrency]);
 

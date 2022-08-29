@@ -23,7 +23,7 @@ public class CommonMap extends HashMap<String, Object>{
 	@Getter
 	private int size;
 
-	private final String JSON_KEY ="JSON";
+	private final String JSON_KEY = "JSON";
 
 	private final ObjectMapper mapper = new ObjectMapper();
 	

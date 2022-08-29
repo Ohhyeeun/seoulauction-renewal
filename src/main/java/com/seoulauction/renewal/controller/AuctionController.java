@@ -245,9 +245,35 @@ public class AuctionController {
 
     /** 라이브 중계 페이지 **/
     /* 응찰 */
+    @GetMapping(value="/live/bid/player/{saleNo}")
+    public String bidingPlayOnly(Locale locale, Model model , HttpServletRequest request, HttpServletResponse response) {
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if (saUserDetails != null) {
+            model.addAttribute("member", saUserDetails);
+        } else {
+            model.addAttribute("member", new SAUserDetails());
+        }
+        return SAConst.getUrl(SAConst.SERVICE_AUCTION , "auctionBidingPlayOnly" , locale);
+    }
+
+    @GetMapping(value="/live/bid/player/mobile/{saleNo}")
+    public String bidingPlayOnlyMobile(Locale locale, Model model , HttpServletRequest request, HttpServletResponse response, @PathVariable("saleNo") int saleNo) {
+        model.addAttribute("saleNo", saleNo);
+
+        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
+        if (saUserDetails != null) {
+            model.addAttribute("member", saUserDetails);
+        } else {
+            model.addAttribute("member", new SAUserDetails());
+        }
+
+        String returnJsp = SecurityUtils.checkRole("ROLE_REGULAR_USER") ? "auctionBiddingView" :"auctionBidingPlayOnly_mobile";
+
+        return SAConst.getUrl(SAConst.SERVICE_AUCTION , returnJsp , locale);
+    }
+
     @GetMapping(value="/live/bidder/{saleNo}")
-    public String bidder(Locale locale, Model model
-            , HttpServletRequest request, HttpServletResponse response,
+    public String bidder(Locale locale, Model model, HttpServletRequest request, HttpServletResponse response,
                        @PathVariable("saleNo") int saleNo) {
         model.addAttribute("saleNo", saleNo);
 

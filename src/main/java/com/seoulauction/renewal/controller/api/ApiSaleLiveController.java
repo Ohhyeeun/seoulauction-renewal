@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.seoulauction.renewal.common.RestResponse;
+import com.seoulauction.renewal.common.SAConst;
 import com.seoulauction.renewal.component.CurrencyDataManager;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
@@ -22,12 +23,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
-import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @Log4j2
@@ -83,128 +84,12 @@ public class ApiSaleLiveController {
 
     @RequestMapping(value="/lot_info/{sale_no}/{lot_no}", method = RequestMethod.GET)
     public ResponseEntity<RestResponse> lotInfo(@PathVariable("sale_no") int saleNo,
-                                                @PathVariable("lot_no") int lotNo,
-                                                Locale locale) {
-
-        SAUserDetails saUserDetails = SecurityUtils.getAuthenticationPrincipal();
-
+                                                @PathVariable("lot_no") int lotNo) {
         CommonMap map = new CommonMap();
         map.put("sale_no", saleNo);
         map.put("lot_no", lotNo);
-        if(saUserDetails !=null){
-            map.put("cust_no" , saUserDetails.getUserNo());
-        } else {
-            map.put("cust_no" , 0);
-        }
 
-        // 랏 정보 가져오기
-        CommonMap lotInfoMap = saleService.selectLotInfo(map);
-        // 관심정보가져오기
-        CommonMap favoriteMap = saleService.selectCustInteLot(map);
-
-        if (favoriteMap == null) {
-            lotInfoMap.put("FAVORITE_YN", "N");
-        } else {
-            lotInfoMap.put("FAVORITE_YN", "Y");
-        }
-
-
-        // 한국일때 홍콩, 홍콩일때 한국
-        Map<String, String> baseCurrency = new HashMap<String, String>();
-        baseCurrency.put("KRW", "HKD");
-        baseCurrency.put("HKD", "KRW");
-
-        // 현재 베이스 화폐
-        String currCd = String.valueOf(lotInfoMap.get("CURR_CD"));
-
-        //로그인한 정보를 가져온다.
-        //직원 여부
-        boolean isEmployee = false;
-        //만약 로그인을 했고 직원 이면.
-        if( saUserDetails !=null) {
-            isEmployee = saUserDetails.getAuthorities().stream().anyMatch(c -> c.getAuthority().equals("ROLE_EMPLOYEE_USER"));
-        }
-
-        if (lotInfoMap.get("IMG_DISP_YN").equals("N") && !isEmployee) {
-            lotInfoMap.put("IMAGE_URL", "");
-            lotInfoMap.put("LOT_IMG_PATH", "");
-            lotInfoMap.put("LOT_IMG_NAME", "/images/bg/no_image.jpg");
-        } else {
-            lotInfoMap.put("IMAGE_URL", IMAGE_URL);
-        }
-
-        // sub 화폐
-        String subCurrCd = String.valueOf(baseCurrency.get(currCd));
-
-        String[] mapKeys = {"ARTIST_NAME_JSON", "EXPE_PRICE_TO_JSON","EXPE_PRICE_FROM_JSON", "MAKE_YEAR_JSON" ,
-                "SIGN_INFO_JSON", "COND_RPT_JSON", "PROFILE_JSON" ,"LITE_INFO_JSON" , "EXHI_INFO_JSON" ,
-                "PROV_INFO_JSON" , "ETC_INFO_JSON" , "CMMT_JSON"};
-        String[] listKeys = {"LOT_SIZE_JSON"};
-
-        // 맵 형태 거름
-        ObjectMapper mapper  = new ObjectMapper();
-        try{
-            // 맵 변환
-            for(var item : mapKeys) {
-                lotInfoMap.put(item, mapper.readValue(String.valueOf(lotInfoMap.get(item)), Map.class));
-                Map<String,Object> m = (Map<String,Object>)lotInfoMap.get(item);
-
-                if (item.equals("ARTIST_NAME_JSON")) {
-
-                    // artist filter DB화 필요
-                    List<String> artistFilters = new ArrayList<>();
-                    artistFilters.add("김환기");
-                    artistFilters.add("박수근");
-                    for (var artist : artistFilters) {
-                        if (m !=null && m.get(locale.getLanguage()).equals(artist)) {
-                            lotInfoMap.put("IMAGE_MAGNIFY", false);
-                            break;
-                        }else{
-                            lotInfoMap.put("IMAGE_MAGNIFY", true);
-                        }
-                    }
-                } else if (item.equals("EXPE_PRICE_TO_JSON")
-                        || item.equals("EXPE_PRICE_FROM_JSON")) {
-
-                   //NumberFormat formatter = NumberFormat.getCurrencyInstance();
-
-                    DecimalFormat formatter = new DecimalFormat("###,###");
-
-                    String cvf = formatter.format((int)(m.get(currCd) == null?0:m.get(currCd)));
-                    String svf = formatter.format((int)(m.get(subCurrCd) == null?0:m.get(subCurrCd)));
-                    String uvf = formatter.format((int)(m.get("USD") == null?0:m.get("USD")));
-
-                    String cv = new StringBuilder().append(currCd + " ")
-                            .append(cvf).toString();
-                    String sv = new StringBuilder().append(subCurrCd + " ")
-                            .append(svf).toString();
-                    String uv = new StringBuilder().append("USD ")
-                            .append(uvf).toString();
-
-                    if (item.equals("EXPE_PRICE_TO_JSON")) {
-                        lotInfoMap.put("BASE_EXPE_TO_PRICE", cv);
-                        lotInfoMap.put("SUB_EXPE_TO_PRICE", sv);
-                        lotInfoMap.put("USD_EXPE_TO_PRICE", uv);
-                    } else if (item.equals("EXPE_PRICE_FROM_JSON")) {
-                        lotInfoMap.put("BASE_EXPE_FROM_PRICE", cv);
-                        lotInfoMap.put("SUB_EXPE_FROM_PRICE", sv);
-                        lotInfoMap.put("USD_EXPE_FROM_PRICE", uv);
-                    }
-                }
-            }
-            // 리스트 변환
-            for(var item : listKeys) {
-                lotInfoMap.put(item,
-                        mapper.readValue(String.valueOf(lotInfoMap.get(item)), List.class));
-            }
-
-
-        } catch (JsonMappingException e) {
-
-        } catch (JsonProcessingException e) {
-
-        }
-        return ResponseEntity.ok(RestResponse.ok(lotInfoMap));
+        return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectLotInfo(map)));
     }
 
     @RequestMapping(value="/getViewScaleImage/{sale_no}/{lot_no}", method = RequestMethod.GET)
@@ -505,12 +390,20 @@ public class ApiSaleLiveController {
     public ResponseEntity<RestResponse> list(
             @PathVariable("saleNo") int saleNo,
             @RequestParam(value = "category" , required = false) String category,
-            @RequestParam(value = "tag" , required = false) String tag
+            @RequestParam(value = "tag" , required = false) String tag,
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
+            @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size,
+            @RequestParam(value = "lang" , defaultValue = "ko" , required = false) String lang,
+            @RequestParam(value = "search" , required = false ) String search,
+            @RequestParam(required = false) String sortBy
     ) {
-        CommonMap commonMap = new CommonMap();
+        CommonMap commonMap = CommonMap.create(page,size);
         commonMap.put("sale_no", saleNo);
         commonMap.put("category", category);
         commonMap.put("tag", tag);
+        commonMap.put("lang" , lang);
+        commonMap.put("search" , search);
+        commonMap.put("sort_by", sortBy);
         return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectSaleList(commonMap)));
    }
     @RequestMapping(value = "/lotTag/{saleNo}", method = RequestMethod.GET)
@@ -552,7 +445,7 @@ public class ApiSaleLiveController {
         CommonMap map = new CommonMap();
         map.put("artist_no", artistNo);
 
-        CommonMap artistInfoMap = saleService.selectArtistInfo(map);
+        CommonMap artistInfoMap = saleLiveService.selectArtistInfo(map);
         if(artistInfoMap != null) {
             artistInfoMap.put("images", s3Service.getS3FileDataAll("artist",  artistInfoMap.get("id")));
         }
@@ -682,6 +575,7 @@ public class ApiSaleLiveController {
         return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectBidNotice(commonMap)));
     }
 
+
     /**
      *
      * @param saleNo
@@ -692,7 +586,40 @@ public class ApiSaleLiveController {
         CommonMap commonMap = new CommonMap();
         commonMap.put("sale_no", saleNo);
 
-        return ResponseEntity.ok(RestResponse.ok());
+        return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectAdminSaleInfo(commonMap)));
+    }
+
+    /**
+     *
+     * @param saleNo
+     * 관리자용 오프라인 랏동기화 이후 경매 중인 랏 + 오프라인 비드 데이터 가져오기.
+     */
+    @GetMapping(value="/admin/sales/{saleNo}/lots/{lotNo}/sync-cu-lot")
+    public ResponseEntity<RestResponse> adminSaleCurLot(
+            @PathVariable("saleNo") int saleNo,
+            @PathVariable("lotNo") int lotNo) {
+        CommonMap commonMap = new CommonMap();
+        commonMap.put("sale_no", saleNo);
+        commonMap.put("lot_no", lotNo);
+
+        return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectAdminLotInfo(commonMap)));
+    }
+
+    /**
+     *
+     * @param saleNo
+     * @param lotNo
+     * 관리자용 오프라인 비드 가져오기.
+     */
+    @GetMapping(value="/admin/sales/{saleNo}/lots/{lotNo}/off-bids")
+    public ResponseEntity<RestResponse> adminOffBidList(
+            @PathVariable("saleNo") int saleNo
+            , @PathVariable("lotNo") int lotNo) {
+        CommonMap map = new CommonMap();
+       map.put("sale_no", saleNo);
+       map.put("lot_no", lotNo);
+
+        return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectAdminOffBid(map)));
     }
 
 
