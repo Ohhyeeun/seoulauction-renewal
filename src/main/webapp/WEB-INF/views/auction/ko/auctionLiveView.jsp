@@ -657,13 +657,6 @@
         $(".js-view_thumnail .slide").eq($index).addClass("active");
     };
 
-    /* 섬네일 클릭 */
-    $(".js-view_thumnail .slide.images").on("click", function () {
-        var _index = $(this).index();
-        console.log(_index);
-        view_thumnailActive(_index);
-        view_visualActive(_index);
-    });
 
     /* 비주얼 활성화 */
     function view_visualActive($index, view_visual) {
@@ -998,7 +991,7 @@
             //artist 번호
             $scope.artistNo = lotData.ARTIST_NO;
 
-            // ? $scope.activeIndex = 0;
+            // $scope.activeIndex = 0;
 
             $scope.displayLotInfo = displayLot;
             $scope.$apply();
@@ -1140,7 +1133,7 @@
 
                 // swiper
                 let view_visual = new Swiper(".js-view_visual .gallery_center", {
-                    loop: true,
+                    loop: false,
                     paginationClickable: true,
                     spaceBetween: 10,
                     effect: "fade",
@@ -1157,27 +1150,26 @@
                             spaceBetween: 10
                         }
                     },
-                    // on: {
-                    //     slideChange: function () {
-                    //         $scope.activeIndex = view_visual.activeIndex;
-                    //         view_thumnailActive(view_visual.activeIndex);
-                    //     }
-                    // }
+                    on: {
+                        slideChange: function () {
+                            $scope.activeIndex = view_visual.activeIndex;
+                            view_thumnailActive(view_visual.activeIndex);
+                        }
+                    }
                 });
 
                 $(".js-view_thumnail .slide").on("click", function () {
-                    var _index = $(this).index();
+                    let _index = $(this).index();
                     view_thumnailActive(_index);
                     view_visualActive(_index, view_visual);
                 });
 
-                // $(window).on("resize", function () {
-                //     view_visual.update();
-                // });
+                $(window).on("resize", function () {
+                    view_visual.update();
+                });
 
                 let viewScaleImages = $scope.viewScaleImages;
                 $scope.isUseViewScale = viewScaleImages.length > 0 && !$scope.lotInfo.IMAGE_MAGNIFY; // || viewScaleImages.isUseViewScale;
-                let lot_images = $scope.lotImages;
 
                 if($scope.isUseViewScale) {
                     const el = viewScaleImages[0];
@@ -1209,6 +1201,8 @@
                     $("#popup_image_viewer-wrap .gallery_center").html(swiper_slide_item);
                 }
 
+
+                let lot_images = $scope.lotImages;
                 $.each(lot_images, function (index, el) {
                     let popup_lot_no = el.LOT_NO;
                     let popup_img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
@@ -1256,12 +1250,6 @@
                 /* [2022-0708] 수정 */
                 var imageViewer = new Swiper('.js-image_viewer .gallery_center', {
                     loop: true,
-                    // onSlideChangeStart: function (swiper) { // 움직임이 끝나면 실행
-                    //     imagesResizePcMb();
-                    // },
-                    // onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
-                    //     imagesResizePcMb();
-                    // },
                     on: {
                         transitionStart: function() {
                             // 움직임이 시작하면 실행
