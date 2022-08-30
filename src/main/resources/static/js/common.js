@@ -945,7 +945,6 @@ function growPriceForOffline(price){
     } else if (price >= 2000000000){
         growPrice = 100000000;
     }
-
     return growPrice;
 }
 
