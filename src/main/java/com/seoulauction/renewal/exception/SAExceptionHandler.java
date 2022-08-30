@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Locale;
 
 import static com.seoulauction.renewal.common.SAConst.SERVICE_ERROR;
@@ -63,22 +64,40 @@ public class SAExceptionHandler {
 
     //서버에서 오류난경우 오류페이지로 리턴시킬때 사용.( 500 에러페이지 리턴! )
     @ExceptionHandler(InternalServerException.class)
-    public String InternalSererException(Exception e , Locale locale){
+    public String InternalSererException(InternalServerException e , Locale locale){
 
         String errorMsg = ExceptionUtils.getStackTrace(e);
         log.error(errorMsg);
         slackSender.sendMessage(errorMsg);
-
         return SAConst.getUrl(SERVICE_ERROR , "error_500" , locale);
     }
 
     //서버에서 오류난경우 오류페이지로 리턴시킬때 사용.( 500 에러페이지 리턴! )
     @ExceptionHandler(PaymentErrorException.class)
-    public String PaymentErrorException(Exception e , Locale locale){
+    public String PaymentErrorException(HttpServletRequest request , PaymentErrorException e , Locale locale){
 
         String errorMsg = ExceptionUtils.getStackTrace(e);
         log.error(errorMsg);
         slackSender.sendMessage(errorMsg);
+        String backUrl = "";
+        switch (e.getPayKind()) {
+            case SAConst.PAYMENT_KIND_MEMBERSHIP:
+                backUrl = "/payment/member";
+                break;
+            case SAConst.PAYMENT_KIND_ACADEMY :
+                backUrl = "/payment/academy/"+e.getKeyMap().get("academy_no");
+                break;
+            case SAConst.PAYMENT_KIND_WORK:
+                backUrl = "/payment/sale/"+e.getKeyMap().get("sale_no")+"/lot/"+e.getKeyMap().get("lot_no");
+                break;
+        }
+
+        log.info("request : {}" , request.getParameterMap());
+
+        request.setAttribute("backUrl" , backUrl);
+        request.setAttribute("msg" , request.getParameter("AuthResultMsg"));
+        request.setAttribute("code" , request.getParameter("AuthResultCode"));
+
 
         return SAConst.getUrl(SERVICE_ERROR , "error_pay" , locale);
     }

@@ -155,7 +155,7 @@ public class PaymentService {
 
         CommonMap resultMap = null;
 
-        //결제 시 어떤 오류가 나든 오류가 나면 500 오류 페이지로 전달.
+        //결제 시 어떤 오류가 나든 오류가 나면 결제 오류 페이지로 전달.
         try{
 
             SAUserDetails details = SecurityUtils.getAuthenticationPrincipal();
@@ -183,7 +183,11 @@ public class PaymentService {
                 resultMap = insertPay(request);
             }
         }catch (Exception e){
-            throw new PaymentErrorException(e);
+            CommonMap map = new CommonMap();
+            map.put("academy_no" , request.getAttribute("academy_no"));
+            map.put("sale_no" , request.getAttribute("sale_no"));
+            map.put("lot_no" , request.getAttribute("lot_no"));
+            throw new PaymentErrorException((String) request.getAttribute("pay_kind"), e.getMessage() , map);
         }
 
         //결제 처리가 완료 시 디비 요청.
