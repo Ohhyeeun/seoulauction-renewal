@@ -28,16 +28,16 @@
                                     </p>
                                     <div class="alert-box">
                                         <p>
-                                            <em>실패 사유</em> <span> : 결제카드 한도 초과</span>
+                                            <em>실패 사유</em> <span> : ${msg}</span>
                                         </p>
                                         <p>
-                                            <em>실패 코드</em> <span> : 123213</span>
+                                            <em>실패 코드</em> <span> : ${code}</span>
                                         </p>
                                     </div>
                                 </div>
                                 <div class="article-footer">
                                     <div class="tac">
-                                        <a class="btn btn_point" href="#" role="button"><span>다시 결제하기</span></a>
+                                        <a class="btn btn_point" href="${backUrl}"  role="button"><span>다시 결제하기</span></a>
                                     </div>
                                 </div>
                             </article>
