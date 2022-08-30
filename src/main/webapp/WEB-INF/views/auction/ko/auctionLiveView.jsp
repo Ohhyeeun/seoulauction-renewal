@@ -135,7 +135,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="view_scale-area" ng-if="isUseViewScale">
+                                            <div class="view_scale-area" ><%--ng-if="isUseViewScale"--%>
                                                 <a class="js-popup_image_viewer" href="#">
                                                     <i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
                                             </div>
@@ -270,7 +270,7 @@
                                                 </div>
 
                                                 <%--년도--%>
-                                                <div ng-if="displayLotInfo.edition">
+                                                <div ng-if="displayLotInfo.makeYear">
                                                     <span ng-bind="displayLotInfo.makeYear"></span>
                                                 </div>
 
@@ -971,10 +971,10 @@
 
             //마감일
             displayLot.lotExpireDate = lotData.TITLE_JSON[locale];
-            
+
             //작품정보
             displayLot.mate = returnLocaleValOrEmptyStr(lotData.MATE_CD, locale); //재질
-            displayLot.sizeArray = returnLocaleValOrEmptyStr(JSON.parse(lotData.LOT_SIZE_ARRAY),locale); //규격
+            displayLot.sizeArray = JSON.parse(lotData.LOT_SIZE_ARRAY); //규격
             displayLot.edition = lotData.EDITION; //에디션
             displayLot.makeYear = returnLocaleValOrEmptyStr(lotData.MAKE_YEAR_JSON, locale); //제작년도
             displayLot.sign = returnLocaleValOrEmptyStr(lotData.SIGN_INFO_JSON, locale); //서명
@@ -990,10 +990,8 @@
 
             //artist 번호
             $scope.artistNo = lotData.ARTIST_NO;
-
-            // $scope.activeIndex = 0;
-
             $scope.displayLotInfo = displayLot;
+
             $scope.$apply();
         }
 
@@ -1170,7 +1168,7 @@
 
                 let viewScaleImages = $scope.viewScaleImages;
                 $scope.isUseViewScale = viewScaleImages.length > 0 && !$scope.lotInfo.IMAGE_MAGNIFY; // || viewScaleImages.isUseViewScale;
-
+                console.log(viewScaleImages.length && !$scope.lotInfo.IMAGE_MAGNIFY, $scope.isUseViewScale)
                 if($scope.isUseViewScale) {
                     const el = viewScaleImages[0];
                     let size1 = 0;
