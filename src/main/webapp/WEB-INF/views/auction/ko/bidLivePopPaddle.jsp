@@ -115,6 +115,13 @@
         }
         return outNum;
     }
+    //숫자를 천단위마다 콤마 해줌.
+    function numberWithCommas(x) {
+        if(x === undefined){
+            return x;
+        }
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
 </script>
 <body>
 <div class="pop_wrap">
@@ -130,9 +137,10 @@
                 <!-- 응찰 정보 표시 영역 -->
                 <div id="" ng-style="winHeight()" class="bid_livebox_table PaddNo_width" style="width:48% !important;height: 906px;float:left;">
                     <span id="paddNo" class="posi_ab Paddtit_blue" style="right:20px;">PADD NO. </span>
-                    <span id="lotNo" class="posi_ab ng-binding" style="left:20px;" ng-bind="'Lot. ' + curLot.LOT_NO"></span>
-                    <span id="bidKindTxt1" class="ng-binding" ng-bind="paddle|paddleTxt"></span>
+                    <span id="lotNo" class="posi_ab ng-binding" style="left:20px;">Lot. </span>
+                    <span id="bidKindTxt1" class="ng-binding"></span>
                 </div>
+                <div class="bidlive_currency" style="text-align:right;padding:3px;"><span>통화:</span>&nbsp;[KRW]</div>
                 <div class="col7 last bid_livebox clearfix" style="margin-left:2%;width:48%;float:left;">
                     <div class="fixed-table-container" style="height: auto;">
                         <div class="fixed-table-header"></div>
@@ -145,57 +153,66 @@
                                 </colgroup>
                                 <thead>
                                 <tr>
+<%--                                    <th scope="col">--%>
+<%--                                        <div class="th-text">--%>
+<%--                                            <span ng-if="locale == 'ko'">응찰금액</span>--%>
+<%--                                            <span ng-if="locale != 'ko'">Bid Price</span>--%>
+<%--                                        </div>--%>
+<%--                                    </th>--%>
+<%--                                    <th scope="col">--%>
+<%--                                        <div class="th-text">--%>
+<%--                                            <span ng-if="locale == 'ko'">기준통화</span>--%>
+<%--                                            <span ng-if="locale != 'ko'">Currency</span>--%>
+<%--                                        </div>--%>
+<%--                                    </th>--%>
+<%--                                    <th scope="col">--%>
+<%--                                        <div class="th-text">--%>
+<%--                                            <span ng-if="locale == 'ko'">응찰구분</span><span--%>
+<%--                                                ng-if="locale != 'ko'">Bidding</span>--%>
+<%--                                        </div>--%>
+<%--                                    </th>--%>
+<%--                                    <th scope="col">--%>
+<%--                                        <div class="th-text"><span ng-if="locale == 'ko'">ID</span><span--%>
+<%--                                                ng-if="locale != 'ko'">ID</span>--%>
+<%--                                        </div>--%>
+<%--                                    </th>--%>
+<%--                                    <th ng-show="bid.KIND_CD !='online'" scope="col">--%>
+<%--                                        <div class="th-text">--%>
+<%--                                            <span ng-if="locale == 'ko'">삭제</span><span--%>
+<%--                                                ng-if="locale != 'ko'">Delete</span>--%>
+<%--                                        </div>--%>
+<%--                                    </th>--%>
                                     <th scope="col">
-                                        <div class="th-text">
-                                            <span ng-if="locale == 'ko'">응찰금액</span>
-                                            <span ng-if="locale != 'ko'">Bid Price</span>
+                                        <div class="th-text client_th-text" style="width: 35%;"><span>Paddle No</span>
                                         </div>
                                     </th>
                                     <th scope="col">
-                                        <div class="th-text">
-                                            <span ng-if="locale == 'ko'">기준통화</span>
-                                            <span ng-if="locale != 'ko'">Currency</span>
-                                        </div>
-                                    </th>
-                                    <th scope="col">
-                                        <div class="th-text">
-                                            <span ng-if="locale == 'ko'">응찰구분</span><span
-                                                ng-if="locale != 'ko'">Bidding</span>
-                                        </div>
-                                    </th>
-                                    <th scope="col">
-                                        <div class="th-text"><span ng-if="locale == 'ko'">ID</span><span
-                                                ng-if="locale != 'ko'">ID</span>
-                                        </div>
-                                    </th>
-                                    <th ng-show="bid.KIND_CD !='online'" scope="col">
-                                        <div class="th-text">
-                                            <span ng-if="locale == 'ko'">삭제</span><span
-                                                ng-if="locale != 'ko'">Delete</span>
+                                        <div class="th-text client_th-text" style="width: 65%;">
+                                            <span>응찰금액</span>
                                         </div>
                                     </th>
                                 </tr>
                                 </thead>
                                 <tbody id="tblOffBidListBody">
-                                <tr ng-repeat="item in bidHist">
-                                    <td>
-                                        <span>{{item.bid_cost}}</span>
-                                    </td>
-                                    <td>
-                                        <span>KRW</span>
-                                    </td>
-                                    <td>
-                                        <span>{{item.bid_kind_cd}}</span>
-                                    </td>
-                                    <td>
-                                        <span>{{item.customer.user_id | userIdTxt}}</span>
-                                    </td>
-                                    <td ng-show="item.bid_kind_cd != 'online'">
-                                        <button type="button" class="btn_insert" ng-click="deletebid(item.bid_token);">
-                                            삭제
-                                        </button>
-                                    </td>
-                                </tr>
+<%--                                <tr ng-repeat="item in bidHist">--%>
+<%--                                    <td>--%>
+<%--                                        <span>{{item.bid_cost}}</span>--%>
+<%--                                    </td>--%>
+<%--                                    <td>--%>
+<%--                                        <span>KRW</span>--%>
+<%--                                    </td>--%>
+<%--                                    <td>--%>
+<%--                                        <span>{{item.bid_kind_cd}}</span>--%>
+<%--                                    </td>--%>
+<%--                                    <td>--%>
+<%--                                        <span>{{item.customer.user_id | userIdTxt}}</span>--%>
+<%--                                    </td>--%>
+<%--                                    <td ng-show="item.bid_kind_cd != 'online'">--%>
+<%--                                        <button type="button" class="btn_insert" ng-click="deletebid(item.bid_token);">--%>
+<%--                                            삭제--%>
+<%--                                        </button>--%>
+<%--                                    </td>--%>
+<%--                                </tr>--%>
                                 </tbody>
                             </table>
                         </div>
@@ -224,6 +241,7 @@
 
 <script>
 
+    let currentLotNo = 0; //진행중인 랏 번호
     // 현재가 처리
     app.filter('userIdTxt', function(){
         return function(val) {
@@ -329,37 +347,93 @@
             <%--   return;--%>
             <%--}--%>
             let run = async function () {
-                // 호출 부
-                const getSaleInfo = (saleNo) => {
-                    try {
-                        return axios.get('/api/auction/list/${saleNo}');
-                    } catch (error) {
-                        console.error(error);
-                    }
-                };
-
-                const getSaleImages = (saleNo, lotNo) => {
-                    try {
-                        return axios.get('/api/auction/sale_images/${saleNo}');
-                    } catch (error) {
-                        console.error(error);
-                    }
-                }
-
-                let [r1, r2] = await Promise.all([getSaleInfo($scope.saleNo),
-                    getSaleImages($scope.saleNo)]);
-                $scope.saleInfoAll = r1.data.data;
-                $scope.saleImages = r2.data.data;
-
-                for (let i = 0; i < $scope.saleInfoAll.length; i++) {
-                    if ($scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW != null) {
-                        $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW = $scope.saleInfoAll[i].EXPE_PRICE_FROM_JSON.KRW.toLocaleString('ko-KR');
-                        $scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW = $scope.saleInfoAll[i].EXPE_PRICE_TO_JSON.KRW.toLocaleString('ko-KR');
-                    }
-                }
-                $scope.$apply();
+                setInterval(await getPollingData, 1000);
             }
             run();
+        }
+
+        async function getPollingData(){
+            let [currentLotData] = await Promise.all([
+                getCurrentLotInfo($scope.saleNo)]);
+
+            const currentLotInfo = currentLotData.data.data;
+            currentLotNo = currentLotInfo.LOT_NO;
+            bindingCurrentLotInfo(currentLotInfo);
+
+            if(currentLotNo !== 0) {
+                const bidingData = await getCurrentLotBiddingInfo($scope.saleNo, currentLotNo);
+                const bidingInfo = bidingData.data.data;
+                bindingCurrentLotBidingInfo(bidingInfo);
+            }
+        }
+
+        const bindingCurrentLotInfo = (data) =>{
+            let lotNo = `Lot. ` + data.LOT_NO;
+            document.getElementById("lotNo").innerText = lotNo;
+        }
+
+        const bindingCurrentLotBidingInfo = (data) =>{
+            const bidData = data.BID_DATA;
+            /* bidding list */
+            let bidNoticeDom =``;
+            const el_notice = document.getElementById("tblOffBidListBody");
+            const el_padd = document.getElementById("bidKindTxt1");
+
+            if(bidData.length > 0){
+                // const el_notice = document.querySelector(`Rorr`);
+
+                // if(bidData[0].BID_NOTICE !== null){
+                //     const bidNotice = bidData[0].BID_NOTICE;
+                //     bidNoticeDom += `<tr>
+                //                         <td>
+                //                             <span>\${bidNotice}</span>
+                //                         </td>
+                //                     </tr>`
+                //     el_notice.innerHTML = bidNoticeDom;
+                // }
+                let bidRowDom =``;
+
+                bidData.filter(item => item.BID_NOTICE === null)
+                    .forEach(item => {
+                        const bidKind = item.BID_KIND_CD !== 'online'? "현장응찰" : item.ONLINE_BID_ID;
+                        const bidPrice = item.BID_PRICE !== null ? numberWithCommas(item.BID_PRICE) : item.BID_PRICE;
+                        bidRowDom += `<tr>
+                                            <td>
+                                                <span>\${bidKind}</span>
+                                            </td>
+                                            <td>
+                                                <span>\${bidPrice}</span>
+                                            </td>
+                                        </tr>`
+                    });
+                el_notice.innerHTML = bidRowDom;
+            }
+            else {
+                bidNoticeDom += `<tr>
+                                    <td colspan="2">
+                                        <span">곧 응찰이 시작됩니다.</span>
+                                    </td>
+                                </tr>`
+                el_notice.innerHTML = bidNoticeDom;
+            }
+        }
+
+        /*진행중인 랏 정보*/
+        function getCurrentLotInfo(){
+            try {
+                return axios.get('/api/auction/live/sales/${saleNo}/bidding-lot-now');
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        /*실시간 응찰 내역*/
+        function getCurrentLotBiddingInfo(saleNo, lotNo){
+            try {
+                return axios.get('/api/auction/live/sales/${saleNo}/lots/'+lotNo+'/site-bidding');
+            } catch (error) {
+                console.error(error);
+            }
         }
     });
 </script>
