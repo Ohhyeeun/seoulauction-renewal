@@ -9,7 +9,7 @@
         <div class="popup-layer">
           <div class="pop-panel">
             <div class="pop-header">
-              <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+              <a id="auth-modal-close-btn" class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
               <div class="title-box">
                 <span class="txt_title">온라인 경매 번호 인증</span>
               </div>
@@ -21,7 +21,7 @@
                 </div>
                 <div class="form-area">
                   <div class="form_label">
-                    <label for="name-1" class="mem_txt">휴대폰 인증</label>
+                    <label class="mem_txt">휴대폰 인증</label>
                     <i>*</i>
                   </div>
                   <div class="form_body">
@@ -33,9 +33,9 @@
                       <div class="form_body">
                         <div class="input-group">
                           <input type="text" id="auth-confirm-code" class="form-control" value="" placeholder="인증번호 입력">
-                          <button class="btn btn_light_gray_line" type="button"><span>인증</span></button>
+                          <button id="get-auth-btn" class="btn btn_light_gray_line" type="button"><span>인증</span></button>
                         </div>
-                        <p id="auth-input-message" class="error_text tb2" style="visibility: hidden;">안내 메시지 출력 영역</p>
+                        <p id="auth-input-message" class="error_text tb2"></p>
                       </div>
                     </div>
                   </div>
@@ -139,10 +139,10 @@
                 </div>
                 <div class="btn-area">
                   <div class="btn_set-float tac">
-                    <a class="btn btn_gray_line close-auth-modal-btn" href="#" role="button">
+                    <a id="auth-modal-cancel-btn" class="btn btn_gray_line" href="#" role="button">
                       <span>취소</span>
                     </a>
-                    <a class="btn btn_point confirm-auth-modal-btn" href="#" role="button">
+                    <a id="auth-modal-confirm-btn" class="btn btn_point" href="#" role="button">
                       <span>확인</span>
                     </a>
                   </div>
