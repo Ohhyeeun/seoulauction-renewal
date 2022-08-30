@@ -861,7 +861,6 @@
             const params = categoryVal === 'all' ? {} : { [categoryType] : categoryVal };
 
             const result = await getLotListInfo(params);
-            console.log(result);
             $scope.moLotList = result.data.data;
             $scope.lotTotalCount = $scope.moLotList.length;
 
@@ -998,7 +997,6 @@
 
 
         const setArtistInfo = (artistData) =>{
-            console.log(artistData)
             if(artistData){
                 const artistLayer = document.getElementById('artist_layer');
                 const artistName = artistData.NAME_JSON['ko'] + ' ' + artistData.NAME_JSON['en'];
@@ -1122,13 +1120,6 @@
                         sharedCount: 845,
                     },
                 })
-                /*
-                for (let i = 0 ; i < $scope.recentlyViews.length;i++) {
-                    if ($scope.recentlyViews[i].FAVORITE_YN === 'Y'){
-                        //console.log($("#recently_views .js-work_heart").eq(i).addClass("on"));
-                        $("#recently_views .js-work_heart").eq(i).addClass("on");
-                    }
-                }*/
 
                 // swiper
                 let view_visual = new Swiper(".js-view_visual .gallery_center", {
@@ -1169,7 +1160,7 @@
 
                 let viewScaleImages = $scope.viewScaleImages;
                 $scope.isUseViewScale = viewScaleImages.length > 0 && !$scope.lotInfo.IMAGE_MAGNIFY; // || viewScaleImages.isUseViewScale;
-                console.log(viewScaleImages.length && !$scope.lotInfo.IMAGE_MAGNIFY, $scope.isUseViewScale)
+                // console.log(viewScaleImages.length && !$scope.lotInfo.IMAGE_MAGNIFY, $scope.isUseViewScale)
                 if($scope.isUseViewScale) {
                     const el = viewScaleImages[0];
                     let size1 = 0;
@@ -1266,7 +1257,6 @@
                     let data = $(this).attr("data-swiper-slide-index");
                     let lot_no = $(this).find(".imageViewer").attr("lot_no");
                     if (lot_no === Scope().lot_no) {
-                        console.log(data, lot_no, Scope().lot_no);
                         $("#view_lot_no").attr("sel-data-index", lot_no);
                         $("#view_lot_no").html("LOT " + lot_no);
                     }
@@ -1371,8 +1361,6 @@
                 var panzoom = "";
 
                 function panzoom_set() {
-                    console.log("=====================>panzoom_set");
-
                     panzoom = Panzoom(zoom_range, {
                         /* disablePan: true, */
                         maxScale: 4, // (Default: 4)
@@ -1390,7 +1378,6 @@
                 }
 
                 function panzoom_reset() {
-                    console.log("-------------------------->panzoom_reset");
                     panzoom.reset();
                     panzoom.destroy();
                     panzoom = "";
@@ -1404,7 +1391,6 @@
 
                 /* === 스와이퍼 === */
                 /* [0708]  스크립트 수정 */
-                console.log("스와이퍼 set");
                 var imagesSwiperIndex = 0;
                 var imagesSwiper = new Swiper('.js-imagesSwiper .gallery_center', {
                     loop: true,
@@ -1459,7 +1445,6 @@
                 })
                 $('.images-popup .page_next').on('click', function ($e) {
                     $e.preventDefault();
-                    console.log("next")
                     imagesSwiper.slideNext();
                 })
 
