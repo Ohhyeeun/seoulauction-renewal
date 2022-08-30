@@ -76,6 +76,12 @@
     <script type="text/javascript" src="/js/old/ui.js"></script>
     <script type="text/javascript" src="/js/old/frontCommon.js"></script>
 
+    <%--Axios--%>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.js"></script>
+    <script defer src="/js/common/axios.js" type="text/javascript"></script>
+
+
+
 </head>
 <script>
     app.value('locale', 'ko');
@@ -83,43 +89,20 @@
     app.value('_csrf', '${_csrf.token}');
     app.value('_csrf_header', '${_csrf.headerName}');	// default header name is X-CSRF-TOKEN
 
+    /* API 호출 */
+    const getCurrencyInfo = (today) => {
+        try {
+            return axios.get('/api/auction/live/admin/currency/'+today);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     app.controller('currencyPopCtl', function($scope, common) {
 
         $scope.jsonCurrency = {};
         $scope.existFileDate = "";
-
-        $scope.init = function(){
-            $scope.today = $scope.getToday();
-            $scope.yesterday = $scope.getPast();
-
-            if($scope.isFileExist($scope.today)){
-                $scope.existFileDate = $scope.today;
-
-            }else if($scope.isFileExist($scope.yesterday)){
-                $scope.existFileDate = $scope.yesterday;
-            }else{
-                console.log("error");
-            }
-
-
-            $.ajaxSetup({async: false });
-            $.getJSON( "/js/currency/"+$scope.existFileDate+".json", function( data ) {
-
-                $scope.jsonCurrency = data;
-                $scope.krwBase = $scope.jsonCurrency["KRW"]
-                $scope.usdBase = $scope.jsonCurrency["USD"];
-                $scope.hkdBase = $scope.jsonCurrency["HKD"];
-                $scope.cnhBase = $scope.jsonCurrency["CNH"];
-                $scope.jpyBase = $scope.jsonCurrency["JPY"];
-                $scope.eurBase = $scope.jsonCurrency["EUR"];
-
-                $scope.dataResult = "LAST UPDATE : " + $scope.existFileDate + " KST (평일 오전 9시 업데이트)";
-
-            }).fail(function() {
-                $scope.dataResult = "데이터 호출 실패";
-            });
-
-        }
+        $scope.dataResult = "표시 데이터 없음";
 
         $scope.vCommaKRW = function() {
             var inNum = $scope.delComma($scope.krwInput);
@@ -141,26 +124,26 @@
             $scope.h_calEUR = (inNum/$scope.eurBase).toFixed(0);
         }
 
-        $scope.isFileExist = function(day){
-            var isExist = false;
-            $.ajaxSetup({async: false });
-            $.ajax({
-                url:'/js/currency/'+day+".json",
-                type:'HEAD',
-                success: function()
-                {
-                    console.log("file exists");
-                    isExist = true;
-                },
-                error: function()
-                {
-                    console.log("file not exists");
-                    isExist = false;
-                }
-            });
-
-            return isExist;
-        }
+        // $scope.isFileExist = function(day){
+        //     var isExist = false;
+        //     $.ajaxSetup({async: false });
+        //     $.ajax({
+        //         url:'/js/currency/'+day+".json",
+        //         type:'HEAD',
+        //         success: function()
+        //         {
+        //             console.log("file exists");
+        //             isExist = true;
+        //         },
+        //         error: function()
+        //         {
+        //             console.log("file not exists");
+        //             isExist = false;
+        //         }
+        //     });
+        //
+        //     return isExist;
+        // }
 
         $scope.getToday = function(){
             var today = new Date();
@@ -174,18 +157,18 @@
             return dateString;
         }
 
-        $scope.getPast = function(how){
-            var now = new Date();	// 현재 날짜 및 시간
-            var yesterday = new Date(now.setDate(now.getDate() - 1));	// 어제
-
-            var year = yesterday.getFullYear();
-            var month = ('0' + (yesterday.getMonth() + 1)).slice(-2);
-            var day = ('0' + yesterday.getDate()).slice(-2);
-
-            var dateString = year + '-' + month  + '-' + day;
-
-            return dateString;
-        }
+        // $scope.getPast = function(how){
+        //     var now = new Date();	// 현재 날짜 및 시간
+        //     var yesterday = new Date(now.setDate(now.getDate() - 1));	// 어제
+        //
+        //     var year = yesterday.getFullYear();
+        //     var month = ('0' + (yesterday.getMonth() + 1)).slice(-2);
+        //     var day = ('0' + yesterday.getDate()).slice(-2);
+        //
+        //     var dateString = year + '-' + month  + '-' + day;
+        //
+        //     return dateString;
+        // }
 
         $scope.delComma = function(str) {
             str = "" + str.replace(/,/gi,''); // 콤마 제거
@@ -193,6 +176,55 @@
             return (new Number(str));
         }
 
+        $scope.init = function(){
+            $scope.today = $scope.getToday();
+            // $scope.yesterday = $scope.getPast();
+
+            let run = async function () {
+                let [currencyData] = await Promise.all([
+                    getCurrencyInfo($scope.today)
+                ]);
+
+                $scope.jsonCurrency = currencyData.data.data;
+                $scope.krwBase = $scope.jsonCurrency["KRW"]
+                $scope.usdBase = $scope.jsonCurrency["USD"];
+                $scope.hkdBase = $scope.jsonCurrency["HKD"];
+                $scope.cnhBase = $scope.jsonCurrency["CNH"];
+                $scope.jpyBase = $scope.jsonCurrency["JPY"];
+                $scope.eurBase = $scope.jsonCurrency["EUR"];
+
+                $scope.dataResult = "LAST UPDATE : " + $scope.existFileDate + " KST (평일 오전 9시 업데이트)";
+
+                // if($scope.isFileExist($scope.today)){
+                //     $scope.existFileDate = $scope.today;
+                //
+                // }else if($scope.isFileExist($scope.yesterday)){
+                //     $scope.existFileDate = $scope.yesterday;
+                // }else{
+                //     console.log("error");
+                // }
+                //
+                //
+                // $.ajaxSetup({async: false });
+                // $.getJSON( "/js/currency/"+$scope.existFileDate+".json", function( data ) {
+                //
+                //     $scope.jsonCurrency = data;
+                //     $scope.krwBase = $scope.jsonCurrency["KRW"]
+                //     $scope.usdBase = $scope.jsonCurrency["USD"];
+                //     $scope.hkdBase = $scope.jsonCurrency["HKD"];
+                //     $scope.cnhBase = $scope.jsonCurrency["CNH"];
+                //     $scope.jpyBase = $scope.jsonCurrency["JPY"];
+                //     $scope.eurBase = $scope.jsonCurrency["EUR"];
+                //
+                //     $scope.dataResult = "LAST UPDATE : " + $scope.existFileDate + " KST (평일 오전 9시 업데이트)";
+                //
+                // }).fail(function() {
+                //     $scope.dataResult = "데이터 호출 실패";
+                // });
+
+            }
+            run();
+        }
     });
 
 </script>
