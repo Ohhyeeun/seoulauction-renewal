@@ -41,31 +41,31 @@
                                         <!-- [0803]결제완료코멘트 추가 -->
                                         <li class="comment_pay">
                                             <p class="tt1">가상계좌 신청이 완료 되었습니다.</p>
-<%--                                            <div class="desc-box">--%>
-<%--                                                <p class="tt6"><em>우리은행 603-3508001-8678</em></p>--%>
-<%--                                                <p class="tb1">예금주명 <em>서울옥션</em> 으로 2022년 07월 26일까지 입금해주세요.</p>--%>
-<%--                                            </div>--%>
-                                        </li>
-                                        <li>
-                                            <div class="account_info">
-                                                <p class="tit">가상계좌 정보</p>
-                                                <p class="txt tb1">
-                                                    <fmt:parseDate value="${resultMap.vbank_exp_dt}" var="vbank_exp_dt" pattern="yyyyMMdd"/>
-                                                    <fmt:formatDate value="${vbank_exp_dt}" var="vbank_exp_dt" pattern="yyyy-MM-dd"/>
-                                                    <span>${vbank_exp_dt}</span>까지 아래의<i class="br-mo"></i> 가상계좌로 결제금액을 입금해 주시기 바랍니다.
-                                                </p>
-                                                <ul class="pay_info tb1">
-                                                    <li>
-                                                        <span class="th">은행명</span>
-                                                        <span class="td"><strong>${resultMap.vbank_nm}</strong></span>
-                                                    </li>
-                                                    <li>
-                                                        <span class="th">계좌번호</span>
-                                                        <span class="td"><strong>${resultMap.vbank_num}</strong></span>
-                                                    </li>
-                                                </ul>
+                                            <div class="desc-box">
+                                                <p class="tt6"><em>${resultMap.vbank_nm} ${resultMap.vbank_num}</em></p>
+                                                <p class="tb1">예금주명 <em>서울옥션</em> 으로 ${vbank_exp_dt} 까지 입금해주세요.</p>
                                             </div>
                                         </li>
+<%--                                        <li>--%>
+<%--                                            <div class="account_info">--%>
+<%--                                                <p class="tit">가상계좌 정보</p>--%>
+<%--                                                <p class="txt tb1">--%>
+<%--                                                    <fmt:parseDate value="${resultMap.vbank_exp_dt}" var="vbank_exp_dt" pattern="yyyyMMdd"/>--%>
+<%--                                                    <fmt:formatDate value="${vbank_exp_dt}" var="vbank_exp_dt" pattern="yyyy-MM-dd"/>--%>
+<%--                                                    <span>${vbank_exp_dt}</span>까지 아래의<i class="br-mo"></i> 가상계좌로 결제금액을 입금해 주시기 바랍니다.--%>
+<%--                                                </p>--%>
+<%--                                                <ul class="pay_info tb1">--%>
+<%--                                                    <li>--%>
+<%--                                                        <span class="th">은행명</span>--%>
+<%--                                                        <span class="td"><strong>${resultMap.vbank_nm}</strong></span>--%>
+<%--                                                    </li>--%>
+<%--                                                    <li>--%>
+<%--                                                        <span class="th">계좌번호</span>--%>
+<%--                                                        <span class="td"><strong>${resultMap.vbank_num}</strong></span>--%>
+<%--                                                    </li>--%>
+<%--                                                </ul>--%>
+<%--                                            </div>--%>
+<%--                                        </li>--%>
                                         </c:if>
                                         <li>
                                             <p class="list_tit tt4">구매자 정보</p>
