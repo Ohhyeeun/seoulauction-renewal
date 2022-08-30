@@ -20,11 +20,11 @@ $(document).ready(function(){
         auctionEvent();
 
         //3초에 경매 데이터 재 갱신.
-        // if(isInterval) {
-        //     setInterval(function () {
-        //         auctionDataInit();
-        //     }, intervalTime);
-        // }
+        if(isInterval) {
+            setInterval(function () {
+                auctionDataInit();
+            }, intervalTime);
+        }
     }
 
     //옥션 데이터 가져오기!
