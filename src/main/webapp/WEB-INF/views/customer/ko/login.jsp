@@ -67,7 +67,7 @@
 									</div>
 									</c:if>
 									<div ng-hide="validCheck" class="error_wrap" id="loginFailMessage">
-										{{validMsg}}
+										<p>{{validMsg}}</p>
 									</div>
 
 									<article class="button-area login_btn">
