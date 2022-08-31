@@ -79,7 +79,7 @@
                                 <div class="info_box">
                                     <p><strong>안내사항</strong></p>
                                     <ul class="mark_dot-list tb2">
-                                        <li>아이디를 찾으실 수 없을 경우, 대표번호 <a href="tel:02-395-0330">02-395-0330로</a><br class="only-pc"> 연락바랍니다.</li>
+                                        <li>아이디를 찾으실 수 없을 경우, 대표번호 <a class="tel" href="tel:02-395-0330">02-395-0330</a>로<br class="only-pc"> 연락바랍니다.</li>
                                         <li>해외 국적으로 가입하신 회원은 서울옥션 영문홈페이지를<br class="only-pc"> 이용해 주세요.</li>
                                     </ul>
                                     <p class="info_txt">Please, foreigners use English pages.</p>
@@ -135,8 +135,8 @@
                         <div class="info_box">
                             <ul class="tb2 mark_dot-list">
                                 <li>개인정보 보호를 위해 아이디 일부는 *로 표시됩니다.</li>
-                                <li>아이디가 확인되지 않을 경우 이름과 등록시 입력한 이메일을 확인 후 다시 조회 부탁드립니다.</li>
-                                <li>아이디를 찾으실 수 없을 경우, 대표번호 <a href="tel:02-395-0330">02-395-0330</a>로 연락바랍니다.</li>
+                                <li>아이디가 확인되지 않을 경우, 이름과 등록 시 입력한 정보를 확인 후 다시 조회해 주세요.</li>
+                                <li>아이디를 찾으실 수 없을 경우, 대표번호 <a class="tel" href="tel:02-395-0330">02-395-0330</a>로 연락바랍니다.</li>
                             </ul>
                         </div>
                         <article class="button-area confirm_btn">
@@ -171,8 +171,8 @@
                     <div class="pop-body">
                         <div class="info_box">
                             <ul class="tb2 mark_dot-list">
-                                <li>아이디가 확인되지 않을 경우 이름과 등록시 입력한 이메일을 확인 후 다시 조회 부탁드립니다.</li>
-                                <li>아이디를 찾으실 수 없을 경우, 대표번호 <a href="tel:02-395-0330">02-395-0330</a>로 연락바랍니다.</li>
+                                <li>아이디가 확인되지 않을 경우, 이름과 등록 시 입력한 정보를 확인 후 다시 조회해 주세요.</li>
+                                <li>아이디를 찾으실 수 없을 경우, 대표번호 <a class="tel" href="tel:02-395-0330">02-395-0330</a>로 연락바랍니다.</li>
                             </ul>
                         </div>
                         <article class="button-area confirm_btn">
@@ -239,8 +239,8 @@
                         </div>
                         <div class="info_box">
                             <ul class="tb2 mark_dot-list">
-                                <li>아이디가 확인되지 않을 경우 이름과 등록시 입력한 이메일을 확인 후 다시 조회 부탁드립니다.</li>
-                                <li>아이디를 찾으실 수 없을 경우, 대표번호 <a href="tel:02-395-0330">02-395-0330</a>로 연락바랍니다.</li>
+                                <li>아이디가 확인되지 않을 경우, 이름과 등록 시 입력한 정보를 확인 후 다시 조회해 주세요.</li>
+                                <li>아이디를 찾으실 수 없을 경우, 대표번호 <a class="tel" href="tel:02-395-0330">02-395-0330</a>로 연락바랍니다.</li>
                             </ul>
                         </div>
                         <article class="button-area confirm_btn">
