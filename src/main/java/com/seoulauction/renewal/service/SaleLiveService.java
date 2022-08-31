@@ -15,10 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -235,9 +232,53 @@ public class SaleLiveService {
             map.put("cust_no" , 0);
         }
 
+        if(map.get("lot_no") != null) {
+            String[] lotNoArr = (String[]) map.get("lot_no");
+//            System.out.println("lotNo Array : "+ Arrays.toString(lotNoArr));
+            String lotNoStr = "";
+            for(int i = 0; i < lotNoArr.length; i++) {
+                if(i > 0) lotNoStr += ", " + lotNoArr[i];
+                else lotNoStr += lotNoArr[i];
+            }
+//            System.out.println("lotNo String : "+lotNoStr.toString());
+            map.put("lot_no" , lotNoStr);
+        }
+
         CommonMap resultMap = new CommonMap();
         resultMap.put("list" , saleLiveMapper.selectSaleList(map).stream().peek(this::settingLotData).collect(Collectors.toList()));
         resultMap.put("count" , saleLiveMapper.selectSaleListCount(map));
+
+        if(map.get("device") != null) {
+            List<CommonMap> saleList = (List<CommonMap>) resultMap.get("list");
+            log.info("saleList : {}", saleList);
+            List<CommonMap> saleListNew = new ArrayList<>();
+            CommonMap saleListNewItem;
+            if(map.get("device").equals("pc")) {
+                for (var item : saleList) {
+                    saleListNewItem = new CommonMap();
+                    saleListNewItem.put("LOT_NO", item.get("LOT_NO"));
+                    saleListNewItem.put("LOT_IMG_PATH", item.get("LOT_IMG_PATH"));
+                    saleListNewItem.put("LOT_IMG_NAME", item.get("LOT_IMG_NAME"));
+                    saleListNewItem.put("IMAGE_FULL_PATH", item.get("IMAGE_FULL_PATH"));
+                    saleListNew.add(saleListNewItem);
+                }
+            } else if(map.get("device").equals("mo")) {
+                for (var item : saleList) {
+                    saleListNewItem = new CommonMap();
+                    saleListNewItem.put("LOT_NO", item.get("LOT_NO"));
+                    saleListNewItem.put("LOT_IMG_PATH", item.get("LOT_IMG_PATH"));
+                    saleListNewItem.put("LOT_IMG_NAME", item.get("LOT_IMG_NAME"));
+                    saleListNewItem.put("IMAGE_FULL_PATH", item.get("IMAGE_FULL_PATH"));
+                    saleListNewItem.put("ARTIST_NAME_JSON", item.get("ARTIST_NAME_JSON"));
+                    saleListNewItem.put("LOT_TITLE_JSON", item.get("LOT_TITLE_JSON"));
+                    saleListNewItem.put("FAVORITE_YN", item.get("FAVORITE_YN"));
+                    saleListNew.add(saleListNewItem);
+                }
+            }
+
+            log.info("saleListNew : {}", saleListNew);
+            resultMap.put("list", saleListNew);
+        }
 
         return resultMap;
     }

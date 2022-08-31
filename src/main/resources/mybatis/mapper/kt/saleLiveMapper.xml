@@ -391,16 +391,23 @@
             WHERE
             L.SALE_NO = #{sale_no}
             AND L.WWW_DISP_YN = 'Y'
-            <if test="category !=null">
-                AND H.CD_ID = #{category}
-            </if>
-            <if test="tag !=null">
-                AND L.LOT_TAG = #{tag}
-            </if>
-            <if test="search != null and lang != null">
-                AND (COLUMN_GET(D.ARTIST_NAME_BLOB, #{lang} AS CHAR) like concat('%', #{search}, '%')
-                OR COLUMN_GET(L.TITLE_BLOB, #{lang} AS CHAR) like concat('%', #{search}, '%'))
-            </if>
+        <if test="lot_no != null">
+            AND L.LOT_NO IN (${lot_no})
+        </if>
+        <if test="device != null">
+            AND L.CLOSE_YN = 'N'
+            AND L.STAT_CD = 'entry'
+        </if>
+        <if test="category != null">
+            AND H.CD_ID = #{category}
+        </if>
+        <if test="tag != null">
+            AND L.LOT_TAG = #{tag}
+        </if>
+        <if test="search != null and lang != null">
+            AND (COLUMN_GET(D.ARTIST_NAME_BLOB, #{lang} AS CHAR) like concat('%', #{search}, '%')
+            OR COLUMN_GET(L.TITLE_BLOB, #{lang} AS CHAR) like concat('%', #{search}, '%'))
+        </if>
         GROUP BY
             L.LOT_NO
         ORDER BY
