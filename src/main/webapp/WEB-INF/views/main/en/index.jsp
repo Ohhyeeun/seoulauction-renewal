@@ -47,8 +47,8 @@
         <section class="container">
             <section class="flex_wrap sale-contents">
                 <figure class="sale-box">
-                    <img src="/images/pc/banner/buy.jpg" alt="buy img" class="pc-ver">
-                    <img src="/images/mobile/banner/buy.jpg" alt="buy img" class="m-ver">
+                    <img src="/images/pc/banner/buy.jpg" alt="buy img" class="pc-ver" loading="lazy">
+                    <img src="/images/mobile/banner/buy.jpg" alt="buy img" class="m-ver" loading="lazy">
                     <figcaption class="sale-boxinfo">
                         <h2 class="main-sectiontit sale-tit">Buy</h2>
                         <p>From membership registration to bidding,
@@ -57,8 +57,8 @@
                     </figcaption>
                 </figure>
                 <figure class="sale-box">
-                    <img src="/images/pc/banner/sell.jpg" alt="sell img" class="pc-ver">
-                    <img src="/images/mobile/banner/sell.jpg" alt="sell img" class="m-ver">
+                    <img src="/images/pc/banner/sell.jpg" alt="sell img" class="pc-ver" loading="lazy">
+                    <img src="/images/mobile/banner/sell.jpg" alt="sell img" class="m-ver" loading="lazy">
                     <figcaption class="sale-boxinfo">
                         <h2 class="main-sectiontit sale-tit">Sell</h2>
                         <p>We look forward to your valuable work. Contact Seoul Auction.</p>
@@ -78,8 +78,8 @@
                             </div>
                             <figure class="family-infoimg">
                                 <a href=https://www.auctionblue.com"  target="_blank">
-                                    <img src="/images/pc/banner/FamilyBanner_SaBlue_383x150.png" alt="Seoul Auction Blue" class="pc-ver">
-                                    <img src="/images/mobile/banner/FamilyBanner_SaBlue_520x204.png" alt="Seoul Auction Blue" class="m-ver">
+                                    <img src="/images/pc/banner/FamilyBanner_SaBlue_383x150.png" alt="Seoul Auction Blue" class="pc-ver" loading="lazy">
+                                    <img src="/images/mobile/banner/FamilyBanner_SaBlue_520x204.png" alt="Seoul Auction Blue" class="m-ver" loading="lazy">
                                 </a>
                             </figure>
                         </div>
@@ -90,8 +90,8 @@
                             </div>
                             <figure class="family-infoimg">
                                 <a href="https://sotwo.com" target="_blank">
-                                    <img src="/images/pc/banner/FamilyBanner_Sotwo_383x150.png" alt="SOTWO" class="pc-ver">
-                                    <img src="/images/mobile/banner/FamilyBanner_Sotwo_520x204.png" alt="SOTWO" class="m-ver">
+                                    <img src="/images/pc/banner/FamilyBanner_Sotwo_383x150.png" alt="SOTWO" class="pc-ver" loading="lazy">
+                                    <img src="/images/mobile/banner/FamilyBanner_Sotwo_520x204.png" alt="SOTWO" class="m-ver" loading="lazy">
                                 </a>
                             </figure>
                         </div>
@@ -102,8 +102,8 @@
                             </div>
                             <figure class="family-infoimg">
                                 <a href="https://printbakery.com"  target="_blank">
-                                    <img src="/images/pc/banner/FamilyBanner_PrintBakery_383x150.png" alt="프린트 베이커리" class="pc-ver">
-                                    <img src="/images/mobile/banner/FamilyBanner_PrintBakery_520x204.png" alt="프린트 베이커리" class="m-ver">
+                                    <img src="/images/pc/banner/FamilyBanner_PrintBakery_383x150.png" alt="프린트 베이커리" class="pc-ver" loading="lazy">
+                                    <img src="/images/mobile/banner/FamilyBanner_PrintBakery_520x204.png" alt="프린트 베이커리" class="m-ver" loading="lazy">
                                 </a>
                             </figure>
                         </div>
@@ -131,7 +131,6 @@
                         </a>
                     </div>
                 </div>
-
             </article>
         </section>
     </div>
