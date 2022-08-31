@@ -420,7 +420,8 @@
                 , data
             ).then(function (response) {
                 if(response.data.success){
-
+                    $scope.getdata();
+                    $scope.getOffBidData();
                 } else {
                     alert(response.data.data.msg);
                 }
