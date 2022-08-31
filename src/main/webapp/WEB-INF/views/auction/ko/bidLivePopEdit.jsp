@@ -600,7 +600,7 @@
                                 $scope.getOffBidData();
                             }, $scope.intervalTime);
                         }
-                    });
+                });
             //} else {
 
                 // $scope.lotSyncText = '랏 동기화';
