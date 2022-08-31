@@ -94,27 +94,6 @@
 </script>
 
 <script>
-    //[] <--문자 범위 [^] <--부정 [0-9] <-- 숫자
-    //[0-9] => \d , [^0-9] => \D
-    var rgx1 = /\D/g;  // /[^0-9]/g 와 같은 표현
-    var rgx2 = /(\d+)(\d{3})/;
-    function getNumber(obj) {
-        var num01;
-        var num02;
-        num01 = obj.value;
-        num02 = num01.replace(rgx1, "");
-        num01 = setComma(num02);
-        obj.value = num01;
-    }
-    function setComma(inNum) {
-        var outNum;
-        outNum = inNum;
-
-        while (rgx2.test(outNum)) {
-            outNum = outNum.replace(rgx2, '$1' + ',' + '$2');
-        }
-        return outNum;
-    }
     //숫자를 천단위마다 콤마 해줌.
     function numberWithCommas(x) {
         if(x === undefined){
@@ -126,7 +105,9 @@
 <body>
 <div class="pop_wrap">
     <div class="title"><h2>Seoul Auction LIVE</h2></div>
-    <div ng-controller="ctl" data-ng-init="load();">
+    <!-- container -->
+    <div id="container" >
+<%--    <div ng-controller="ctl" data-ng-init="load();">--%>
         <!--main -->
         <div class="cont">
             <div class="cont_title02"><h3>라이브 경매</h3></div><!--cont_title02-->
@@ -141,10 +122,10 @@
                     <span id="bidKindTxt1" class="ng-binding"></span>
                 </div>
                 <div class="bidlive_currency" style="text-align:right;padding:3px;"><span>통화:</span>&nbsp;[KRW]</div>
-                <div class="col7 last bid_livebox clearfix" style="margin-left:2%;width:48%;float:left;">
+                <div class="last bid_livebox clearfix" style="margin-left:2%;width:48%;float:left;">
                     <div class="fixed-table-container" style="height: auto;">
                         <div class="fixed-table-header"></div>
-                        <div  style="height: auto;">
+                        <div style="height: auto;">
                             <table id="tbl_employee" class="fixed-table">
                                 <colgroup>
                                     <col/>
@@ -153,67 +134,19 @@
                                 </colgroup>
                                 <thead>
                                 <tr>
-<%--                                    <th scope="col">--%>
-<%--                                        <div class="th-text">--%>
-<%--                                            <span ng-if="locale == 'ko'">응찰금액</span>--%>
-<%--                                            <span ng-if="locale != 'ko'">Bid Price</span>--%>
-<%--                                        </div>--%>
-<%--                                    </th>--%>
-<%--                                    <th scope="col">--%>
-<%--                                        <div class="th-text">--%>
-<%--                                            <span ng-if="locale == 'ko'">기준통화</span>--%>
-<%--                                            <span ng-if="locale != 'ko'">Currency</span>--%>
-<%--                                        </div>--%>
-<%--                                    </th>--%>
-<%--                                    <th scope="col">--%>
-<%--                                        <div class="th-text">--%>
-<%--                                            <span ng-if="locale == 'ko'">응찰구분</span><span--%>
-<%--                                                ng-if="locale != 'ko'">Bidding</span>--%>
-<%--                                        </div>--%>
-<%--                                    </th>--%>
-<%--                                    <th scope="col">--%>
-<%--                                        <div class="th-text"><span ng-if="locale == 'ko'">ID</span><span--%>
-<%--                                                ng-if="locale != 'ko'">ID</span>--%>
-<%--                                        </div>--%>
-<%--                                    </th>--%>
-<%--                                    <th ng-show="bid.KIND_CD !='online'" scope="col">--%>
-<%--                                        <div class="th-text">--%>
-<%--                                            <span ng-if="locale == 'ko'">삭제</span><span--%>
-<%--                                                ng-if="locale != 'ko'">Delete</span>--%>
-<%--                                        </div>--%>
-<%--                                    </th>--%>
                                     <th scope="col">
-                                        <div class="th-text client_th-text" style="width: 35%;"><span>Paddle No</span>
+                                        <div class="th-text client_th-text" style="width: 60%;">
+                                            <span>Paddle No</span>
                                         </div>
                                     </th>
                                     <th scope="col">
-                                        <div class="th-text client_th-text" style="width: 65%;">
+                                        <div class="th-text client_th-text" style="width: 20%;">
                                             <span>응찰금액</span>
                                         </div>
                                     </th>
                                 </tr>
                                 </thead>
-                                <tbody id="tblOffBidListBody">
-<%--                                <tr ng-repeat="item in bidHist">--%>
-<%--                                    <td>--%>
-<%--                                        <span>{{item.bid_cost}}</span>--%>
-<%--                                    </td>--%>
-<%--                                    <td>--%>
-<%--                                        <span>KRW</span>--%>
-<%--                                    </td>--%>
-<%--                                    <td>--%>
-<%--                                        <span>{{item.bid_kind_cd}}</span>--%>
-<%--                                    </td>--%>
-<%--                                    <td>--%>
-<%--                                        <span>{{item.customer.user_id | userIdTxt}}</span>--%>
-<%--                                    </td>--%>
-<%--                                    <td ng-show="item.bid_kind_cd != 'online'">--%>
-<%--                                        <button type="button" class="btn_insert" ng-click="deletebid(item.bid_token);">--%>
-<%--                                            삭제--%>
-<%--                                        </button>--%>
-<%--                                    </td>--%>
-<%--                                </tr>--%>
-                                </tbody>
+                                <tbody id="tblOffBidListBody"></tbody>
                             </table>
                         </div>
                     </div>
@@ -222,6 +155,7 @@
             </div> <!--onepcssgrid-1200-->
         </div> <!--cont-->
     </div> <!--liveAuctionCtl-->
+    <!-- //container -->
 
     <!--footer-->
     <div style="background-color:#e4e4e4; padding:10px; text-align:left;">
@@ -241,163 +175,68 @@
 
 <script>
 
-    let currentLotNo = 0; //진행중인 랏 번호
-    // 현재가 처리
-    app.filter('userIdTxt', function(){
-        return function(val) {
-            if (val === undefined) {
-                return '현장응찰';
-            }
-            return (val === '')?'현장응찰':val;
-        };
-    })
+    const saleNo = ${saleNo};   //경매번호
+    let currentLotNo = 0;       //진행중인 랏 번호
 
-    // 현재가 처리
-    app.filter('paddleTxt', function(){
-        return function(val) {
-            if (val === undefined) {
-                return '현장';
-            }
-            return (val === '' || val.toString() === '0')?'현장':val;
-        };
-    })
+    window.onload = async () => {
+        await init();
+    }
 
-    // 현재가 처리
-    app.filter('currency', function(){
-        return function(val) {
-            return val.toLocaleString('ko-KR');
-        };
-    })
+    async function init (){
+        setInterval(await getPollingData, 1000);
+    }
 
-    app.controller('ctl', function ($scope, consts, common, locale, $filter) {
+    // app.controller('ctl', function ($scope, consts, common, locale, $filter) {});
 
-        // 로케일
-        $scope.locale = locale;
+    // 호출 부
+    // $scope.load = function () {
+        <%--if (${member.userNo} === 0){--%>
+        <%--   location.href = "/login";--%>
+        <%--   return;--%>
+        <%--}--%>
+    //     let run = async function () {
+    //         setInterval(await getPollingData, 1000);
+    //     }
+    //     run();
+    // }
 
-        // 경매번호
-        $scope.saleNo = ${saleNo};
+    async function getPollingData(){
+        let [currentLotData] = await Promise.all([
+            getCurrentLotInfo(saleNo)
+        ]);
 
-        // 접속자 수
-        $scope.viewers = 0;
+        const currentLotInfo = currentLotData.data.data;
+        currentLotNo = currentLotInfo.LOT_NO;
+        bindingCurrentLotInfo(currentLotInfo);
 
-
-        // 패들정보
-        $scope.paddNo = 0;
-        // 현재 랏 정보
-        $scope.curLot = {};
-
-        // 로그인아이디정보(임직원)
-        $scope.userId = '${member.loginId}';
-        $scope.custNo = ${member.userNo};
-        $scope.newLot = 1;
-
-        $scope.bidToken = "";
-
-        $scope.qoute_list =[{
-            step:100000
-        },{
-            step:200000
-        },{
-            step:300000
-        },{
-            step:500000
-        },{
-            step:1000000
-        }]
-
-        //안내
-        $scope.notice = {
-            msg: "라이브 경매에 오신것을 환영합니다.",
+        if(currentLotNo !== 0) {
+            const bidingData = await getCurrentLotBiddingInfo(saleNo, currentLotNo);
+            const bidingInfo = bidingData.data.data;
+            bindingCurrentLotBidingInfo(bidingInfo);
         }
+    }
 
-        // 응찰내역
-        $scope.bidHist = [];
+    const bindingCurrentLotInfo = (data) =>{
+        let lotNo = `Lot. ` + data.LOT_NO;
+        document.getElementById("lotNo").innerText = lotNo;
+    }
 
-        $scope.paddle = 0;
+    const bindingCurrentLotBidingInfo = (data) =>{
+        const bidData = data.BID_DATA;
+        let bidNoticeDom =``;
+        const el_notice = document.getElementById("tblOffBidListBody");
+        const el_padd = document.getElementById("bidKindTxt1");
 
-        //랏 이동
-        $scope.lotmove = function (step) {
-        }
+        if(bidData.length > 0){
+            const paddNoLastBid = bidData[0].ONLINE_BID_ID === null ? "현장" : bidData[0].ONLINE_BID_ID;
+            el_padd.innerText = paddNoLastBid;
 
-        // 랏 동기화
-        $scope.lotsync = function () {
-        }
-
-        // 낙찰
-        $scope.lotwinner = function (lotNo) {
-        }
-        // 비딩 삭제
-        $scope.deletebid = function (bidToken) {
-        }
-        // cost 변경
-        $scope.biddown = function (cost) {
-        }
-        $scope.bidup = function (cost) {
-        }
-        // 현재가 조정
-        $scope.bidchange = function () {
-        }
-        // 응찰
-        $scope.bid = function () {
-        }
-        // 호출 부
-        $scope.load = function () {
-            <%--if (${member.userNo} === 0){--%>
-            <%--   location.href = "/login";--%>
-            <%--   return;--%>
-            <%--}--%>
-            let run = async function () {
-                setInterval(await getPollingData, 1000);
-            }
-            run();
-        }
-
-        async function getPollingData(){
-            let [currentLotData] = await Promise.all([
-                getCurrentLotInfo($scope.saleNo)]);
-
-            const currentLotInfo = currentLotData.data.data;
-            currentLotNo = currentLotInfo.LOT_NO;
-            bindingCurrentLotInfo(currentLotInfo);
-
-            if(currentLotNo !== 0) {
-                const bidingData = await getCurrentLotBiddingInfo($scope.saleNo, currentLotNo);
-                const bidingInfo = bidingData.data.data;
-                bindingCurrentLotBidingInfo(bidingInfo);
-            }
-        }
-
-        const bindingCurrentLotInfo = (data) =>{
-            let lotNo = `Lot. ` + data.LOT_NO;
-            document.getElementById("lotNo").innerText = lotNo;
-        }
-
-        const bindingCurrentLotBidingInfo = (data) =>{
-            const bidData = data.BID_DATA;
-            /* bidding list */
-            let bidNoticeDom =``;
-            const el_notice = document.getElementById("tblOffBidListBody");
-            const el_padd = document.getElementById("bidKindTxt1");
-
-            if(bidData.length > 0){
-                // const el_notice = document.querySelector(`Rorr`);
-
-                // if(bidData[0].BID_NOTICE !== null){
-                //     const bidNotice = bidData[0].BID_NOTICE;
-                //     bidNoticeDom += `<tr>
-                //                         <td>
-                //                             <span>\${bidNotice}</span>
-                //                         </td>
-                //                     </tr>`
-                //     el_notice.innerHTML = bidNoticeDom;
-                // }
-                let bidRowDom =``;
-
-                bidData.filter(item => item.BID_NOTICE === null)
-                    .forEach(item => {
-                        const bidKind = item.BID_KIND_CD !== 'online'? "현장응찰" : item.ONLINE_BID_ID;
-                        const bidPrice = item.BID_PRICE !== null ? numberWithCommas(item.BID_PRICE) : item.BID_PRICE;
-                        bidRowDom += `<tr>
+            let bidRowDom =``;
+            bidData.filter(item => item.BID_NOTICE === null)
+                .forEach(item => {
+                    const bidKind = item.BID_KIND_CD !== 'online'? "현장응찰" : item.ONLINE_BID_ID;
+                    const bidPrice = item.BID_PRICE !== null ? numberWithCommas(item.BID_PRICE) : item.BID_PRICE;
+                    bidRowDom += `<tr>
                                             <td>
                                                 <span>\${bidKind}</span>
                                             </td>
@@ -405,37 +244,37 @@
                                                 <span>\${bidPrice}</span>
                                             </td>
                                         </tr>`
-                    });
-                el_notice.innerHTML = bidRowDom;
-            }
-            else {
-                bidNoticeDom += `<tr>
-                                    <td colspan="2">
+                });
+            el_notice.innerHTML = bidRowDom;
+        }
+        else {
+            bidNoticeDom += `<tr>
+                                    <td colspan="3">
                                         <span">곧 응찰이 시작됩니다.</span>
                                     </td>
                                 </tr>`
-                el_notice.innerHTML = bidNoticeDom;
-            }
+            el_notice.innerHTML = bidNoticeDom;
         }
+    }
 
-        /*진행중인 랏 정보*/
-        function getCurrentLotInfo(){
-            try {
-                return axios.get('/api/auction/live/sales/${saleNo}/bidding-lot-now');
-            } catch (error) {
-                console.error(error);
-            }
+    /*진행중인 랏 정보*/
+    function getCurrentLotInfo(){
+        try {
+            return axios.get('/api/auction/live/sales/'+saleNo+'/bidding-lot-now');
+        } catch (error) {
+            console.error(error);
         }
+    }
 
-        /*실시간 응찰 내역*/
-        function getCurrentLotBiddingInfo(saleNo, lotNo){
-            try {
-                return axios.get('/api/auction/live/sales/${saleNo}/lots/'+lotNo+'/site-bidding');
-            } catch (error) {
-                console.error(error);
-            }
+    /*실시간 응찰 내역*/
+    function getCurrentLotBiddingInfo(saleNo, lotNo){
+        try {
+            return axios.get('/api/auction/live/sales/'+saleNo+'/lots/'+lotNo+'/site-bidding');
+        } catch (error) {
+            console.error(error);
         }
-    });
+    }
+
 </script>
 </body>
 </html>
