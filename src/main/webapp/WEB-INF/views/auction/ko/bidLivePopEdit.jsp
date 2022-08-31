@@ -207,8 +207,7 @@
                                             ng-bind="curLot.LOT_NO"></span></strong></span>
                                 <!-- 자세히보기 버튼 구성 -->
 									<span class="btn_style01 green02" style="margin-left:10px;">
-										<a ng-href="{{'http://re-dev.seoulauction.com/auction/live/view/' +
-										 curLot.SALE_NO + '/' + curLot.LOT_NO}}"
+										<a ng-href="{{'/auction/live/view/' + curLot.SALE_NO + '/' + curLot.LOT_NO}}"
                                            target="new">
 										<span ng-if="locale == 'ko'">자세히 보기</span><span
                                                 ng-if="locale != 'ko'">Detail</span></a>
@@ -351,9 +350,9 @@
                                                                                       ng-click="lotmove(1);">+</button></span>
                                 &nbsp;
                                 <span class="btn_style01 green02 bidlive_btn"><button type="button" ng-click="lotsync();">{{lotSyncText}}</button></span>
-                                <span class="btn_style01 green02 bidlive_btn"><button type="button" ng-click="lotwinner();">
-                                    <span ng-if="lot.LIVE_CLOSE_YN == 'Y'" style="color:red; font-weight:bold;">LOT 경매 시작</span>
-                                    <span ng-if="lot.LIVE_CLOSE_YN != 'Y'" style="color:blue; font-weight:bold;">LOT 마감</span></button>
+                                <span class="btn_style01 green02 bidlive_btn"><button type="button" ng-click="lotClose();">
+                                    <span ng-if="curLot.LIVE_CLOSE_YN" style="color:red; font-weight:bold;">LOT 경매 시작</span>
+                                    <span ng-if="!curLot.LIVE_CLOSE_YN" style="color:blue; font-weight:bold;" >LOT 마감</span></button>
                                 </span>
                             </div>
                         </div>
@@ -610,8 +609,37 @@
             //}
         }
 
-        // 낙찰
-        $scope.lotwinner = function (lotNo) {
+        // 랏 경매 시작 / 종료 처리.
+        $scope.lotClose = function () {
+            //랏 경매 시작 처리.
+            axios.post('/api/auction/live/admin/sales/' + $scope.saleNo + '/lots/' + $scope.newLot + '/lot-close')
+                .then(function (response) {
+
+                    if (response.data.success) {
+                        // 랏 시작 일경우.
+                        if($scope.curLot.LIVE_CLOSE_YN) {
+                            //응찰이 시작되었습니다. 텍스트 고고
+                            let data = {};
+                            data['bidKindCd'] = 'floor';
+                            data['bidPrice'] = null;
+                            data['bidNotice'] = '응찰이 시작되었습니다.';
+                            data['bidNoticeEn'] = 'Bidding Started';
+
+                            axios.post('/api/auction/live/sales/' + $scope.saleNo + '/lots/' + $scope.newLot + '/offline-bidding'
+                                , data
+                            ).then(function (response) {
+                                if (response.data.success) {
+                                    $scope.getOffBidData();
+                                    $scope.getdata();
+                                }
+                            });
+                        } else {
+                            $scope.getOffBidData();
+                            $scope.getdata();
+                        }
+                    }
+            });
+
         }
         // 비딩 삭제
         $scope.deletebid = function (bidNo) {
@@ -683,13 +711,44 @@
             }
 
         }
-        $scope.bidup = function (cost) {
-        }
         // 현재가 조정
         $scope.bidchange = function () {
+
+            let data = {};
+            data['bidKindCd'] = 'price_change';
+            data['bidPrice'] = $scope.bid_change_cost.replaceAll(',','');
+            data['bidNotice'] = null;
+            data['bidNoticeEn'] = null;
+
+            axios.post('/api/auction/live/sales/' + $scope.saleNo + '/lots/' + $scope.newLot + '/offline-bidding'
+                , data
+            ).then(function(response) {
+
+                if(response.data.success){
+                    $scope.getOffBidData();
+                }
+            });
+
         }
         // 응찰
         $scope.bid = function () {
+
+            let data = {};
+            data['bidKindCd'] = 'floor';
+            data['bidPrice'] = $scope.bid_change_cost.replaceAll(',','');
+            data['bidNotice'] = null;
+            data['bidNoticeEn'] = null;
+
+            axios.post('/api/auction/live/sales/' + $scope.saleNo + '/lots/' + $scope.newLot + '/offline-bidding'
+                , data
+            ).then(function(response) {
+
+                if(response.data.success){
+                    $scope.getOffBidData();
+                } else {
+                    alert(response.data.data.msg);
+                }
+            });
         }
 
         // 호출 부

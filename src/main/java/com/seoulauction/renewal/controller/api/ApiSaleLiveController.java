@@ -537,6 +537,8 @@ public class ApiSaleLiveController {
             "<b>floor</b> -> bid_price 값 필수.  bid_notice 값이 있을경우는 공지로 인식.\n") @RequestBody OfflineBiddingForm offlineBiddingForm
             ) {
 
+        log.info("offlineBiddingForm : {} " , offlineBiddingForm);
+
         saleLiveService.insertOfflineBidding(saleNo , lotNo , offlineBiddingForm);
 
         return ResponseEntity.ok(RestResponse.ok());
