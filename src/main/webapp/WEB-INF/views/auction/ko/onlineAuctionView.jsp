@@ -219,6 +219,7 @@
 </div>
 
 <!-- Popup List -->
+<jsp:include page="popup/onlineLotListPopupMobile.jsp" />
 <jsp:include page="popup/onlineFeePopup.jsp" />
 <jsp:include page="popup/onlineGrowPricePopup.jsp" />
 <jsp:include page="popup/onlineAuthPhonePopup.jsp" />

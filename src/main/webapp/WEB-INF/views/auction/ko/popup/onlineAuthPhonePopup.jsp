@@ -3,13 +3,12 @@
 <!-- 번호인증 팝업 -->
 <template id="online-auth-phone-popup">
   <div id="popup_online_confirm-wrap" class="trp popupfixed-wrap online_confirm-popup">
-    <!-- <div class="popup-dim"></div> -->
     <div class="popup-align mode-ms mode-mb_full">
       <div class="popup-vertical">
         <div class="popup-layer">
           <div class="pop-panel">
             <div class="pop-header">
-              <a id="auth-modal-close-btn" class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
+              <a class="btn_close icon-pop_close js-closepop" href="#" title="닫기">X</a>
               <div class="title-box">
                 <span class="txt_title">온라인 경매 번호 인증</span>
               </div>
@@ -80,7 +79,7 @@
                         <div class="header-area">
                           <div class="accordion_name">
                             <div class="trp checkbox-box">
-                              <input id="checkbox_all" class="js_all" type="checkbox" name="">
+                              <input id="checkbox_all" class="js_all" type="checkbox">
                               <i></i>
                               <label for="checkbox_all">약관에 모두 동의합니다.</label>
                             </div>
@@ -91,7 +90,7 @@
                         </div>
                         <div class="con-area">
                           <div class="con-body">
-                            <div class="text-area check_item">
+                            <div class="text-area  check_item ">
                               <ul class="">
                                 <li>
                                   <div class="trp checkbox-box">
