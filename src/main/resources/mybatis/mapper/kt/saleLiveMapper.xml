@@ -122,11 +122,11 @@
               L.SALE_NO = #{sale_no}
           --  and L.STAT_CD = 'entry'
           and L.WWW_DISP_YN = 'Y'
-        <if test="lot_no == null" >
+        <if test="reentry == null" >
           and L.LIVE_ING_YN = 'Y'
         </if>
-        <if test="lot_no != null" >
-            and L.LOT_NO = #{lot_no}
+        <if test="reentry != null and reentry" >
+            and L.STAT_CD != 'reentry'
         </if>
         group by
             L.LOT_NO

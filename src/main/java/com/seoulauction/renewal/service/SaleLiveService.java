@@ -62,7 +62,7 @@ public class SaleLiveService {
 
         //만약 라이브경매값이 없는경우 첫번째 랏을 리턴.
         if(result == null) {
-            map.put("lot_no" , 1);
+            map.put("reentry" , true);
             result = saleLiveMapper.selectLiveSaleLotByOne(map);
             result.settingJsonStrToObject();
             result.settingYNValueToBoolean();
