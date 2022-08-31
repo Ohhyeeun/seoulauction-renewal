@@ -23,9 +23,8 @@
                                     <div class="txt_wrap tt6">
                                         <ul class="mark_dot-list">
                                             <li>비밀번호의 경우, 암호화 저장되어 분실 시 찾아드릴 수 없습니다.</li>
-                                            <li><em class="infoFind infoFind0">회원정보에 등록된 모바일로 임시 비밀번호를 발송</em>
-                                                <em class="infoFind infoFind1" style="display: none;">회원정보에 등록된 이메일로 임시 비밀번호를 발송</em>
-                                                해 드립니다.</li>
+                                            <li class="infoFind infoFind0"><em>회원정보에 등록된 휴대폰으로 임시 비밀번호를 발송</em>해 드립니다.</li>
+                                            <li class="infoFind infoFind1" style="display: none;"><em>회원정보에 등록된 이메일로 임시 비밀번호를 발송</em>해 드립니다.</li>
                                         </ul>
                                     </div>
                                     <!--[2022-0503]//-->
