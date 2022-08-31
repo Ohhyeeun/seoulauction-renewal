@@ -356,14 +356,17 @@
 
     <select id="selectCurrentLotInfo" parameterType="CommonMap" resultType="CommonMap">
     <![CDATA[
-        select S.TO_DT FROM_DT, (select TO_DT from LOT L WHERE L.STAT_CD = 'entry' AND L.SALE_NO = S.SALE_NO ORDER BY L.LOT_NO DESC LIMIT 1) TO_DT
-            , L.LOT_NO, (select COLUMN_JSON(AT.ARTIST_NAME_BLOB) from ARTIST AT where AT.ARTIST_NO = L.ARTIST_NO) ARTIST_NAME_JSON
-        from SALE S
-            join LOT L on S.SALE_NO = L.SALE_NO and L.WWW_DISP_YN = 'Y' and L.STAT_CD != 'reentry'
-        where DATE_ADD(S.TO_DT, INTERVAL -1 minute) <= now()
-            and L.TO_DT >= now()
-            and S.SALE_NO = #{sale_no}
-        order by LOT_NO limit 1
+        select DATE_ADD(S.TO_DT, INTERVAL -1 minute) FROM_DT, (select TO_DT from LOT L WHERE L.STAT_CD = 'entry' AND L.SALE_NO = S.SALE_NO  ORDER BY L.LOT_NO DESC LIMIT 1) TO_DT
+            , GA.LOT_NO, GA.ARTIST_NAME_JSON
+        from SALE S left outer join (
+            select S.SALE_NO, L.LOT_NO, (select COLUMN_JSON(AT.ARTIST_NAME_BLOB) from ARTIST AT where AT.ARTIST_NO = L.ARTIST_NO) ARTIST_NAME_JSON
+            from SALE S join LOT L on S.SALE_NO = L.SALE_NO and L.WWW_DISP_YN = 'Y' and L.STAT_CD != 'reentry'
+            where S.SALE_NO = #{sale_no}
+                and DATE_ADD(S.TO_DT, INTERVAL -1 minute) <= now()
+                and L.TO_DT >= now()
+            order by LOT_NO limit 1
+            ) GA on S.SALE_NO = GA.SALE_NO
+        where S.SALE_NO = #{sale_no}
      ]]>
     </select>
 
