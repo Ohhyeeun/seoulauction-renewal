@@ -100,7 +100,7 @@
                                                 <div class="count tb1">
                                                     <span>ALL <em ng-bind="lotTotalCount"></em></span>
                                                 </div>
-                                                <div class="select-box only-pc">
+                                                <div class="select-box">
                                                     <div class="trp-dropdown-area h42-line">
                                                         <button class="js-dropdown-btn">
                                                             <span>LOT</span><i class="form-select_arrow_md"></i>
@@ -131,12 +131,12 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="select-box js-lotbox-slct only-mb">
+                                                <%--<div class="select-box js-lotbox-slct only-mb">
                                                     <button class="js-lotbox-btn">
                                                         <span>LOT</span>
                                                         <i class="slct-arrow"></i>
                                                     </button>
-                                                </div>
+                                                </div>--%>
                                             </div>
                                             <%--검색, 정렬필터, 페이지 방식--%>
                                             <div class="col_item mb-col2">
