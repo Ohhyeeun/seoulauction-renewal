@@ -947,7 +947,6 @@
         }
 
         const renderRecentLots = (data) => {
-            console.log(data);
             let returnDom = ``;
             data.forEach(l => {
                 const item = {};
@@ -1089,11 +1088,9 @@
 
                 //TODO:최근본작품
                 await addRecentLots(SALE_NO, LOT_NO);
-                //TODO:최근본작품 render
                 const recentLots = await getRecentLots(SALE_NO);
+                //TODO:작품데이터 API 호출
                 await renderRecentLots(recentLots);
-                console.log(recentLots);
-
 
 
                 // swiper
