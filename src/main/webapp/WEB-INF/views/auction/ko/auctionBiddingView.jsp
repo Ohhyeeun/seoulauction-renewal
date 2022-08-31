@@ -629,7 +629,7 @@
 
             const noticeList = noticesData.data.data;
             if(noticeList.length > 0){
-                // bindingNoticeInfo(noticeList);
+                bindingNoticeInfo(noticeList);
             }
 
             const currentLotInfo = currentLotData.data.data;
@@ -1048,80 +1048,79 @@
                                                 </div>
                                             </div>
                                             \${classForDevice === '.pcVer' ?
-                                                `<div class="item-cont">
-                        <div class="num"><span class="snum">\${item.LOT_NO}</span>\${isCurrent? liveBadge : ``}</div>
-                    <div class="title"><span>\${ artistName }</span></div>
-                    <div class="desc"><span>\${ lotTitle }</span></div>
-                    <div class="price ">
-                        \${ isClosed ? `<span style='color:#DB1B1B'>낙찰가 \${baseCurrency} \${numberWithCommas(item.MAX_BID_PRICE)}</span>` : `<span>\${baseCurrency} \${numberWithCommas(item.EXPE_PRICE_FROM_JSON[baseCurrency])}~\${numberWithCommas(item.EXPE_PRICE_TO_JSON[baseCurrency])}</span>`}
-                                                    </div>
-                                                </div>`
-                :
-                    `<div class="item-cont">
-                                                    <div class="num-box">
-                                                        <div class="num"><span class="snum">\${item.LOT_NO}</span></div>
-                                                    </div>
-                                                    <div class="typo-box">
-                                                        <div class="title"><span>\${artistName}</span></div>
-                                                        <div class="desc"><span>\${lotTitle}</span></div>
-                                                    </div>
-                                                    <div class="btn-box">
-                                                        <button id="btnFav\${item.LOT_NO}" data-status="\${isFavoriteStatus}" onclick="toggleFavoriteLot(event,\${item.LOT_NO})" class="btn-lotChk js-work_heart \${isFavoriteStatus}">Favorite</button>
-                                                    </div>
-                                               </div>`
+                                            `<div class="item-cont">
+                                                    <div class="num"><span class="snum">\${item.LOT_NO}</span>\${isCurrent? liveBadge : ``}</div>
+                                                <div class="title"><span>\${ artistName }</span></div>
+                                                <div class="desc"><span>\${ lotTitle }</span></div>
+                                                <div class="price ">
+                                                    \${ isClosed ? `<span style='color:#DB1B1B'>낙찰가 \${baseCurrency} \${numberWithCommas(item.MAX_BID_PRICE)}</span>` : `<span>\${baseCurrency} \${numberWithCommas(item.EXPE_PRICE_FROM_JSON[baseCurrency])}~\${numberWithCommas(item.EXPE_PRICE_TO_JSON[baseCurrency])}</span>`}
+                                                </div>
+                                            </div>`
+                                            :
+                                            `<div class="item-cont">
+                                                <div class="num-box">
+                                                    <div class="num"><span class="snum">\${item.LOT_NO}</span></div>
+                                                </div>
+                                                <div class="typo-box">
+                                                    <div class="title"><span>\${artistName}</span></div>
+                                                    <div class="desc"><span>\${lotTitle}</span></div>
+                                                </div>
+                                                <div class="btn-box">
+                                                    <button id="btnFav\${item.LOT_NO}" data-status="\${isFavoriteStatus}" onclick="toggleFavoriteLot(event,\${item.LOT_NO})" class="btn-lotChk js-work_heart \${isFavoriteStatus}">Favorite</button>
+                                                </div>
+                                           </div>`
+                                            }
+                                        </div>
+                                        \${classForDevice === '.pcVer'? `<button id="btnFav\${item.LOT_NO}" data-status="\${isFavoriteStatus}" onclick="toggleFavoriteLot(event,\${item.LOT_NO})" class="btn-lotChk js-work_heart \${isFavoriteStatus}">Favorite</button>` : ``}
+                                        </li>`;
                 }
-            </div>
-                \${classForDevice === '.pcVer'? `<button id="btnFav\${item.LOT_NO}" data-status="\${isFavoriteStatus}" onclick="toggleFavoriteLot(event,\${item.LOT_NO})" class="btn-lotChk js-work_heart \${isFavoriteStatus}">Favorite</button>` : ``}
-                </li>`;
-            }
-
-        });
-
-        document.querySelector(`\${classForDevice} [lot-list-ul]`).innerHTML = lotListDom;
-
-        /*binding onclick event*/
-
-        const lotItemList = document.querySelectorAll(".lotlist-inner .lotitem[data-status='entry']");
-        lotItemList.forEach(item =>{
-            item.addEventListener('click', (e) =>{
-                e.preventDefault();
-                const lotIdx = item.getAttribute('data-lotIdx');
-                clickLotItem(lotIdx);
             });
-        });
 
+            document.querySelector(`\${classForDevice} [lot-list-ul]`).innerHTML = lotListDom;
 
+            /*binding onclick event*/
+
+            const lotItemList = document.querySelectorAll(".lotlist-inner .lotitem[data-status='entry']");
+            lotItemList.forEach(item =>{
+                item.addEventListener('click', (e) =>{
+                    e.preventDefault();
+                    const lotIdx = item.getAttribute('data-lotIdx');
+                    clickLotItem(lotIdx);
+                });
+            });
 
         }
 
         const clickLotItem = (lotIdx) =>{
-            if(classForDevice === '.mobileVer'){
-                $(document).mouseup();//close lot list layer
-            }
-            const data = lotList.filter(item => item.LOT_NO == lotIdx)[0];
+            if(authKind !== 'viewonly') {
+                if (classForDevice === '.mobileVer') {
+                    $(document).mouseup();//close lot list layer
+                }
+                const data = lotList.filter(item => item.LOT_NO == lotIdx)[0];
 
-            const lotSizeArray = JSON.parse(data.LOT_SIZE_ARRAY);
-            const el_lotImage = document.querySelector(".my_lot_type1 .view-img_wrap img");
-            const el_lotInfo = document.querySelector(".my_lot_type1 .type2_info_box");
+                const lotSizeArray = JSON.parse(data.LOT_SIZE_ARRAY);
+                const el_lotImage = document.querySelector(".my_lot_type1 .view-img_wrap img");
+                const el_lotInfo = document.querySelector(".my_lot_type1 .type2_info_box");
 
-            if(lotIdx === currentLotNo){
-                document.getElementById("btnMoveCurrentLot").style.display = 'none';
-            }else{
-                document.getElementById("btnMoveCurrentLot").style.display = 'block';
-            }
+                if (lotIdx === currentLotNo) {
+                    document.getElementById("btnMoveCurrentLot").style.display = 'none';
+                } else {
+                    document.getElementById("btnMoveCurrentLot").style.display = 'block';
+                }
 
-            el_lotImage.src = `https://www.seoulauction.com/nas_img\${data.LOT_IMG_PATH}/list/\${data.LOT_IMG_NAME}`
-            el_lotInfo.querySelector(".num span").innerHTML = data.LOT_NO;
-            el_lotInfo.querySelector(".title span").innerHTML = isNotObjectEmpty(data.ARTIST_NAME_JSON) ? data.ARTIST_NAME_JSON[locale] : '';
-            el_lotInfo.querySelector(".desc span").innerHTML = data.LOT_TITLE_JSON[locale];
-            el_lotInfo.querySelector(".standard .lot-mate").innerHTML = isNotObjectEmpty(data.MATE_CD)? data.MATE_CD[locale] : '';
-            el_lotInfo.querySelector(".standard .size_year .lot-size").innerHTML = js_size_text_cm(lotSizeArray);
-            el_lotInfo.querySelector(".detail a").href = "/auction/live/view/"+saleNo+"/"+data.LOT_NO;
-            if(isNotObjectEmpty(data.MAKE_YEAR_JSON)){
-                el_lotInfo.querySelector(".standard .size_year .lot-year").style.display = 'inline-block';
-                el_lotInfo.querySelector(".standard .size_year .lot-year").innerHTML = data.MAKE_YEAR_JSON[locale];
-            }else{
-                el_lotInfo.querySelector(".standard .size_year .lot-year").style.display = 'none';
+                el_lotImage.src = `https://www.seoulauction.com/nas_img\${data.LOT_IMG_PATH}/list/\${data.LOT_IMG_NAME}`
+                el_lotInfo.querySelector(".num span").innerHTML = data.LOT_NO;
+                el_lotInfo.querySelector(".title span").innerHTML = isNotObjectEmpty(data.ARTIST_NAME_JSON) ? data.ARTIST_NAME_JSON[locale] : '';
+                el_lotInfo.querySelector(".desc span").innerHTML = data.LOT_TITLE_JSON[locale];
+                el_lotInfo.querySelector(".standard .lot-mate").innerHTML = isNotObjectEmpty(data.MATE_CD) ? data.MATE_CD[locale] : '';
+                el_lotInfo.querySelector(".standard .size_year .lot-size").innerHTML = js_size_text_cm(lotSizeArray);
+                el_lotInfo.querySelector(".detail a").href = "/auction/live/view/" + saleNo + "/" + data.LOT_NO;
+                if (isNotObjectEmpty(data.MAKE_YEAR_JSON)) {
+                    el_lotInfo.querySelector(".standard .size_year .lot-year").style.display = 'inline-block';
+                    el_lotInfo.querySelector(".standard .size_year .lot-year").innerHTML = data.MAKE_YEAR_JSON[locale];
+                } else {
+                    el_lotInfo.querySelector(".standard .size_year .lot-year").style.display = 'none';
+                }
             }
         }
 
