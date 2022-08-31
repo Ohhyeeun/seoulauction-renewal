@@ -52,7 +52,6 @@
     <link rel="stylesheet" href="/css/plugin/csslibrary.css">
     <link rel="stylesheet" href="/css/common.css" type="text/css"/>
     <link rel="stylesheet" href="/css/pages_common_ko.css">
-    <link rel="stylesheet" href="/css/live_auction.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -164,8 +163,8 @@
                                                         <div class="desc"><span now-lot-title></span></div>
                                                     </div>
                                                     <div class="typo-body">
-                                                        <div class="price_won"><span now-lot-expe-price></span></div>
-                                                        <div class="price_other"><span now-lot-expe-price-currency></span></div>
+                                                        <div class="price_won"><span form="" to="" now-lot-expe-price></span></div>
+                                                        <div class="price_other"><span from="" to="" now-lot-expe-sub-price></span></div>
                                                     </div>
                                                 </figcaption>
                                             </div>
@@ -173,7 +172,7 @@
                                                 <div class="now_price">
                                                     <p class="txt">현재가</p>
                                                     <p class="price_unit1" now-lot-price></p>
-                                                    <p class="price_unit2" now-lot-price-currency></p><%-- selected currency (USD 9,999,999)--%>
+                                                    <p class="price_unit2" now-lot-sub-price></p><%-- selected currency (USD 9,999,999)--%>
                                                 </div>
                                                 <%-- 응찰 버튼 바인딩 영역 (응찰하기 | viewonly) --%>
                                                 <div class="bid_price view_only" biding-button-div>
@@ -240,8 +239,8 @@
                                                             <div class="title"><span now-lot-artist-name></span></div>
                                                             <div class="year"><span now-lot-artist-birthOfDeath></span></div>
                                                             <div class="desc"><span now-lot-title></span></div>
-                                                            <div class="price"><span now-lot-expe-price></span></div>
-                                                            <div class="price_other"><span now-lot-expe-price-currency></span></div>
+                                                            <div class="price"><span from="" to="" now-lot-expe-price></span></div>
+                                                            <div class="price_other"><span from="" to=""now-lot-expe-sub-price></span></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -253,7 +252,7 @@
                                                 <div class="now_price">
                                                     <p class="txt">현재가</p>
                                                     <p class="price_unit1" now-lot-price></p>
-                                                    <p class="price_unit2" now-lot-price-currency></p>
+                                                    <p class="price_unit2" now-lot-sub-price></p>
                                                 </div>
                                                 <%-- 모바일 응찰 버튼 바인딩 영역 (응찰하기 | viewonly) --%>
                                                 <div class="bid_price view_only" biding-button-div>
@@ -472,11 +471,12 @@
             Scope().selectedCurrencyType = Scope().currencyType;
             Scope().$apply();
         }
+
         /* 통화 전환 시 */
         function selectCurrency(){
-            const Currency = document.getElementsByName('js-money_help');
+            const CurrencyTermPopup = document.getElementsByName('js-money_help');
 
-            var money_help = $(".js-money_help").trpLayerFixedPopup("#money_help-wrap");
+            let money_help = $(".js-money_help").trpLayerFixedPopup("#money_help-wrap");
             $(money_help.getBtn).on("click", function($e) {
                 $e.preventDefault();
                 money_help.open(this); // or false
@@ -498,6 +498,7 @@
         }
 
 
+
     </script>
 
     <script>
@@ -509,21 +510,27 @@
         const saleNo = ${saleNo}; //경매번호
         const userId = '${member.loginId}';
         const userNo = ${member.userNo};
-        const baseCurrency = 'KRW';
-        let saleNoticeSwiper;
 
+        /* 통화 관련 */
+        const baseCurrency = 'KRW';
+        let subCurrency = 'KRW';
+        let subCurrencyRate = 1;
+
+        /* polling */
         let lotList = [{}];
         let lotTotalCount = 0;
         let currentLotNo = 0; //진행중인 랏 번호
         let prevLotNo = 0;
         let myBidingList = [{}];
+        // let viewers = 0; //시청자
 
-        // const viewers = 0; //시청자
+
         let authKind = 'ready'; //권한여부(응찰준비, 응찰가능, 최고가응찰중)
         let selectedType = 'category'
         let selectedCategory = 'all'
 
         let paddleNo = 0; //패들번호
+        let saleNoticeSwiper;
 
         const selectedCurrencyType = "KRW";
 
@@ -590,8 +597,8 @@
                 }
 
                 //통화
-                const currencyTypes = currencyInfoData;
-                currencyTypes.unshift({curr_cd:baseCurrency});
+                const currencyTypes = currencyInfoData.data.data;
+                currencyTypes.unshift({EXCH_CURR_CD:baseCurrency, RATE:1});
                 bindingCurrencyInfo(currencyTypes);
 
                 //카테고리
@@ -657,7 +664,11 @@
 
         /*통화 목록*/
         const getCurrencyTypes = (saleNo) =>{
-            return dumy_currencyTypes;
+            try {
+                return axios.get('/api/auction/live/sales/'+saleNo+'/exch-rate');
+            } catch (error) {
+                console.error(error);
+            }
         }
 
         /*공지사항*/
@@ -759,13 +770,29 @@
         const bindingCurrencyInfo = (data) => {
             let currencyDom = "";
             data.map(item => {
-                currencyDom += `<option value="`+item.curr_cd+`">
-                                    `+item.curr_cd+`
+                currencyDom += `<option value="`+item.RATE+`">
+                                    `+item.EXCH_CURR_CD+`
                                 </option>;`
             })
             const selectorName = classForDevice === '.pcVer'? 'pc-currency-select-box' : 'mo-currency-select-box';
+            const el_currSelectBox = document.getElementById(selectorName);
             const currencyArea = document.getElementById(selectorName);
-            currencyArea.innerHTML = currencyDom
+            currencyArea.innerHTML = currencyDom;
+
+            el_currSelectBox.addEventListener('change', (e)=>{
+                const rate = e.target.value;
+                const currCd = e.target.options[e.target.selectedIndex].text;
+                subCurrency = currCd;
+                subCurrencyRate = rate;
+                console.log(subCurrency, subCurrencyRate)
+                //TODO: 추정가, 현재가, 응찰가
+            });
+        }
+
+
+        const calSubCurrencyPrice = (basePrice, rate) =>{
+            const calPrice =  Math.round(basePrice/rate);
+            return numberWithCommas(calPrice);
         }
 
         const bindingElementsByAuth = (paddleNo) =>{
@@ -778,7 +805,6 @@
 
         const setBidingButton = (authKind, nextBidPrice) => {
             const el_bidPriceButton = document.querySelector(`\${classForDevice} [biding-button-div]`);
-
             let btnContentDom = ``;
             switch (authKind){
                 case 'ready' :
@@ -795,17 +821,31 @@
                     el_bidPriceButton.classList.remove("view_only");
                     el_bidPriceButton.querySelector(".btn_bid").setAttribute("disabled",true);
                     el_bidPriceButton.querySelector(".btn_bid").setAttribute("data-bid-price", nextBidPrice);
+                    let returnPriceHtml = '';
+                    if(subCurrency !== 'KRW'){
+                        returnPriceHtml = '('+subCurrency+' '+calSubCurrencyPrice(nextBidPrice,subCurrencyRate)+')';
+                    }else{
+                        returnPriceHtml = '';
+                    }
                     btnContentDom = `<p class="txt">최고가 응찰중</p>
                                      <p class="price_unit1">\${baseCurrency} \${numberWithCommas(nextBidPrice)}</p>
-                                     <p class="price_unit2"></p>`;
+                                    <p class="price_unit2">\${returnPriceHtml}</p>`;
+
+
                     break;
                 case 'biding' :
                     el_bidPriceButton.classList.remove("view_only");
                     el_bidPriceButton.querySelector(".btn_bid").removeAttribute("disabled");
                     el_bidPriceButton.querySelector(".btn_bid").setAttribute("data-bid-price", nextBidPrice);
+                    let returnHtml = '';
+                    if(subCurrency !== 'KRW'){
+                        returnHtml = '('+subCurrency+' '+calSubCurrencyPrice(nextBidPrice,subCurrencyRate)+')';
+                    }else{
+                        returnHtml = '';
+                    }
                     btnContentDom = `<p class="txt">응찰하기</p>
                                      <p class="price_unit1">\${baseCurrency} \${numberWithCommas(nextBidPrice)}</p>
-                                     <p class="price_unit2"></p>`;
+                                     <p class="price_unit2">\${returnHtml}</p>`;
                     break;
                 default :
                     el_bidPriceButton.classList.add("view_only");
@@ -1003,7 +1043,7 @@
                                             <div class="view-img">
                                                 <div class="img-box">
                                                     <div class="box-inner">
-                                                        <img src="https://www.seoulauction.com/nas_img/\${item.LOT_IMG_PATH}/\${item.LOT_IMG_NAME}" alt="LOT \${item.LOT_NO}">
+                                                        <img src="https://www.seoulauction.com/nas_img/\${item.LOT_IMG_PATH}/list/\${item.LOT_IMG_NAME}" alt="LOT \${item.LOT_NO}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -1070,7 +1110,7 @@
                 document.getElementById("btnMoveCurrentLot").style.display = 'block';
             }
 
-            el_lotImage.src = `https://www.seoulauction.com/nas_img/\${data.LOT_IMG_PATH}/\${data.LOT_IMG_NAME}`
+            el_lotImage.src = `https://www.seoulauction.com/nas_img\${data.LOT_IMG_PATH}/list/\${data.LOT_IMG_NAME}`
             el_lotInfo.querySelector(".num span").innerHTML = data.LOT_NO;
             el_lotInfo.querySelector(".title span").innerHTML = isNotObjectEmpty(data.ARTIST_NAME_JSON) ? data.ARTIST_NAME_JSON[locale] : '';
             el_lotInfo.querySelector(".desc span").innerHTML = data.LOT_TITLE_JSON[locale];
@@ -1087,7 +1127,7 @@
 
         const bindingCurrentLotInfo = (data) =>{
             const el_nowLotImg = document.querySelector(`\${classForDevice} [now-lot-image]`);
-            el_nowLotImg.src = `https://www.seoulauction.com/nas_img/\${data.LOT_IMG_PATH}/\${data.LOT_IMG_NAME}`;
+            el_nowLotImg.src = `https://www.seoulauction.com/nas_img\${data.LOT_IMG_PATH}/list/\${data.LOT_IMG_NAME}`;
             el_nowLotImg.alt = "LOT "+ data.LOT_NO;
 
             const el_nowLotNo = document.querySelector(`\${classForDevice} [now-lot-no]`);
@@ -1104,8 +1144,18 @@
                 el_birthOfDeath.innerHTML = "b."+ data.BORN_YEAR + dieYear;
             }
             el_lotTitle.innerHTML = data.LOT_TITLE_JSON[locale];
+            const fromPrice = data.EXPE_PRICE_FROM_JSON[baseCurrency];
+            const toPrice = data.EXPE_PRICE_TO_JSON[baseCurrency];
+            el_expePriceFromTo.setAttribute('from', fromPrice);
+            el_expePriceFromTo.setAttribute('to', toPrice);
             el_expePriceFromTo.innerHTML = baseCurrency+' '+numberWithCommas(data.EXPE_PRICE_FROM_JSON[baseCurrency])+' ~ '+numberWithCommas(data.EXPE_PRICE_TO_JSON[baseCurrency]);
-
+            /* set sub price*/
+            const el_SubPriceFromTo = document.querySelector(`\${classForDevice} [now-lot-expe-sub-price]`);
+            if(subCurrency !== 'KRW'){
+                el_SubPriceFromTo.innerHTML = '('+subCurrency+' '+calSubCurrencyPrice(fromPrice, subCurrencyRate)+' ~ '+calSubCurrencyPrice(toPrice, subCurrencyRate)+')';
+            }else{
+                el_SubPriceFromTo.innerHTML = '';
+            }
         }
 
         const bindingCurrentPrice = (data) => {
@@ -1127,9 +1177,18 @@
             const el_currentPrice = document.querySelector(`\${classForDevice} [now-lot-price]`);
             if(data.CURRENT_PRICE != null && data.CURRENT_PRICE > 0){
                 el_currentPrice.innerHTML = baseCurrency +' '+ numberWithCommas(data.CURRENT_PRICE);
+                /* set sub price*/
+                const el_SubPrice = document.querySelector(`\${classForDevice} [now-lot-sub-price]`);
+                if(subCurrency !== 'KRW'){
+                    el_SubPrice.innerHTML = '('+subCurrency+' '+calSubCurrencyPrice(data.CURRENT_PRICE, subCurrencyRate)+')';
+                }else{
+                    el_SubPrice.innerHTML = '';
+                }
             }else{
                 el_currentPrice.innerHTML = baseCurrency +' '+ 0;
             }
+
+
             const nextBidPrice = data.CURRENT_PRICE + data.GROW_PRICE;
 
             /* set button */
@@ -1141,7 +1200,6 @@
                 if(!data.LIVE_CLOSE_YN) authKind = 'biding';
                 if(!data.LIVE_CLOSE_YN && data.IS_WIN) authKind = 'highest';
             }
-
             setBidingButton(authKind, nextBidPrice);
 
             /* bidding list */
@@ -1163,9 +1221,9 @@
                         const bidKind = item.BID_KIND_CD !== 'online'? "현장응찰" : item.ONLINE_BID_ID;
                         const bidPrice = item.BID_PRICE !== null ? numberWithCommas(item.BID_PRICE) : item.BID_PRICE;
                         bidRowDom += `<li class="st_item">
-                                    <p class="txt">\${bidKind}</p>
-                                    <p class="price ">\${bidPrice}</p>
-                                </li>`
+                                        <p class="txt">\${bidKind}</p>
+                                        <p class="price ">\${bidPrice}</p>
+                                    </li>`
                     });
                 el_bidRow.innerHTML = bidRowDom;
             }

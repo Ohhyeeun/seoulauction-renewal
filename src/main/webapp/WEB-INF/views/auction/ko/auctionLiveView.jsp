@@ -135,7 +135,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="view_scale-area" ng-if="isUseViewScale">
+                                            <div class="view_scale-area" ><%--ng-if="isUseViewScale"--%>
                                                 <a class="js-popup_image_viewer" href="#">
                                                     <i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
                                             </div>
@@ -151,7 +151,7 @@
                                                     </a>
                                                     <a id="heart"
                                                        class="work_heart js-work_heart" ng-class="{on : lotInfo.FAVORITE_YN}"
-                                                       ng-click="toggleFavoriteLot(lotInfo);">
+                                                       ng-click="toggleFavoriteLot($event,lotInfo);">
                                                         <i class="icon-view_heart_off"></i>
                                                     </a>
 
@@ -270,7 +270,7 @@
                                                 </div>
 
                                                 <%--년도--%>
-                                                <div ng-if="displayLotInfo.edition">
+                                                <div ng-if="displayLotInfo.makeYear">
                                                     <span ng-bind="displayLotInfo.makeYear"></span>
                                                 </div>
 
@@ -364,9 +364,8 @@
                                                                             <div class="num_heart-box">
                                                                                 <span class="num" ng-bind="item.LOT_NO"></span>
 
-                                                                                <a ng-class="item.FAVORITE_YN === 'Y' ? 'heart js-work_heart on' : 'heart js-work_heart'"
-                                                                                   ng-click="favorite2(item.SALE_NO, item.LOT_NO, $index);"><i
-                                                                                        class="icon-heart_off"></i></a>
+                                                                                <a ng-class="{on : lotInfo.FAVORITE_YN}" class="heart js-work_heart"
+                                                                                   ng-click="toggleFavoriteLot($event,item);"><i class="icon-heart_off"></i></a>
                                                                             </div>
                                                                             <div class="info-box">
                                                                                 <a href="/auction/live/view/{{item.SALE_NO}}/{{item.LOT_NO}}">
@@ -472,10 +471,10 @@
                                                             <div class="typo-box">
                                                                 <div class="title"><span ng-bind="item.ARTIST_NAME_JSON === null? '작자미상' : item.ARTIST_NAME_JSON.ko"></span></div>
                                                                 <div class="desc"><span  ng-bind="item.LOT_TITLE_JSON.ko"></span></div>
-                                                            </div>
+                                                            </div>{{item.FAVORITE_YN}}
                                                             <div class="btn-box">
-                                                                <button ng-class="item.FAVORITE_YN==='Y' ? 'icon-heart_off' : 'icon-heart_on'"
-                                                                        ng-click="favorite3(item.SALE_NO,item.LOT_NO);"></button>
+                                                                <button ng-class="item.FAVORITE_YN === 'Y' ? 'icon-heart_off' : 'icon-heart_on'"
+                                                                        ng-click="toggleFavoriteLot($event,item);"></button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -868,7 +867,10 @@
 
         }
 
-        $scope.toggleFavoriteLot = async function(item) {
+        $scope.toggleFavoriteLot = async function(e,item) {
+            e.preventDefault();
+            e.stopPropagation();
+
             if(!checkLogin()){
                 return;
             }
@@ -888,7 +890,6 @@
             } catch (error) {
                 console.error(error);
             }
-
         }
 
         $scope.urlCopy = function () {
@@ -971,10 +972,10 @@
 
             //마감일
             displayLot.lotExpireDate = lotData.TITLE_JSON[locale];
-            
+
             //작품정보
             displayLot.mate = returnLocaleValOrEmptyStr(lotData.MATE_CD, locale); //재질
-            displayLot.sizeArray = returnLocaleValOrEmptyStr(JSON.parse(lotData.LOT_SIZE_ARRAY),locale); //규격
+            displayLot.sizeArray = JSON.parse(lotData.LOT_SIZE_ARRAY); //규격
             displayLot.edition = lotData.EDITION; //에디션
             displayLot.makeYear = returnLocaleValOrEmptyStr(lotData.MAKE_YEAR_JSON, locale); //제작년도
             displayLot.sign = returnLocaleValOrEmptyStr(lotData.SIGN_INFO_JSON, locale); //서명
@@ -990,10 +991,8 @@
 
             //artist 번호
             $scope.artistNo = lotData.ARTIST_NO;
-
-            // $scope.activeIndex = 0;
-
             $scope.displayLotInfo = displayLot;
+
             $scope.$apply();
         }
 
@@ -1170,7 +1169,7 @@
 
                 let viewScaleImages = $scope.viewScaleImages;
                 $scope.isUseViewScale = viewScaleImages.length > 0 && !$scope.lotInfo.IMAGE_MAGNIFY; // || viewScaleImages.isUseViewScale;
-
+                console.log(viewScaleImages.length && !$scope.lotInfo.IMAGE_MAGNIFY, $scope.isUseViewScale)
                 if($scope.isUseViewScale) {
                     const el = viewScaleImages[0];
                     let size1 = 0;

@@ -93,7 +93,14 @@ $(document).ready(function(){
 
         $.each(data , function(lotIdx , el){
 
-            let imgPath = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
+            let path = el.FILE_PATH;
+
+            if(path !== ''){
+                path += '/list/';
+            }
+
+            let imgPath = el.IMAGE_URL + path + el.FILE_NAME;
+
             let lotTitle = JSON.parse(el.EXPE_PRICE_TITLE);
             let lotName = locale === 'ko' ? lotTitle.ko : lotTitle.en;
             let priceToJson =  JSON.parse(el.EXPE_PRICE_TO_JSON);
