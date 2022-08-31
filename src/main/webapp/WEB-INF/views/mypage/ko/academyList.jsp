@@ -83,7 +83,7 @@
                                                     <ul class="academy-list" ng-repeat="art in academyList">
                                                         <li class="academy-list-ea">
                                                             <div class="title-wrap">
-                                                                <div class="bbs-subject"><a href="#">{{art.TITLE_KO}}</a></div>
+                                                                <div class="bbs-subject"><a href="#" ng-click="academyPayHis({'parent':this, 'academy':art});">{{art.TITLE_KO}}</a></div>
                                                             </div>
                                                             <div class="cont-wrap">
                                                                 <dl>
