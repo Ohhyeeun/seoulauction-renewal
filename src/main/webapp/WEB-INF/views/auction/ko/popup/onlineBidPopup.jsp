@@ -7,19 +7,6 @@
       display: flex;
       position: fixed;
     }
-
-    #popup_biddingPopup2-wrap.open .popup-dim {
-      background-color: rgba(0,0,0,0.6);
-      opacity: 1;
-    }
-
-    #popup_biddingPopup2-wrap .online-bid-list-empty {
-      display: none;
-    }
-
-    #popup_biddingPopup2-wrap .online-bid-list {
-      display: none;
-    }
   </style>
   <div id="popup_biddingPopup2-wrap" class="trp popupfixed-wrap bidding-online-popup">
     <!-- <div class="popup-dim"></div> -->
@@ -73,49 +60,14 @@
                         <em class="bid-lot-grow-price">KRW 200,000 </em>
                       </div>
                     </div>
+
                     <div class="product-list-area">
                       <div class="list-header">
                         <div class="price-name"><span class="bid-lot-price-title">현재가</span></div>
                         <div class="price-amount bid-lot-price-data"><em>KRW 1,700,000</em> <span>(응찰11)</span></div>
                       </div>
-                      <div class="list-body scroll-type">
-                        <ul class="product-list online-bid-list">
-                          <!-- [0516]최고가표기 -->
-                          <li>
-                            <div class="product-user on_green"><span>dj****</span></div>
-                            <div class="product-price on_red"><span>1,600,000</span></div>
-                            <div class="product-day"><em class="type-success">낙찰</em><span>2033-03-16</span><span>14:20:21</span></div>
-                          </li>
-                          <li>
-                            <div class="product-user"><span>dj****</span></div>
-                            <div class="product-price "><span>1,600,000</span></div>
-                            <div class="product-day"><em class="type-auto">자동</em><span>2033-03-16</span><span>14:20:21</span></div>
-                          </li>
-                          <!-- // [0516]최고가표기 -->
-                          <li>
-                            <div class="product-user"><span>dj****</span></div>
-                            <div class="product-price"><span>1,600,000</span></div>
-                            <div class="product-day"><span>2033-03-16</span><span>14:20:21</span></div>
-                          </li>
-                          <li>
-                            <div class="product-user"><span>dj****</span></div>
-                            <div class="product-price"><span>1,600,000</span></div>
-                            <div class="product-day"><span>2033-03-16</span><span>14:20:21</span></div>
-                          </li>
-                          <li>
-                            <div class="product-user"><span>dj****</span></div>
-                            <div class="product-price"><span>1,600,000</span></div>
-                            <div class="product-day"><span>2033-03-16</span><span>14:20:21</span></div>
-                          </li>
-                          <li>
-                            <div class="product-user"><span>dj****</span></div>
-                            <div class="product-price"><span>1,600,000</span></div>
-                            <div class="product-day"><span>2033-03-16</span><span>14:20:21</span></div>
-                          </li>
-                        </ul>
-                        <div class="data-empty online-bid-list-empty">
-                          <p class="txt_empty tb1">응찰내역이 없습니다.</p>
-                        </div>
+
+                      <div class="list-body scroll-type" id="online-bid-list-body">
                       </div>
                     </div>
 
@@ -151,22 +103,15 @@
                         <div class="btn_set bid-type-once">
                           <div class="btn_item">
                             <a id="bid-once-btn" class="btn btn_point btn_lg typo-pc_mb-line" href="#" role="button">
-                              <span id="bid-once-btn-price">KRW 1,800,000</span> <span>응찰하기</span>
+                              <span id="bid-once-btn-price">KRW 0</span> <span>응찰하기</span>
                             </a>
                           </div>
                         </div>
                         <div class="btn_set bid-type-auto">
                           <div class="btn_item">
                             <div class="select-box">
-                              <!-- disabled 옵션 -->
-                              <!-- [0613]자동응찰 옵션활성화,js 수정 -->
                               <select class="select2Basic56_line js-bidding_option select2-hidden-accessible" tabindex="-1" aria-hidden="true">
-                                <!-- //[0613]자동응찰 옵션활성화,js 수정 -->
-                                <option value="1">KRW 1,800,000</option>
-                                <option value="2">KRW 1,900,000</option>
-                                <option value="3">KRW 2,000,000</option>
-                                <option value="4">KRW 2,100,000</option>
-                                <option value="5">KRW 2,200,000</option>
+                                <option value="0">KRW 0</option>
                               </select>
                             </div>
                           </div>

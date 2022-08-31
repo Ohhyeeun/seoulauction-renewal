@@ -24,7 +24,10 @@
                                     <div class="txt_wrap tt6">
                                         <ul class="mark_dot-list">
                                             <li>If the password is encrypted, it can not be retrieved if the password is lost.</li>
-                                            <li>We will send you <em>a temporary password via email to your membership information.</em></li>
+                                            <li>We will send you
+                                                <em class="infoFind infoFind0" >a temporary password via email to your membership information.</em>
+                                                <em class="infoFind infoFind1" style="display: none;">a temporary password via mobile to your membership information.</em>
+                                            </li>
                                         </ul>
                                     </div>
                                     <div class="radio_wrap  js-menuType-header">
@@ -129,8 +132,11 @@
     /*아이디찾기선택 */
     $('.js-menuType-header input').on('change', function() {
         $('.js-menuType-body .js-ds_item').hide();
+        $('.infoFind').hide();
+
         var idx = $('.js-menuType-header input').index($('.js-menuType-header input:checked'));
         $('.js-menuType-body .js-ds_item' + idx).show();
+        $('.infoFind' + idx).show();
 
         if (idx >= 1) {
             $(".js-ds_item2_check").hide();

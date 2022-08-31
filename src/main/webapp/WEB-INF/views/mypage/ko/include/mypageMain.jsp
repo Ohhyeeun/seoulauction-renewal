@@ -100,7 +100,7 @@
 													<ul>
 														<li class="" id="custModify"><a href="/mypage/custModify">회원정보수정</a></li>
 														<c:if test="${socialYn == 'N' }">
-														<li class="" id="passwordModify"><a href="/mypage/passwordModify">비밀번호수정</a></li>
+														<li class="" id="passwordModify"><a href="/mypage/passwordModify">비밀번호변경</a></li>
 														<c:if test="${userKind != 'company' }">
 														<li class="" id="snsLink"><a href="/mypage/snsLink">SNS연동설정</a></li>
 														</c:if>
