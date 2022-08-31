@@ -23,7 +23,9 @@
                                     <div class="txt_wrap tt6">
                                         <ul class="mark_dot-list">
                                             <li>비밀번호의 경우, 암호화 저장되어 분실 시 찾아드릴 수 없습니다.</li>
-                                            <li><em>회원정보에 등록된 이메일로 임시 비밀번호를 발송</em>해 드립니다.</li>
+                                            <li><em class="infoFind infoFind0">회원정보에 등록된 모바일로 임시 비밀번호를 발송</em>
+                                                <em class="infoFind infoFind1" style="display: none;">회원정보에 등록된 이메일로 임시 비밀번호를 발송</em>
+                                                해 드립니다.</li>
                                         </ul>
                                     </div>
                                     <!--[2022-0503]//-->
@@ -107,7 +109,7 @@
         <!-- //container -->
 
         <!-- footer -->
-             <jsp:include page="../../include/ko/footer.jsp" flush="false"/>
+
         <!-- //footer -->
 
     </div>
@@ -126,11 +128,15 @@
 
 
 <script>
+
     /*아이디찾기선택 */
     $('.js-menuType-header input').on('change', function() {
         $('.js-menuType-body .js-ds_item').hide();
+        $('.infoFind').hide();
+
         var idx = $('.js-menuType-header input').index($('.js-menuType-header input:checked'));
         $('.js-menuType-body .js-ds_item' + idx).show();
+        $('.infoFind' + idx).show();
 
         if (idx >= 1) {
             $(".js-ds_item2_check").hide();
