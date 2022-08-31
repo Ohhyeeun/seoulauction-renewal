@@ -277,7 +277,7 @@
                         <div class="title-box_tac">
                             <span class="title_tac tt4">회원님은 SNS를 통해 <br class="only-mb">회원가입 되어 있습니다.<br>
                                 연동된 SNS를 통해 로그인 하여<br class="only-mb"> 주시기 바랍니다.
-                            </span>1
+                            </span>
                         </div>
                     </div>
                     <div class="pop-body">
