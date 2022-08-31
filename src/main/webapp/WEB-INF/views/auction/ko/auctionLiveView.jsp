@@ -346,55 +346,8 @@
                                     <div class="article-body">
                                         <div class="scroll-type">
                                             <div class="product-area">
-                                                <ul id="recently_views" class="product-list">
-                                                    <li class="" ng-repeat="item in recentlyViews">
-                                                        <div class="li-inner">
-                                                            <a href="/auction/live/view/{{item.SALE_NO}}/{{item.LOT_NO}}">
-                                                                <article class="item-article">
-                                                                    <div class="image-area">
-                                                                        <figure class="img-ratio">
-                                                                            <div class="img-align">
-                                                                                <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
-                                                                                     alt="">
-                                                                            </div>
-                                                                        </figure>
-                                                                    </div>
-                                                                    <div class="typo-area">
-                                                                        <div class="product_info">
-                                                                            <div class="num_heart-box">
-                                                                                <span class="num" ng-bind="item.LOT_NO"></span>
-
-                                                                                <a ng-class="{on : lotInfo.FAVORITE_YN}" class="heart js-work_heart"
-                                                                                   ng-click="toggleFavoriteLot($event,item);"><i class="icon-heart_off"></i></a>
-                                                                            </div>
-                                                                            <div class="info-box">
-                                                                                <a href="/auction/live/view/{{item.SALE_NO}}/{{item.LOT_NO}}">
-                                                                                    <div class="title">
-                                                                                        <span ng-bind="item.ARTIST_NAME_BLOB_JSON.ko"></span>
-                                                                                    </div>
-                                                                                    <div class="desc">
-                                                                                        <span ng-bind="item.TITLE_BLOB_JSON.ko"></span>
-                                                                                    </div>
-                                                                                </a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="product_cancle-area">
-                                                                        <div class="area-inner">
-                                                                            <i class="icon-cancle_box"></i>
-                                                                            <div class="typo">
-                                                                                <div class="name"><span ng-bind="'LOT ' + item.LOT_NO"></span>
-                                                                                </div>
-                                                                                <div class="msg">
-                                                                                    <span>출물이 취소되었습니다.</span>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </article>
-                                                            </a>
-                                                        </div>
-                                                    </li>
+                                                <ul id="recent-lot-list" class="product-list">
+                                                    <%-- recent lot list--%>
                                                 </ul>
                                             </div>
                                         </div>
@@ -596,55 +549,14 @@
 <%--<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>--%>
 <%--<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>--%>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script src="/js/recentView.js" defer></script>
 
 <%--낙찰 수수료 팝업 --%>
 <jsp:include page="popup/bidCommissionPopup.jsp"/>
 
 <%--경매 호가 팝업 --%>
 <jsp:include page="popup/growBiddingPopup.jsp"/>
-<%--경매 호가 스크립트 --%>
-<script>
-    let dataArray = [];
 
-    //라이브 경매 호가
-    dataArray.push({'up': null, 'down': '100만', 'price': 50000});
-    dataArray.push({'up': '100만', 'down': '200만', 'price': 100000});
-    dataArray.push({'up': '200만', 'down': '400만', 'price': 200000});
-    dataArray.push({'up': '400만', 'down': '1000만', 'price': 300000});
-    dataArray.push({'up': '1,000만', 'down': '2,000만', 'price': 500000});
-    dataArray.push({'up': '2,000만', 'down': '3,000만', 'price': 1000000});
-    dataArray.push({'up': '3,000만', 'down': '5,000만', 'price': 2000000});
-    dataArray.push({'up': '5,000만', 'down': '1억', 'price': 3000000});
-    dataArray.push({'up': '1억', 'down': '2억', 'price': 5000000});
-    dataArray.push({'up': '2억', 'down': '3억', 'price': 10000000});
-    dataArray.push({'up': '3억', 'down': '5억', 'price': 20000000});
-    dataArray.push({'up': '5억', 'down': '10억', 'price': 30000000});
-    dataArray.push({'up': '10억', 'down': '20억', 'price': 50000000});
-    dataArray.push({'up': '20억', 'down': null, 'price': 100000000});
-
-    $.each(dataArray, function (idx, item) {
-        let text = (item.up != null ? item.up + ' 이상' : '') + ' ~ ' + (item.down != null ? item.down + ' 미만' : '');
-        let html = '<tr><td><span>' + text + '</span>'
-            + '</td><td>'
-            + '<span>' + numberWithCommas(item.price) + '</span>'
-            + '</td></tr>';
-        $("#grow_off_tbody").append(html);
-    });
-
-    var popup_alert3 = $(".js-popup_alert3").trpLayerFixedPopup("#popup_alert3-wrap");
-    $(popup_alert3.getBtn).on("click", function ($e) {
-        $e.preventDefault();
-        popup_alert3.open(this); // or false
-        popup_fixation("#popup_alert3-wrap"); // pc 스크롤
-        popup_motion_open("#popup_alert3-wrap"); // mb 모션
-    });
-
-    $("body").on("click", "#popup_alert3-wrap .js-closepop, #popup_alert3-wrap .popup-dim", function ($e) {
-        $e.preventDefault();
-        popup_alert3.close();
-        popup_motion_close("#popup_alert3-wrap");
-    });
-</script>
 <!-- swiper function-->
 <script>
     document.cookie = "crossCookie=bar; SameSite=None; Secure";
@@ -661,9 +573,7 @@
     function view_visualActive($index, view_visual) {
         view_visual.slideTo($index)
     };
-</script>
-<!-- [0516] 셀렉트 드롭다운 -->
-<script>
+
     let dropdown = $(".js-dropdown-btn").trpDropdown({
         list: ".trp-dropdown_list-box",
         area: ".trp-dropdown-area"
@@ -675,23 +585,13 @@
         _this.closest(".trp-dropdown-area").find(".js-dropdown-btn span").text($("span", _this).text());
         dropdown.getClose();
     });
-</script>
 
-<!-- [0628]모바일 LOT 버튼 클릭시 액션 추가 -->
-<%--<script>--%>
-<%--    $(".js-lotbox-btn").click(function () {--%>
-<%--        $(this).parent(".btn_lot-box").toggleClass("on")--%>
-<%--    })--%>
-<%--</script>--%>
-
-<!-- hold side : positionTar2 : $(".js-page_name-article"), -->
-<!-- [2022-0516] 사용 -->
-<script>
     let _hold_info = $(".js-product_detail-article").trpScrollSyncTopView({
         topStart: 172,
         topMagin: 172,
         bottomStop: 1065
     });
+
     $(window).on("scroll resize", function ($e) {
         renewalFn();
     });
@@ -1046,6 +946,71 @@
             }
         }
 
+        const renderRecentLots = (data) => {
+            console.log(data);
+            let returnDom = ``;
+            data.forEach(l => {
+                const item = {};
+                item.LOT_NO = l;
+                item.SALE_NO = SALE_NO;
+                item.STAT_CD = 'entry';
+                returnDom += `<li>
+                                <div class="li-inner">
+                                    <a href="/auction/live/view/\${item.SALE_NO}/\${item.LOT_NO}">
+                                        <article class="item-article">
+                                            \${ item.STAT_CD !== 'reentry' ?
+                                                `<div class="image-area">
+                                                    <figure class="img-ratio">
+                                                        <div class="img-align">
+                                                            <img src="https://www.seoulauction.com/nas_img/\${item.FILE_PATH}/list/\${item.FILE_NAME}"alt="">
+                                                        </div>
+                                                    </figure>
+                                                </div>
+                                                <div class="typo-area">
+                                                    <div class="product_info">
+                                                        <div class="num_heart-box">
+                                                            <span class="num">\${item.LOT_NO}</span>
+                                                            <a  class="heart js-work_heart"
+                                                               onclick="toggleFavoriteLot($event, item);">
+                                                                <i class="icon-heart_off"></i>
+                                                            </a>
+                                                        </div>
+                                                        <div class="info-box">
+                                                            <a href="/auction/live/view/\${item.SALE_NO}/\${item.LOT_NO}">
+                                                                <div class="title">
+                                                                    <span>작가명</span>
+                                                                </div>
+                                                                <div class="desc">
+                                                                    <span>작품명</span>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>`
+                                            :
+                                            `<div class="product_cancle-area">
+                                                <div class="area-inner">
+                                                    <i class="icon-cancle_box"></i>
+                                                    <div class="typo">
+                                                        <div class="name"><span>LOT \${item.LOT_NO}</span>
+                                                        </div>
+                                                        <div class="msg">
+                                                            <span>출품이 취소되었습니다.</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>`
+                                            }
+                                        </article>
+                                    </a>
+                                </div>
+                            </li>`
+            });
+
+            document.getElementById('recent-lot-list').innerHTML = returnDom;
+
+        }
+
         $scope.load = function () {
             let run = async function () {
                 let [r1, r2, r3, r4, r5, r6, r7] = await Promise.all([
@@ -1120,6 +1085,16 @@
                         sharedCount: 845,
                     },
                 })
+
+
+                //TODO:최근본작품
+                await addRecentLots(SALE_NO, LOT_NO);
+                //TODO:최근본작품 render
+                const recentLots = await getRecentLots(SALE_NO);
+                await renderRecentLots(recentLots);
+                console.log(recentLots);
+
+
 
                 // swiper
                 let view_visual = new Swiper(".js-view_visual .gallery_center", {
