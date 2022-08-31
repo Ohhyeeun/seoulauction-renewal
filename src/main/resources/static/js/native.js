@@ -139,9 +139,7 @@ async function chkIsAuthenticated(){
  */
 async function isNativeApp() {
   try {
-    console.log(`remember-me cookie value: ${getCookie('remember-me')}`);
     const appHeader = await getAppHeader();
-    console.log(JSON.stringify(appHeader));
     return !!appHeader;
   } catch (error) {
     return false;
