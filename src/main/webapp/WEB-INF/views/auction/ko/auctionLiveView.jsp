@@ -404,7 +404,7 @@
                                     <div class="mobile_scroll-type">
                                         <div class="lotlist-box">
                                             <ul class="lotlist-inner">
-                                                <li class="lotitem" ng-repeat="item in moLotList" data-index="{{item.LOT_NO}}" ng-click="goLot(sale_no, item.LOT_NO)">
+                                                <li class="lotitem" ng-repeat="item in lotNaviList" data-index="{{item.LOT_NO}}" ng-click="goLot(sale_no, item.LOT_NO)">
                                                     <div class="js-select_lotitem lotitem_wrap" >
                                                         <div class="view-img">
                                                             <div class="img-box">
@@ -417,8 +417,8 @@
                                                             <div class="num-box">
                                                                 <div class="num"><span class="snum" ng-bind="item.LOT_NO"></span> </div>
                                                             </div>
-                                                            <div class="typo-box">{{item.ARTIST_NAME_JSON}}
-                                                                <div class="title"><span ng-bind="item.ARTIST_NAME_JSON[locale]"></span></div>
+                                                            <div class="typo-box">
+                                                                <div class="title"><span ng-bind="item.ARTIST_NAME_JSON[locale] || ''"></span></div>
                                                                 <div class="desc"><span  ng-bind="item.LOT_TITLE_JSON[locale]"></span></div>
                                                             </div>
                                                             <div class="btn-box">
@@ -639,15 +639,10 @@
         }
     };
 
-    const getNaviLotList = () => {
+    const getNaviLotList = (params) => {
         try {
-            console.log(DEVICE_KIND)
-            const params = {device : DEVICE_KIND === 'is_pc'? 'pc' : 'mo',
-                            page : 1,
-                            size : null};
             const paramString = "?" + window.Qs.stringify(params);
             return axios.get('/api/auction/live/list/'+ SALE_NO + paramString);
-            <%--return axios.get('/api/auction/live/sale_images/'+ ${saleNo});--%>
         } catch (error) {
             console.error(error);
         }
@@ -679,19 +674,9 @@
         }
     }
 
-    /* 모바일용 API */
-    const getLotListInfo = (params) => {
-        try {
-            const paramString = "?"+window.Qs.stringify(params);
-            return axios.get('/api/auction/list/${saleNo}'+paramString);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
     const getCategories = () => {
         try {
-            return axios.get('/api/auction/live/sales/' + ${saleNo}+'/types');
+            return axios.get('/api/auction/live/sales/' + SALE_NO +'/types');
         } catch (error) {
             console.error(error);
         }
@@ -777,11 +762,12 @@
             $scope.selectCategory = categoryVal;
 
             const params = categoryVal === 'all' ? {} : { [categoryType] : categoryVal };
+            params.device = 'mo';
 
-            const result = await getLotListInfo(params);
-            $scope.moLotList = result.data.data.list;
+            const result = await getNaviLotList(params);
+            $scope.lotNaviList = result.data.data.list;
             $scope.lotTotalCount = result.data.data.count;
-
+            $scope.$apply();
         }
 
         $scope.toggleFavoriteLot = async function(e,item) {
@@ -1025,17 +1011,28 @@
 
         }
 
+        $scope.setLotNaviInfo = async function() {
+            const params = { device : DEVICE_KIND === 'is_pc'? 'pc' : 'mo'}
+            let [category, lotList] = await Promise.all([
+                getCategories(),
+                getNaviLotList(params),
+            ]);
+
+            $scope.moCategories = category.data.data;
+            $scope.moCategories.unshift({CD_ID : 'all', CD_NM : '전체', CD_NM_EN: 'All'});
+            $scope.lotNaviList = lotList.data.data.list;
+            $scope.lotTotalCount = lotList.data.data.count;
+            $scope.$apply();
+        }
+
+
         $scope.load = function () {
             let run = async function () {
-                let [r1, r2, r3, r4, r5, r6, r7] = await Promise.all([
+                let [r1, r2, r3, r4] = await Promise.all([
                     getSaleInfo(), //1
                     getLotInfo(), //2
                     getLotImages(), //3
                     getViewScaleImages(), //4
-                    getNaviLotList(), //5
-                    /*for mobile*/
-                    getCategories($scope.sale_no), //6
-                    getLotListInfo($scope.sale_no), //7
                 ]);
 
                 //common
@@ -1043,22 +1040,7 @@
                 $scope.lotInfo = r2.data.data;
                 $scope.lotImages = r3.data.data;
                 $scope.viewScaleImages = r4.data.data;
-
-                //pc
-                $scope.lotNaviList = r5.data.data.list;
-
-                //mo
-                $scope.moCategories = r6.data.data;
-                $scope.moCategories.unshift({CD_ID : 'all', CD_NM : '전체', CD_NM_EN: 'All'});
-                $scope.moLotList = r5.data.data.list;
-                console.log($scope.moLotList)
-                $scope.lotTotalCount = r5.data.data.count;
-                // let pp = [];
-                // for (let i = 0 ; i < $scope.lotTotalCount; i++){
-                //     pp.push($scope.moLotList.list[i]);
-                // }
-                // $scope.searchSaleLotList = pp;
-
+                await $scope.setLotNaviInfo();
 
 
                 //데이터 셋팅
