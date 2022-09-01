@@ -1338,3 +1338,35 @@ function js_size_text_cm(sizeJson){
     returnValue += (src.SUFFIX ? " (" + src.SUFFIX + ") " : "");
     return returnValue;
 }
+
+function getAcademyImg(param){
+    if(param === "artauction"){ // 대학생 아카데미
+        return "academy-thum_student.jpg";
+    }else if(param === "artbrunch"){ // CEO
+        return "academy-thum_ceo.jpg";
+    }else if(param === "artculture"){ //아트마켓
+        return "academy-thum_market.jpg";
+    }else if(param === "artisttalk"){ //작가론
+        return "academy-thum_authorism.jpg";
+    }else if(param === "culture"){ // 건축
+        return "academy-thum_architecture.jpg";
+    }else if(param === "lecture"){ // 특강
+        return "academy-thum_lecture.jpg";
+    }
+}
+
+function getAcademyNm(param){
+    if(param === "artauction"){ // 대학생 아카데미
+        return "대학생 아카데미";
+    }else if(param === "artbrunch"){ // CEO
+        return "프라이빗";
+    }else if(param === "artculture"){ //아트마켓
+        return "아트마켓";
+    }else if(param === "artisttalk"){ //작가론
+        return "작가론";
+    }else if(param === "culture"){ // 건축
+        return "건축";
+    }else if(param === "lecture"){ // 특강
+        return "특강";
+    }
+}
