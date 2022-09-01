@@ -949,14 +949,12 @@
 
         const renderRecentLots = (data) => {
             let returnDom = ``;
-            data.forEach(item => {
-
+            data.filter(item => item.STAT_CD !== 'reentry').forEach(item => {
                 returnDom += `<li>
                                 <div class="li-inner">
                                     <a href="/auction/live/view/\${SALE_NO}/\${item.LOT_NO}">
                                         <article class="item-article">
-                                            \${ item.STAT_CD !== 'reentry' ?
-                                                `<div class="image-area">
+                                                <div class="image-area">
                                                     <figure class="img-ratio">
                                                         <div class="img-align">
                                                             <img src="https://www.seoulauction.com/nas_img/\${item.LOT_IMG_PATH}/list/\${item.LOT_IMG_NAME}"alt="">
@@ -983,21 +981,7 @@
                                                             </a>
                                                         </div>
                                                     </div>
-                                                </div>`
-                                            :
-                                            `<div class="product_cancle-area">
-                                                <div class="area-inner">
-                                                    <i class="icon-cancle_box"></i>
-                                                    <div class="typo">
-                                                        <div class="name"><span>LOT \${item.LOT_NO}</span>
-                                                        </div>
-                                                        <div class="msg">
-                                                            <span>출품이 취소되었습니다.</span>
-                                                        </div>
-                                                    </div>
                                                 </div>
-                                            </div>`
-                                            }
                                         </article>
                                     </a>
                                 </div>
@@ -1081,10 +1065,8 @@
                 })
 
 
-                //TODO:최근본작품
                 await addRecentLots(SALE_NO, LOT_NO);
                 const recentLots = await getRecentLots(SALE_NO);
-                //TODO:작품데이터 API 호출
                 const result =  await getRecentLotsInfo(recentLots);
                 const recentLotInfoList = result.data.data.list;
                 await renderRecentLots(recentLotInfoList);
