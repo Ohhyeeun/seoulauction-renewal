@@ -248,6 +248,14 @@ public class SaleLiveService {
         resultMap.put("list" , saleLiveMapper.selectSaleList(map).stream().peek(this::settingLotData).collect(Collectors.toList()));
         resultMap.put("count" , saleLiveMapper.selectSaleListCount(map));
 
+        //IMAGE_FULL_PATH 제외
+        List<CommonMap> saleListEx = (List<CommonMap>) resultMap.get("list");
+        for (var item : saleListEx) {
+            item.remove("IMAGE_FULL_PATH");
+        }
+        resultMap.put("list", saleListEx);
+
+        //랏이동(pc/mobile) 경우
         if(map.get("device") != null) {
             List<CommonMap> saleList = (List<CommonMap>) resultMap.get("list");
             log.info("saleList : {}", saleList);
@@ -259,7 +267,6 @@ public class SaleLiveService {
                     saleListNewItem.put("LOT_NO", item.get("LOT_NO"));
                     saleListNewItem.put("LOT_IMG_PATH", item.get("LOT_IMG_PATH"));
                     saleListNewItem.put("LOT_IMG_NAME", item.get("LOT_IMG_NAME"));
-                    saleListNewItem.put("IMAGE_FULL_PATH", item.get("IMAGE_FULL_PATH"));
                     saleListNew.add(saleListNewItem);
                 }
             } else if(map.get("device").equals("mo")) {
@@ -268,7 +275,6 @@ public class SaleLiveService {
                     saleListNewItem.put("LOT_NO", item.get("LOT_NO"));
                     saleListNewItem.put("LOT_IMG_PATH", item.get("LOT_IMG_PATH"));
                     saleListNewItem.put("LOT_IMG_NAME", item.get("LOT_IMG_NAME"));
-                    saleListNewItem.put("IMAGE_FULL_PATH", item.get("IMAGE_FULL_PATH"));
                     saleListNewItem.put("ARTIST_NAME_JSON", item.get("ARTIST_NAME_JSON"));
                     saleListNewItem.put("LOT_TITLE_JSON", item.get("LOT_TITLE_JSON"));
                     saleListNewItem.put("FAVORITE_YN", item.get("FAVORITE_YN"));

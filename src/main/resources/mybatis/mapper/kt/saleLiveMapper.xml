@@ -421,8 +421,10 @@
     <!-- 경매 List 조회 -->
     <select id="selectSaleList" parameterType="CommonMap" resultType="CommonMap">
         <include refid="saleLiveList"></include>
-        LIMIT
+        <if test="device == null">
+            LIMIT
             #{offset} , #{size}
+        </if>
     </select>
     <!-- 경매 List Count 조회 -->
     <select id="selectSaleListCount" parameterType="CommonMap" resultType="int">
