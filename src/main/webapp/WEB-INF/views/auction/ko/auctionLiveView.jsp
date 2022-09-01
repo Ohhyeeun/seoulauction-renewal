@@ -560,6 +560,7 @@
 
     /* 섬네일 활성화 */
     function view_thumnailActive($index) {
+        console.log("dd")
         $(".js-view_thumnail .slide").removeClass("active");
         $(".js-view_thumnail .slide").eq($index).addClass("active");
     };
@@ -947,36 +948,38 @@
             }
         }
 
-        const renderRecentLots = (data) => {
+        const renderRecentLots = (baseData, apiData) => {
             let returnDom = ``;
-            data.filter(item => item.STAT_CD !== 'reentry').forEach(item => {
-                returnDom += `<li>
+            baseData.map(lotNo => {
+                const lotInfo = apiData.filter(item => item.STAT_CD !== 'reentry').find(item => lotNo === item.LOT_NO);
+                if(lotInfo){
+                    returnDom += `<li>
                                 <div class="li-inner">
-                                    <a href="/auction/live/view/\${SALE_NO}/\${item.LOT_NO}">
+                                    <a href="/auction/live/view/\${SALE_NO}/\${lotInfo.LOT_NO}">
                                         <article class="item-article">
                                                 <div class="image-area">
                                                     <figure class="img-ratio">
                                                         <div class="img-align">
-                                                            <img src="https://www.seoulauction.com/nas_img/\${item.LOT_IMG_PATH}/list/\${item.LOT_IMG_NAME}"alt="">
+                                                            <img src="https://www.seoulauction.com/nas_img/\${lotInfo.LOT_IMG_PATH}/list/\${lotInfo.LOT_IMG_NAME}"alt="">
                                                         </div>
                                                     </figure>
                                                 </div>
                                                 <div class="typo-area">
                                                     <div class="product_info">
                                                         <div class="num_heart-box">
-                                                            <span class="num">\${item.LOT_NO}</span>
+                                                            <span class="num">\${lotInfo.LOT_NO}</span>
                                                             <a  class="heart js-work_heart"
-                                                               ng-click="toggleFavoriteLot($event, item);">
+                                                               ng-click="toggleFavoriteLot($event, lotInfo);">
                                                                 <i class="icon-heart_off"></i>
                                                             </a>
                                                         </div>
                                                         <div class="info-box">
-                                                            <a href="/auction/live/view/\${item.SALE_NO}/\${item.LOT_NO}">
+                                                            <a href="/auction/live/view/\${lotInfo.SALE_NO}/\${lotInfo.LOT_NO}">
                                                                 <div class="title">
-                                                                    <span>\${item.ARTIST_NAME_JSON[locale] || ''}</span>
+                                                                    <span>\${lotInfo.ARTIST_NAME_JSON[locale] || ''}</span>
                                                                 </div>
                                                                 <div class="desc">
-                                                                    <span>\${item.LOT_TITLE_JSON[locale]}</span>
+                                                                    <span>\${lotInfo.LOT_TITLE_JSON[locale]}</span>
                                                                 </div>
                                                             </a>
                                                         </div>
@@ -986,6 +989,7 @@
                                     </a>
                                 </div>
                             </li>`
+                }
             });
 
             document.getElementById('recent-lot-list').innerHTML = returnDom;
@@ -1069,7 +1073,7 @@
                 const recentLots = await getRecentLots(SALE_NO);
                 const result =  await getRecentLotsInfo(recentLots);
                 const recentLotInfoList = result.data.data.list;
-                await renderRecentLots(recentLotInfoList);
+                await renderRecentLots(recentLots, recentLotInfoList);
 
 
                 // swiper
@@ -1287,17 +1291,20 @@
                 var popup_images = $(".js-popup_images").trpLayerFixedPopup("#popup_images-wrap");
                 $(".js-popup_images").on("click", function ($e) {
                     $e.preventDefault();
-                    popup_images.open(this); // or false
-                    for (var o = $(".imageViewerpopup"), e = 0; e < o.length; e++) {
-                        if (!o[e]) return !1;
-                        var windowW = screen.availWidth;
-                        var windowH = screen.availHeight;
-                        o[e].width = windowW;
-                        o[e].height = windowH;
+                    //TODO:저작권 작가 확대 보기 안 되게
+                    if($scope.lotInfo.IMAGE_MAGNIFY){
+                        popup_images.open(this); // or false
+                        for (var o = $(".imageViewerpopup"), e = 0; e < o.length; e++) {
+                            if (!o[e]) return !1;
+                            var windowW = screen.availWidth;
+                            var windowH = screen.availHeight;
+                            o[e].width = windowW;
+                            o[e].height = windowH;
+                        }
+                        //imagesResizePcMb();
+                        imagesSwiper.update();
+                        imagesSwiper.slideTo($scope.activeIndex + 1, 0);
                     }
-                    //imagesResizePcMb();
-                    imagesSwiper.update();
-                    imagesSwiper.slideTo($scope.activeIndex + 1, 0);
                 });
                 $("body").on("click", "#popup_images-wrap .js-closepop, #popup_images-wrap .popup-dim", function ($e) {
                     $e.preventDefault();
