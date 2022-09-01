@@ -784,9 +784,7 @@
                 const currCd = e.target.options[e.target.selectedIndex].text;
                 subCurrency = currCd;
                 subCurrencyRate = rate;
-                console.log(subCurrency, subCurrencyRate)
-                //TODO: 추정가, 현재가, 응찰가
-            });
+''            });
         }
 
 
