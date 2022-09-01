@@ -704,4 +704,16 @@
             and R.CUST_NO = #{cust_no}
         order by R.BID_PRICE desc, R.REQ_NO desc limit 1
     </select>
+
+    <insert id="insertSuccessBid" parameterType="CommonMap">
+        INSERT INTO SUCCESS_BID
+            (SALE_NO, LOT_NO, BID_NO)
+        SELECT BD.SALE_NO, BD.LOT_NO, BD.BID_NO
+        FROM BID BD
+        WHERE BD.SALE_NO = #{sale_no} and BD.LOT_NO = #{lot_no}
+        ORDER BY BD.BID_PRICE desc, BD.BID_DT asc, BD.BID_NO asc limit 1
+        ON DUPLICATE KEY
+            UPDATE BID_NO = BD.BID_NO
+                , REG_DT = now();
+    </insert>
 </mapper>
