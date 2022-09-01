@@ -113,6 +113,7 @@
             , IFNULL(L.FRAME_CD, 'none') AS FRAME_CD
             , L.ZEROBASE_PRICE_YN
         from LOT L
+            join SALE S ON S.SALE_NO = L.SALE_NO
             left outer join (
                 select BD.*, BD.BID_PRICE as LAST_PRICE, <![CDATA[if(L.TO_DT < now(), 'Y', 'N') as SOLD_YN ]]>
                     , (select count(A.BID_NO) from BID A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO) as BID_CNT
@@ -131,7 +132,6 @@
             left outer join CODE CD	on CD.grp_id = 'material' and CD.CD_ID = L.MATE_CD
             left outer join LOT_IMG LI on LI.SALE_NO = L.SALE_NO and LI.LOT_NO = L.LOT_NO
                 and LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.DISP_ORD limit 1)
-            join SALE S ON S.SALE_NO = L.SALE_NO
             left outer join LOT_SIZE LS ON LS.SALE_NO = L.SALE_NO AND LS.LOT_NO = L.LOT_NO
         where L.WWW_DISP_YN = 'Y'
             and L.SALE_NO = #{sale_no}
@@ -174,6 +174,41 @@
             <when test="sort_by == 'BICDE'">BD.BID_CNT desc, L.LOT_NO</when>
             <otherwise>L.LOT_NO</otherwise>
         </choose>
+    </sql>
+
+    <select id="selectSimpleLotListPaging" parameterType="CommonMap" resultType="CommonMap">
+        <include refid="selectSimpleLotList"/>
+        LIMIT #{offset}, #{size}
+    </select>
+    <select id="selectSimpleLotListCount" parameterType="CommonMap" resultType="int">
+        select  count(*) as CNT
+        from (
+        <include refid="selectSimpleLotList"/>
+        ) A
+    </select>
+    <sql id="selectSimpleLotList">
+        select L.LOT_NO
+            , L.STAT_CD
+            , COLUMN_JSON(L.TITLE_BLOB) TITLE_JSON
+            , LI.FILE_PATH as LOT_IMG_PATH
+            , LI.FILE_NAME as LOT_IMG_NAME
+            , L.IMG_DISP_YN
+            , COLUMN_JSON(AT.ARTIST_NAME_BLOB) ARTIST_NAME_JSON
+        from LOT L
+            left outer join ARTIST AT on AT.ARTIST_NO = L.ARTIST_NO
+            left outer join CODE CD	on CD.grp_id = 'material' and CD.CD_ID = L.MATE_CD
+            left outer join LOT_IMG LI on LI.SALE_NO = L.SALE_NO and LI.LOT_NO = L.LOT_NO
+                and LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.DISP_ORD limit 1)
+        where L.WWW_DISP_YN = 'Y'
+            and L.SALE_NO = #{sale_no}
+        <if test="lot_tag != null">
+            and L.LOT_TAG = #{lot_tag}
+        </if>
+        <if test="cate_cd != null">
+            and L.CATE_CD in (select cd_id from CODE where grp_id = 'artwork_category' and p_cd_id = #{cate_cd} union
+            select cd_id from CODE where grp_id = 'artwork_category' and p_cd_id in (select cd_id from CODE where grp_id = 'artwork_category' and p_cd_id = #{cate_cd}))
+        </if>
+        order by L.LOT_NO
     </sql>
 
     <select id="selectLotInfo" parameterType="CommonMap" resultType="CommonMap">
