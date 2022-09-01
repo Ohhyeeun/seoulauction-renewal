@@ -251,6 +251,8 @@ public class AuctionOnlineService {
             commonMap.put("max_bid_price", maxBidPrice);
             auctionOnlineMapper.updateLotGrowPrice(commonMap);
         }
+
+        auctionOnlineMapper.insertSuccessBid(commonMap);
     }
 
     public void insertBidAuto(CommonMap commonMap) {
@@ -261,6 +263,7 @@ public class AuctionOnlineService {
 //            commonMap.put("cust_no", 0);
 //        }
         auctionOnlineMapper.insertBidAuto(commonMap);
+        auctionOnlineMapper.insertSuccessBid(commonMap);
     }
 
     public void updateAutoBidReqCancel(CommonMap commonMap) {
