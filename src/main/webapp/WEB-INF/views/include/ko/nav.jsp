@@ -117,7 +117,7 @@
                         </li>
                     </ul>
                     <figure class="blacklotbox">
-                        <a href="https://www.blacklot.com/" target="_blank">
+                        <a href="javascript:void(0);" onclick="openWebBrowser('https://www.blacklot.com/')"  target="_blank">
                             <img src="/images/pc/thumbnail/gnb_blacklot.jpg" alt="blacklot">
                         </a>
                     </figure>
