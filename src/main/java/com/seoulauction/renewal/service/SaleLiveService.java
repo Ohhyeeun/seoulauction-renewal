@@ -232,21 +232,34 @@ public class SaleLiveService {
             map.put("cust_no" , 0);
         }
 
+        String[] lotNoArr = (String[]) map.get("lot_no");
         if(map.get("lot_no") != null) {
-            String[] lotNoArr = (String[]) map.get("lot_no");
-//            System.out.println("lotNo Array : "+ Arrays.toString(lotNoArr));
             String lotNoStr = "";
             for(int i = 0; i < lotNoArr.length; i++) {
                 if(i > 0) lotNoStr += ", " + lotNoArr[i];
                 else lotNoStr += lotNoArr[i];
             }
-//            System.out.println("lotNo String : "+lotNoStr.toString());
             map.put("lot_no" , lotNoStr);
         }
 
         CommonMap resultMap = new CommonMap();
         resultMap.put("list" , saleLiveMapper.selectSaleList(map).stream().peek(this::settingLotData).collect(Collectors.toList()));
         resultMap.put("count" , saleLiveMapper.selectSaleListCount(map));
+
+        //LOT NO 배열 순서대로 List 정렬
+        if(map.get("lot_no") != null) {
+            List<CommonMap> saleList = (List<CommonMap>) resultMap.get("list"); //기존 List
+            List<CommonMap> saleListNewLot = new ArrayList<>();
+            for(int i = 0; i < lotNoArr.length; i++) {
+                for (var item : saleList) {
+                    if(item.get("LOT_NO").toString().equals(lotNoArr[i])) {
+                        saleListNewLot.add(item);
+                        break;
+                    }
+                }
+            }
+            resultMap.put("list", saleListNewLot);
+        }
 
         //IMAGE_FULL_PATH 제외
         List<CommonMap> saleListEx = (List<CommonMap>) resultMap.get("list");
