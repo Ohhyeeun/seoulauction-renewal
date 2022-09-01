@@ -560,6 +560,7 @@
 
     /* 섬네일 활성화 */
     function view_thumnailActive($index) {
+        console.log("dd")
         $(".js-view_thumnail .slide").removeClass("active");
         $(".js-view_thumnail .slide").eq($index).addClass("active");
     };
@@ -1287,17 +1288,20 @@
                 var popup_images = $(".js-popup_images").trpLayerFixedPopup("#popup_images-wrap");
                 $(".js-popup_images").on("click", function ($e) {
                     $e.preventDefault();
-                    popup_images.open(this); // or false
-                    for (var o = $(".imageViewerpopup"), e = 0; e < o.length; e++) {
-                        if (!o[e]) return !1;
-                        var windowW = screen.availWidth;
-                        var windowH = screen.availHeight;
-                        o[e].width = windowW;
-                        o[e].height = windowH;
+                    //TODO:저작권 작가 확대 보기 안 되게
+                    if($scope.lotInfo.IMAGE_MAGNIFY){
+                        popup_images.open(this); // or false
+                        for (var o = $(".imageViewerpopup"), e = 0; e < o.length; e++) {
+                            if (!o[e]) return !1;
+                            var windowW = screen.availWidth;
+                            var windowH = screen.availHeight;
+                            o[e].width = windowW;
+                            o[e].height = windowH;
+                        }
+                        //imagesResizePcMb();
+                        imagesSwiper.update();
+                        imagesSwiper.slideTo($scope.activeIndex + 1, 0);
                     }
-                    //imagesResizePcMb();
-                    imagesSwiper.update();
-                    imagesSwiper.slideTo($scope.activeIndex + 1, 0);
                 });
                 $("body").on("click", "#popup_images-wrap .js-closepop, #popup_images-wrap .popup-dim", function ($e) {
                     $e.preventDefault();
