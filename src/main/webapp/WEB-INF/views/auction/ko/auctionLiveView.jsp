@@ -53,11 +53,11 @@
                                                             <div class="list-box scroll-type">
                                                                 <ul id="sale_lot_list">
                                                                     <li ng-repeat="item in lotNaviList" data-index="{{item.LOT_NO}}">
-                                                                        <a href="javascript:void(0);" ng-click="goLot(item.SALE_NO, item.LOT_NO)">
+                                                                        <a href="javascript:void(0);" ng-click="goLot(sale_no, item.LOT_NO)">
                                                                             <div class="image-area">
                                                                                 <figure class="img-ratio">
                                                                                     <div class="img-align">
-                                                                                        <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
+                                                                                        <img src="https://www.seoulauction.com/nas_img/{{item.LOT_IMG_PATH}}/list/{{item.LOT_IMG_NAME}}" alt="">
                                                                                     </div>
                                                                                 </figure>
                                                                             </div>
@@ -404,16 +404,12 @@
                                     <div class="mobile_scroll-type">
                                         <div class="lotlist-box">
                                             <ul class="lotlist-inner">
-                                                <li class="lotitem" ng-class="{cancel:item.STAT_CD === 'reentry'}" ng-repeat="item in moLotList" data-index="{{item.LOT_NO}}" ng-click="goLot(item.SALE_NO, item.LOT_NO)">
-                                                    <p class="txt" ng-if="item.STAT_CD === 'reentry'">
-                                                        LOT {{item.LOT_NO}}<br>
-                                                        출품이 취소되었습니다.
-                                                    </p>
-                                                    <div class="js-select_lotitem lotitem_wrap" ng-if="item.STAT_CD !== 'reentry'">
+                                                <li class="lotitem" ng-repeat="item in moLotList" data-index="{{item.LOT_NO}}" ng-click="goLot(sale_no, item.LOT_NO)">
+                                                    <div class="js-select_lotitem lotitem_wrap" >
                                                         <div class="view-img">
                                                             <div class="img-box">
                                                                 <div class="box-inner">
-                                                                    <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="'LOT' + {{item.LOT_NO}}">
+                                                                    <img src="https://www.seoulauction.com/nas_img{{item.LOT_IMG_PATH}}/list/{{item.LOT_IMG_NAME}}" alt="'LOT' + {{item.LOT_NO}}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -421,12 +417,12 @@
                                                             <div class="num-box">
                                                                 <div class="num"><span class="snum" ng-bind="item.LOT_NO"></span> </div>
                                                             </div>
-                                                            <div class="typo-box">
-                                                                <div class="title"><span ng-bind="item.ARTIST_NAME_JSON === null? '작자미상' : item.ARTIST_NAME_JSON.ko"></span></div>
-                                                                <div class="desc"><span  ng-bind="item.LOT_TITLE_JSON.ko"></span></div>
-                                                            </div>{{item.FAVORITE_YN}}
+                                                            <div class="typo-box">{{item.ARTIST_NAME_JSON}}
+                                                                <div class="title"><span ng-bind="item.ARTIST_NAME_JSON[locale]"></span></div>
+                                                                <div class="desc"><span  ng-bind="item.LOT_TITLE_JSON[locale]"></span></div>
+                                                            </div>
                                                             <div class="btn-box">
-                                                                <button ng-class="item.FAVORITE_YN === 'Y' ? 'icon-heart_off' : 'icon-heart_on'"
+                                                                <button ng-class="item.FAVORITE_YN ? 'icon-heart_on' : 'icon-heart_off'"
                                                                         ng-click="toggleFavoriteLot($event,item);"></button>
                                                             </div>
                                                         </div>
@@ -615,6 +611,7 @@
     const IS_CUST_REQUIRED = ${isCustRequired};
     const SALE_NO = ${saleNo};
     const LOT_NO = ${lotNo};
+    let DEVICE_KIND = 'is_pc';
 
     /* API 호출 */
 
@@ -642,9 +639,15 @@
         }
     };
 
-    const getLotNavigation = () => {
+    const getNaviLotList = () => {
         try {
-            return axios.get('/api/auction/live/sale_images/'+ ${saleNo});
+            console.log(DEVICE_KIND)
+            const params = {device : DEVICE_KIND === 'is_pc'? 'pc' : 'mo',
+                            page : 1,
+                            size : null};
+            const paramString = "?" + window.Qs.stringify(params);
+            return axios.get('/api/auction/live/list/'+ SALE_NO + paramString);
+            <%--return axios.get('/api/auction/live/sale_images/'+ ${saleNo});--%>
         } catch (error) {
             console.error(error);
         }
@@ -661,6 +664,16 @@
     const getArtistInfo = (artistNo) =>{
         try {
             return axios.get('/api/auction/live/artist_info/'+ artistNo);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const getRecentLotsInfo = (recentLots) => {
+        try {
+            const params = {lotNo : encodeURI(recentLots)};
+            const paramString = "?" + window.Qs.stringify(params);
+            return axios.get('/api/auction/live/list/'+ SALE_NO + paramString);
         } catch (error) {
             console.error(error);
         }
@@ -685,11 +698,15 @@
     }
 
     /* */
-
+    window.onload = function(){
+        DEVICE_KIND = document.body.getAttribute('data-device');
+        console.log('onload', DEVICE_KIND)
+    }
 
 
     app.value('locale', 'ko');
     app.value('is_login', true);
+    app.value('device_kind', DEVICE_KIND);
 
     app.requires.push.apply(app.requires, ["ngAnimate", "ngDialog"]);
 
@@ -713,8 +730,9 @@
         };
     });
 
-    app.controller('ctl', function ($scope, consts, common, is_login, locale, $filter) {
-
+    app.controller('ctl', function ($scope, consts, common, is_login, locale, device_kind, $filter) {
+        console.log("angular : ", DEVICE_KIND)
+        console.log("angular device_kind : ", device_kind)
         $scope.is_login = is_login;
         $scope.locale = locale;
         $scope.sale_no = SALE_NO;
@@ -761,8 +779,8 @@
             const params = categoryVal === 'all' ? {} : { [categoryType] : categoryVal };
 
             const result = await getLotListInfo(params);
-            $scope.moLotList = result.data.data;
-            $scope.lotTotalCount = $scope.moLotList.length;
+            $scope.moLotList = result.data.data.list;
+            $scope.lotTotalCount = result.data.data.count;
 
         }
 
@@ -948,20 +966,17 @@
 
         const renderRecentLots = (data) => {
             let returnDom = ``;
-            data.forEach(l => {
-                const item = {};
-                item.LOT_NO = l;
-                item.SALE_NO = SALE_NO;
-                item.STAT_CD = 'entry';
+            data.forEach(item => {
+
                 returnDom += `<li>
                                 <div class="li-inner">
-                                    <a href="/auction/live/view/\${item.SALE_NO}/\${item.LOT_NO}">
+                                    <a href="/auction/live/view/\${SALE_NO}/\${item.LOT_NO}">
                                         <article class="item-article">
                                             \${ item.STAT_CD !== 'reentry' ?
                                                 `<div class="image-area">
                                                     <figure class="img-ratio">
                                                         <div class="img-align">
-                                                            <img src="https://www.seoulauction.com/nas_img/\${item.FILE_PATH}/list/\${item.FILE_NAME}"alt="">
+                                                            <img src="https://www.seoulauction.com/nas_img/\${item.LOT_IMG_PATH}/list/\${item.LOT_IMG_NAME}"alt="">
                                                         </div>
                                                     </figure>
                                                 </div>
@@ -970,17 +985,17 @@
                                                         <div class="num_heart-box">
                                                             <span class="num">\${item.LOT_NO}</span>
                                                             <a  class="heart js-work_heart"
-                                                               onclick="toggleFavoriteLot($event, item);">
+                                                               ng-click="toggleFavoriteLot($event, item);">
                                                                 <i class="icon-heart_off"></i>
                                                             </a>
                                                         </div>
                                                         <div class="info-box">
                                                             <a href="/auction/live/view/\${item.SALE_NO}/\${item.LOT_NO}">
                                                                 <div class="title">
-                                                                    <span>작가명</span>
+                                                                    <span>\${item.ARTIST_NAME_JSON[locale] || ''}</span>
                                                                 </div>
                                                                 <div class="desc">
-                                                                    <span>작품명</span>
+                                                                    <span>\${item.LOT_TITLE_JSON[locale]}</span>
                                                                 </div>
                                                             </a>
                                                         </div>
@@ -1017,7 +1032,7 @@
                     getLotInfo(), //2
                     getLotImages(), //3
                     getViewScaleImages(), //4
-                    getLotNavigation(), //5
+                    getNaviLotList(), //5
                     /*for mobile*/
                     getCategories($scope.sale_no), //6
                     getLotListInfo($scope.sale_no), //7
@@ -1030,18 +1045,19 @@
                 $scope.viewScaleImages = r4.data.data;
 
                 //pc
-                $scope.lotNaviList = r5.data.data;
+                $scope.lotNaviList = r5.data.data.list;
 
                 //mo
                 $scope.moCategories = r6.data.data;
                 $scope.moCategories.unshift({CD_ID : 'all', CD_NM : '전체', CD_NM_EN: 'All'});
-                $scope.moLotList = r7.data.data;
-                $scope.lotTotalCount = $scope.moLotList.length;
-                let pp = [];
-                for (let i = 0 ; i < $scope.lotTotalCount; i++){
-                    pp.push($scope.moLotList[i]);
-                }
-                $scope.searchSaleLotList = pp;
+                $scope.moLotList = r5.data.data.list;
+                console.log($scope.moLotList)
+                $scope.lotTotalCount = r5.data.data.count;
+                // let pp = [];
+                // for (let i = 0 ; i < $scope.lotTotalCount; i++){
+                //     pp.push($scope.moLotList.list[i]);
+                // }
+                // $scope.searchSaleLotList = pp;
 
 
 
@@ -1090,7 +1106,9 @@
                 await addRecentLots(SALE_NO, LOT_NO);
                 const recentLots = await getRecentLots(SALE_NO);
                 //TODO:작품데이터 API 호출
-                await renderRecentLots(recentLots);
+                const result =  await getRecentLotsInfo(recentLots);
+                const recentLotInfoList = result.data.data.list;
+                await renderRecentLots(recentLotInfoList);
 
 
                 // swiper
