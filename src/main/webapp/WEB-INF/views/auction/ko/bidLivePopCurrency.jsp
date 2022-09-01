@@ -53,34 +53,33 @@
     <link rel="icon" type="image/png" href="/images/favic/favicon-16x16.png" sizes="16x16"/>
     <link rel="apple-touch-icon" sizes="180x180" href="/iamges/favic/apple-touch-icon.png">
 
-    <link href="<c:url value="/css/old/common.css?ver=20211104" />" rel="stylesheet">
-    <link href="<c:url value="/css/old/sa.common.2.0.css?ver=20210901" />" rel="stylesheet">
-    <link href="<c:url value="/css/old/sa.common.2.1.css?ver=20211013" />" rel="stylesheet">
-    <link href="<c:url value="/css/old/onepcssgrid.css" />" rel="stylesheet">
+    <link href="/css/old/common.css" rel="stylesheet">
+    <link href="/css/old/onepcssgrid_live.css" rel="stylesheet">
+    <link href="/css/old/sa.common.2.0.css" rel="stylesheet">
+    <link href="/css/old/bidLivepop.css" rel="stylesheet">
 
     <script type="text/javascript" src="/js/angular/angular.min.js"></script>
     <script src="/js/angular/angular-sanitize.js"></script>
-    <script type="text/javascript" src="<c:url value="/js/angular/angular-bind-html-compile.js" />"></script>
-    <script type="text/javascript" src="<c:url value="/js/angular/app.js" />"></script>
-    <script type="text/javascript" src="<c:url value="/js/common.js" />"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.10.2/jquery.js" ></script>
-    <script type="text/javascript" src="/js/jquery.easing.1.3.js"></script>
-    <script type="text/javascript" src="/js/jquery.panzoom.min.js"></script>
-    <script type="text/javascript" src="/js/jquery.slides.min.js"></script>
-    <script type="text/javascript" src="/js/jquery.placeholder.min.js"></script>
-    <script type="text/javascript" src="/js/jquery.nicefileinput.min.js"></script>
-    <script type="text/javascript" src="/js/jquery.mousewheel.min.js"></script>
-    <script type="text/javascript" src="/js/jquery.mobile-events.js"></script>
-    <script type="text/javascript" src="/js/iscroll.js"></script>
-    <script type="text/javascript" src="/js/old/ui.js"></script>
-    <script type="text/javascript" src="/js/old/frontCommon.js"></script>
+    <script type="text/javascript" src="/js/angular/angular-bind-html-compile.js"></script>
+    <script type="text/javascript" src="/js/angular/app.js"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <%--    <script src="https://unpkg.com/swiper@8/swiper-bundle.min.js"></script>--%>
 
     <%--Axios--%>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.js"></script>
+    <%--    <script defer src="https://unpkg.com/axios-extensions/dist/axios-extensions.js"></script>--%>
     <script defer src="/js/common/axios.js" type="text/javascript"></script>
 
-
+    <!--[if lt IE 9]>
+    <script src="/js/plugin/html5shiv.js"></script> <![endif]-->
+    <script src="/js/plugin/prefixfree.min.js"></script>
+    <script src="/js/plugin/swiper.min.js" type="text/javascript"></script>
+    <%--<script src="https://code.angularjs.org/1.5.8/angular.js"></script>--%>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/locale/ko.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-duration-format/1.3.0/moment-duration-format.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ng-dialog/0.5.6/js/ngDialog.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
 
 </head>
 <script>
@@ -92,58 +91,58 @@
     /* API 호출 */
     const getCurrencyInfo = (today) => {
         try {
-            return axios.get('/api/auction/live/admin/currency/'+today);
+            return axios.get('/api/auction/live/admin/currency');
         } catch (error) {
             console.error(error);
         }
     };
 
+    //[] <--문자 범위 [^] <--부정 [0-9] <-- 숫자
+    //[0-9] => \d , [^0-9] => \D
+    var rgx1 = /\D/g;  // /[^0-9]/g 와 같은 표현
+    var rgx2 = /(\d+)(\d{3})/;
+    function getNumber(obj) {
+        var num01;
+        var num02;
+        num01 = obj.value;
+        num02 = num01.replace(rgx1, "");
+        num01 = setComma(num02);
+        obj.value = num01;
+    }
+    function setComma(inNum) {
+        var outNum;
+        outNum = inNum;
+
+        while (rgx2.test(outNum)) {
+            outNum = outNum.replace(rgx2, '$1' + ',' + '$2');
+        }
+        return outNum;
+    }
+
     app.controller('currencyPopCtl', function($scope, common) {
 
         $scope.jsonCurrency = {};
-        $scope.existFileDate = "";
-        $scope.dataResult = "표시 데이터 없음";
+        $scope.dataResult = "";
 
         $scope.vCommaKRW = function() {
             var inNum = $scope.delComma($scope.krwInput);
 
-            $scope.k_calUSD = (inNum/$scope.usdBase).toFixed(0);
-            $scope.k_calHKD = (inNum/$scope.hkdBase).toFixed(0);
-            $scope.k_calCNH = (inNum/$scope.cnhBase).toFixed(0);
-            $scope.k_calJPY = (inNum/$scope.jpyBase).toFixed(0);
-            $scope.k_calEUR = (inNum/$scope.eurBase).toFixed(0);
+            $scope.k_calUSD = (inNum/$scope.delComma($scope.usdBase)).toFixed(0);
+            $scope.k_calHKD = (inNum/$scope.delComma($scope.hkdBase)).toFixed(0);
+            $scope.k_calCNH = (inNum/$scope.delComma($scope.cnhBase)).toFixed(0);
+            $scope.k_calJPY = (inNum/$scope.delComma($scope.jpyBase)).toFixed(0);
+            $scope.k_calEUR = (inNum/$scope.delComma($scope.eurBase)).toFixed(0);
         }
 
         $scope.vCommaHKD = function() {
             var inNum = $scope.delComma($scope.hkdInput) * $scope.hkdBase;
 
             $scope.h_calKRW = (inNum).toFixed(0);
-            $scope.h_calUSD = (inNum/$scope.usdBase).toFixed(0);
-            $scope.h_calCNH = (inNum/$scope.cnhBase).toFixed(0);
-            $scope.h_calJPY = (inNum/$scope.jpyBase).toFixed(0);
-            $scope.h_calEUR = (inNum/$scope.eurBase).toFixed(0);
+            $scope.h_calUSD = (inNum/$scope.delComma($scope.usdBase)).toFixed(0);
+            $scope.h_calCNH = (inNum/$scope.delComma($scope.cnhBase)).toFixed(0);
+            $scope.h_calJPY = (inNum/$scope.delComma($scope.jpyBase)).toFixed(0);
+            $scope.h_calEUR = (inNum/$scope.delComma($scope.eurBase)).toFixed(0);
         }
-
-        // $scope.isFileExist = function(day){
-        //     var isExist = false;
-        //     $.ajaxSetup({async: false });
-        //     $.ajax({
-        //         url:'/js/currency/'+day+".json",
-        //         type:'HEAD',
-        //         success: function()
-        //         {
-        //             console.log("file exists");
-        //             isExist = true;
-        //         },
-        //         error: function()
-        //         {
-        //             console.log("file not exists");
-        //             isExist = false;
-        //         }
-        //     });
-        //
-        //     return isExist;
-        // }
 
         $scope.getToday = function(){
             var today = new Date();
@@ -157,19 +156,6 @@
             return dateString;
         }
 
-        // $scope.getPast = function(how){
-        //     var now = new Date();	// 현재 날짜 및 시간
-        //     var yesterday = new Date(now.setDate(now.getDate() - 1));	// 어제
-        //
-        //     var year = yesterday.getFullYear();
-        //     var month = ('0' + (yesterday.getMonth() + 1)).slice(-2);
-        //     var day = ('0' + yesterday.getDate()).slice(-2);
-        //
-        //     var dateString = year + '-' + month  + '-' + day;
-        //
-        //     return dateString;
-        // }
-
         $scope.delComma = function(str) {
             str = "" + str.replace(/,/gi,''); // 콤마 제거
             str = str.replace(/(^\s*)|(\s*$)/g, ""); // trim
@@ -178,50 +164,26 @@
 
         $scope.init = function(){
             $scope.today = $scope.getToday();
-            // $scope.yesterday = $scope.getPast();
-
             let run = async function () {
                 let [currencyData] = await Promise.all([
                     getCurrencyInfo($scope.today)
                 ]);
 
                 $scope.jsonCurrency = currencyData.data.data;
-                $scope.krwBase = $scope.jsonCurrency["KRW"]
-                $scope.usdBase = $scope.jsonCurrency["USD"];
-                $scope.hkdBase = $scope.jsonCurrency["HKD"];
-                $scope.cnhBase = $scope.jsonCurrency["CNH"];
-                $scope.jpyBase = $scope.jsonCurrency["JPY"];
-                $scope.eurBase = $scope.jsonCurrency["EUR"];
+                if($scope.jsonCurrency.length < 1) {
+                    $scope.dataResult = "데이터 호출 실패";
+                }
+                else {
+                    $scope.krwBase = $scope.jsonCurrency["KRW"]
+                    $scope.usdBase = $scope.jsonCurrency["USD"];
+                    $scope.hkdBase = $scope.jsonCurrency["HKD"];
+                    $scope.cnhBase = $scope.jsonCurrency["CNH"];
+                    $scope.jpyBase = $scope.jsonCurrency["JPY"];
+                    $scope.eurBase = $scope.jsonCurrency["EUR"];
 
-                $scope.dataResult = "LAST UPDATE : " + $scope.existFileDate + " KST (평일 오전 9시 업데이트)";
-
-                // if($scope.isFileExist($scope.today)){
-                //     $scope.existFileDate = $scope.today;
-                //
-                // }else if($scope.isFileExist($scope.yesterday)){
-                //     $scope.existFileDate = $scope.yesterday;
-                // }else{
-                //     console.log("error");
-                // }
-                //
-                //
-                // $.ajaxSetup({async: false });
-                // $.getJSON( "/js/currency/"+$scope.existFileDate+".json", function( data ) {
-                //
-                //     $scope.jsonCurrency = data;
-                //     $scope.krwBase = $scope.jsonCurrency["KRW"]
-                //     $scope.usdBase = $scope.jsonCurrency["USD"];
-                //     $scope.hkdBase = $scope.jsonCurrency["HKD"];
-                //     $scope.cnhBase = $scope.jsonCurrency["CNH"];
-                //     $scope.jpyBase = $scope.jsonCurrency["JPY"];
-                //     $scope.eurBase = $scope.jsonCurrency["EUR"];
-                //
-                //     $scope.dataResult = "LAST UPDATE : " + $scope.existFileDate + " KST (평일 오전 9시 업데이트)";
-                //
-                // }).fail(function() {
-                //     $scope.dataResult = "데이터 호출 실패";
-                // });
-
+                    $scope.dataResult = "LAST UPDATE : " + $scope.today + " KST (평일 오전 9시 업데이트)";
+                }
+                $scope.$apply();
             }
             run();
         }
@@ -251,7 +213,7 @@
                 <div style="padding-bottom:20px; font-size:22px; line-height:30px;">
                     <p style="padding-bottom:20px;">
                         <label style="color:#f44336">KRW: </label>
-                        <input type="text" placeholder="KRW" id="krwInput" ng-model="krwInput" onkeyup="moneyFormat(event, this);" ng-change="vCommaKRW();" style="padding:5px;"> 원
+                        <input type="text" placeholder="KRW" id="krwInput" ng-model="krwInput" onkeyup="getNumber(this)" ng-change="vCommaKRW();" style="padding:5px;"> 원
                     </p>
                     <p>USD: <span id="K_USD">{{ k_calUSD | number : 0 }}</span></p>
                     <p>HKD: <span id="K_HKD">{{ k_calHKD | number : 0 }}</span></p>
@@ -267,7 +229,7 @@
                 <div style="padding-bottom:20px; font-size:22px; line-height:30px;">
                     <p style="padding-bottom:20px;">
                         <label style="color:#f44336">HKD: </label>
-                        <input type="text" placeholder="HKD" id="hkdInput" ng-model="hkdInput" onkeyup="moneyFormat(event, this)" ng-change="vCommaHKD(this)" style="padding:5px;"> 달러
+                        <input type="text" placeholder="HKD" id="hkdInput" ng-model="hkdInput" onkeyup="getNumber(this)" ng-change="vCommaHKD(this)" style="padding:5px;"> 달러
                     </p>
                     <p>KRW: <span id="H_KRW">{{ h_calKRW | number : 0 }}</span></p>
                     <p>USD: <span id="H_USD">{{ h_calUSD | number : 0 }}</span></p>
