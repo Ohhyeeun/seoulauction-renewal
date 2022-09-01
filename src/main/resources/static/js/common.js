@@ -53,7 +53,19 @@ $(function() {
                 ingAuctionList.forEach(item => {
                     const titleJSON = JSON.parse(item.TITLE_BLOB);
                     const titleText = localeOrdinal(item.SALE_TH, locale) + titleJSON[locale];
-                    const path = `${item.SALE_KIND === 'LIVE'? 'live/' : ''}`;
+                    let linkPath = '';
+                    switch (item.SALE_KIND) {
+                        case 'LIVE':
+                            linkPath = `/auction/live/list/${item.SALE_NO}`;
+                            break;
+                        case 'ONLINE':
+                            linkPath = `/auction/online/${item.SALE_NO}`;
+                            break;
+                        // 기본: 온라인
+                        default:
+                            linkPath = `/auction/online/${item.SALE_NO}`;
+                            break;
+                    }
 
                     let imagePath = `https://www.seoulauction.com/nas_img`;
                     if (item.FILE_PATH && item.FILE_NAME) {
@@ -63,7 +75,7 @@ $(function() {
                     }
 
                     const returnDom = `
-                        <a href='/auction/${path}list/${item.SALE_NO}' class="Ingbanner" >
+                        <a href="${linkPath}" class="Ingbanner">
                             <figure class="border-txt-darkg Ingbanner-img">
                                 <img src="${imagePath}" onerror="this.src='${item.DEFAULT_IMAGE_PATH}'" alt="ing_auction01" />
                             </figure>
@@ -77,8 +89,11 @@ $(function() {
                     resultHtml += returnDom;
                 });
 
-                if (document.querySelector(".Ingbanner-box")) {
-                    document.querySelector(".Ingbanner-box").insertAdjacentHTML('beforeend', resultHtml);
+                /** @type {HTMLDivElement} */
+                const imgBannerBox = document.querySelector(".Ingbanner-box");
+
+                if (imgBannerBox) {
+                    imgBannerBox.insertAdjacentHTML('beforeend', resultHtml);
                 }
             }
         }).catch(function (error) {
@@ -87,8 +102,6 @@ $(function() {
     }
 
     function setGnbNowBadge() {
-
-
         axios.get('api/main/ingMenuCount')
             .then(function (response) {
                 const success = response.data.success;
