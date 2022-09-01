@@ -685,7 +685,6 @@
     /* */
     window.onload = function(){
         DEVICE_KIND = document.body.getAttribute('data-device');
-        console.log('onload', DEVICE_KIND)
     }
 
 
@@ -716,8 +715,6 @@
     });
 
     app.controller('ctl', function ($scope, consts, common, is_login, locale, device_kind, $filter) {
-        console.log("angular : ", DEVICE_KIND)
-        console.log("angular device_kind : ", device_kind)
         $scope.is_login = is_login;
         $scope.locale = locale;
         $scope.sale_no = SALE_NO;
