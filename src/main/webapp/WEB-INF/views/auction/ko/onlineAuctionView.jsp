@@ -79,8 +79,10 @@
                             <div class="sns-layer">
                               <div class="sns-item">
                                 <button class="js-share_kakao">
-                                  <i class="icon-share_sns_kakao"></i>
-                                  <div class="txt"><span>카카오톡</span></div>
+                                  <button id="kakao-share" class="js-share_kakao">
+                                    <i class="icon-share_sns_kakao"></i>
+                                    <div class="txt"><span>카카오톡</span></div>
+                                  </button>
                                 </button>
                               </div>
                               <div class="sns-item">
