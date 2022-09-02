@@ -360,3 +360,21 @@ async function openWebBrowser(url) {
     console.error(error);
   }
 }
+
+/**
+ * [Webview -> Native]
+ * 앱의 다른 ACTIVITY로 URL 열기
+ * @param {string} url
+ */
+async function openPayWebBrowser(url) {
+  try {
+    let result = await isNativeApp();
+    if ('flutter_inappwebview' in window && result){
+      await window.flutter_inappwebview.callHandler('openPayWebBrowser', url);
+    } else {
+      location.href = url;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
