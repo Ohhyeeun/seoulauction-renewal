@@ -368,9 +368,12 @@ async function openWebBrowser(url) {
  */
 async function openPayWebBrowser(url) {
   try {
+    let host = window.location.host;
+    let proc = window.location.protocol;
+
     let result = await isNativeApp();
     if ('flutter_inappwebview' in window && result){
-      await window.flutter_inappwebview.callHandler('openPayWebBrowser', url);
+      await window.flutter_inappwebview.callHandler('openPayWebBrowser', proc + "//" + host + url);
     } else {
       location.href = url;
     }
