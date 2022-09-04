@@ -1,14 +1,14 @@
 @charset "UTF-8";
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
-@viewport {
-    width: device-width;
-}
-@-ms-viewport {
-    width: device-width;
-}
-@-o-viewport {
-    width: device-width;
-}
+/*@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');*/
+/*@viewport {*/
+/*    width: device-width;*/
+/*}*/
+/*@-ms-viewport {*/
+/*    width: device-width;*/
+/*}*/
+/*@-o-viewport {*/
+/*    width: device-width;*/
+/*}*/
 
 /*
 Copyright (c) 2021 Kil Hyung-jin, with Reserved Font Name Pretendard.
@@ -290,24 +290,24 @@ img {
 img::selection {
     background-color: #62c3bc;
 }
-.footer-bottom10 {
-    padding-bottom: 10em;
-}
-.footer-bottom20 {
-    padding-bottom: 20em;
-}
-.footer-bottom30 {
-    padding-bottom: 30em;
-}
-.footer-bottom40 {
-    padding-bottom: 40em;
-}
-.footer-bottom50 {
-    padding-bottom: 50em;
-}
-.footer-bottom60 {
-    padding-bottom: 60em;
-}
+/*.footer-bottom10 {*/
+/*    padding-bottom: 10em;*/
+/*}*/
+/*.footer-bottom20 {*/
+/*    padding-bottom: 20em;*/
+/*}*/
+/*.footer-bottom30 {*/
+/*    padding-bottom: 30em;*/
+/*}*/
+/*.footer-bottom40 {*/
+/*    padding-bottom: 40em;*/
+/*}*/
+/*.footer-bottom50 {*/
+/*    padding-bottom: 50em;*/
+/*}*/
+/*.footer-bottom60 {*/
+/*    padding-bottom: 60em;*/
+/*}*/
 
 /* padding */
 /* 상단 공통 여백*/
@@ -1661,8 +1661,8 @@ body.dark,
     font-size: 20px;
 }
 
-/* pc */
-    @media all and (max-width: 1919px) {
+/* pc 1440px ~ 1920px*/
+@media all and (max-width: 1919px) {
     .scroll-top {
         right: 50px;
     }
@@ -1728,7 +1728,9 @@ body.dark,
         right: 50px;
     }
 }
-/* mobile,pc ui 혼용 */
+
+/* pc, tablet ui 혼용 */
+/*1280px ~ 1440px*/
 @media all and (max-width: 1439px) {
     .wrap,
     .container,
@@ -1750,6 +1752,8 @@ body.dark,
         margin-bottom: 100px;
     }
 }
+
+/*1024px ~ 1280px*/
 @media all and (max-width: 1279px) {
     .wrap,
     .container,
@@ -1789,7 +1793,9 @@ body.dark,
         padding-left: 0;
     }
 }
+
 /* mobile */
+/*720px ~ 1024px*/
 @media all and (max-width: 1023px) {
     .scroll-top {
         right: 25px;
@@ -2461,6 +2467,7 @@ body.dark,
         font-size: 14px; 
     }
 }
+/*560px ~ 720px*/
 @media all and (max-width: 719px) {
     .visual_btn>a {
         width: calc(100% / 2 - 10px);
@@ -2489,6 +2496,7 @@ body.dark,
         padding-bottom: 35em;
     }
 }
+/* ~ 560px*/
 @media all and (max-width: 559px) {
     .submenuBg {
         max-width: 300px;

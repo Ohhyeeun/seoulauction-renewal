@@ -204,7 +204,7 @@
                                         <li ng-repeat="item in lotList" ng-class="{cancel: item.STAT_CD === 'reentry'}">
                                             <div class="li-inner">
                                                 <%--출품취소--%>
-                                                <article ng-if="item.STAT_CD === 'reentry'" class="item-article">
+                                                <article ng-if="item.STAT_CD === 'reentry'" class="item-article item-article-cancel">
                                                     <div class="product_cancle-area">
                                                         <div class="area-inner">
                                                             <i class="icon-cancle_box"></i>
