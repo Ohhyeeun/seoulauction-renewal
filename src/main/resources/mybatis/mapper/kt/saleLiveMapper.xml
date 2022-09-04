@@ -122,11 +122,11 @@
               L.SALE_NO = #{sale_no}
           --  and L.STAT_CD = 'entry'
           and L.WWW_DISP_YN = 'Y'
-        <if test="lot_no == null" >
+        <if test="reentry == null" >
           and L.LIVE_ING_YN = 'Y'
         </if>
-        <if test="lot_no != null" >
-            and L.LOT_NO = #{lot_no}
+        <if test="reentry != null and reentry" >
+            and L.STAT_CD != 'reentry'
         </if>
         group by
             L.LOT_NO
@@ -391,16 +391,23 @@
             WHERE
             L.SALE_NO = #{sale_no}
             AND L.WWW_DISP_YN = 'Y'
-            <if test="category !=null">
-                AND H.CD_ID = #{category}
-            </if>
-            <if test="tag !=null">
-                AND L.LOT_TAG = #{tag}
-            </if>
-            <if test="search != null and lang != null">
-                AND (COLUMN_GET(D.ARTIST_NAME_BLOB, #{lang} AS CHAR) like concat('%', #{search}, '%')
-                OR COLUMN_GET(L.TITLE_BLOB, #{lang} AS CHAR) like concat('%', #{search}, '%'))
-            </if>
+        <if test="lot_no != null">
+            AND L.LOT_NO IN (${lot_no})
+        </if>
+        <if test="device != null">
+            AND L.CLOSE_YN = 'N'
+            AND L.STAT_CD = 'entry'
+        </if>
+        <if test="category != null">
+            AND H.CD_ID = #{category}
+        </if>
+        <if test="tag != null">
+            AND L.LOT_TAG = #{tag}
+        </if>
+        <if test="search != null and lang != null">
+            AND (COLUMN_GET(D.ARTIST_NAME_BLOB, #{lang} AS CHAR) like concat('%', #{search}, '%')
+            OR COLUMN_GET(L.TITLE_BLOB, #{lang} AS CHAR) like concat('%', #{search}, '%'))
+        </if>
         GROUP BY
             L.LOT_NO
         ORDER BY
@@ -414,8 +421,10 @@
     <!-- 경매 List 조회 -->
     <select id="selectSaleList" parameterType="CommonMap" resultType="CommonMap">
         <include refid="saleLiveList"></include>
-        LIMIT
+        <if test="device == null">
+            LIMIT
             #{offset} , #{size}
+        </if>
     </select>
     <!-- 경매 List Count 조회 -->
     <select id="selectSaleListCount" parameterType="CommonMap" resultType="int">
