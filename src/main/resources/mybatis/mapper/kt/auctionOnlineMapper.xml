@@ -218,12 +218,12 @@
             , COLUMN_JSON(S.NOTICE_DTL_BLOB) NOTICE_DTL_JSON
             , S.CURR_CD
             , S.FROM_DT
-            , S.TO_DT
+            , S.TO_DT AS SALE_TO_DT
             , S.LIVE_BID_YN
             , S.LIVE_BID_DT
             , S.AUTO_BID_REQ_CLOSE_DT
             , L.STAT_CD, L.FROM_DT, L.TO_DT
-            , L.TO_DT AS SALE_TO_DT
+            , L.TO_DT
             , L.START_PRICE
             , L.GROW_PRICE
             , COLUMN_GET(L.TITLE_BLOB, 'ko' as CHAR) TITLE_KO_TXT
