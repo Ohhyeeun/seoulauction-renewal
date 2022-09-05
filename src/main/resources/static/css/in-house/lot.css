@@ -9,6 +9,9 @@
 .item-article-cancel .typo-area {
     background-color: #f6f6f6;
 }
+.type_panel-product_list .panel-body .product-list .cancel .li-inner {
+    background-color: #f6f6f6;
+}
 
 @media all and (max-width: 1023px) {
     .item-article-cancel {
