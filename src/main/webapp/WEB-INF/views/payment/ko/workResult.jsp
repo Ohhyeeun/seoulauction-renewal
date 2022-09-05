@@ -176,6 +176,8 @@
             location.href = "/mypage/liveBidReqList";
         }
     }
+''
 </script>
 <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
+<script src="/js/payment/payment_common.js" type="text/javascript"></script>
 </html>
