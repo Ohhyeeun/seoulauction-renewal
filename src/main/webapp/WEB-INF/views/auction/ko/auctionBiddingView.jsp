@@ -617,15 +617,15 @@
         }
 
         async function getPollingData(){
-            let [currentLotData, noticesData] = await Promise.all([
+            let [currentLotData] = await Promise.all([
                 getCurrentLotInfo(saleNo),
-                getNotices(saleNo)
+                // getNotices(saleNo)
             ]);
 
-            const noticeList = noticesData.data.data;
+            /*const noticeList = noticesData.data.data;
             if(noticeList.length > 0){
                 bindingNoticeInfo(noticeList);
-            }
+            }*/
 
             const currentLotInfo = currentLotData.data.data;
             currentLotNo = currentLotInfo.LOT_NO;
@@ -776,7 +776,6 @@
 
             el_currSelectBox.addEventListener('change', (e)=>{
                 openTermPopup();
-                // changeSubCurrency(e);
             });
         }
 
