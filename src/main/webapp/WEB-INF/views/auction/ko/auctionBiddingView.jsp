@@ -466,11 +466,6 @@
             var scope = angular.element(document.getElementById("container")).scope();
             return scope;
         }
-        function confirmEnd() {
-            $(".js-closepop").click();
-            Scope().selectedCurrencyType = Scope().currencyType;
-            Scope().$apply();
-        }
 
         /* 통화 전환 시 */
         function selectCurrency(){
@@ -780,13 +775,40 @@
             currencyArea.innerHTML = currencyDom;
 
             el_currSelectBox.addEventListener('change', (e)=>{
-                const rate = e.target.value;
-                const currCd = e.target.options[e.target.selectedIndex].text;
-                subCurrency = currCd;
-                subCurrencyRate = rate;
-''            });
+                openTermPopup();
+                // changeSubCurrency(e);
+            });
         }
 
+        const openTermPopup = () =>{
+            let money_help = $(".js-money_help").trpLayerFixedPopup("#money_help-wrap");
+            money_help.open(this);
+            popup_fixation("#money_help-wrap");
+            $("body").on("click", "#money_help-wrap .js-closepop, #money_help-wrap .popup-dim", function($e) {
+                $e.preventDefault();
+                money_help.close();
+            });
+        }
+
+        const confirmEnd = () =>{
+            const checkBoxId = document.getElementById("checkbox_check");
+            if(checkBoxId.checked){
+                changeSubCurrency();
+                checkBoxId.checked = false;
+                $(".js-closepop").click();
+            }else{
+                alert("약관에 동의해주세요.");
+            }
+        }
+
+        const changeSubCurrency = () => {
+            const selectorName = classForDevice === '.pcVer'? 'pc-currency-select-box' : 'mo-currency-select-box';
+            const el_currSelectBox = document.getElementById(selectorName);
+            const rate = el_currSelectBox.value;
+            const currCd = el_currSelectBox.options[el_currSelectBox.selectedIndex].text;
+            subCurrency = currCd;
+            subCurrencyRate = rate;
+        }
 
         const calSubCurrencyPrice = (basePrice, rate) =>{
             const calPrice =  Math.round(basePrice/rate);
