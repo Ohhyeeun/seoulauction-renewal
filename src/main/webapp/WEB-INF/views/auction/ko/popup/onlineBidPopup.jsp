@@ -72,7 +72,7 @@
                     </div>
 
                     <!-- Online End -->
-                    <div class="online_end bid-end">
+                    <div class="online_end bid-end" style="display: none;">
                       <div class="txt">
                         현재 LOT의 경매가 <span>종료</span>되었습니다.
                       </div>
@@ -80,7 +80,7 @@
                     <!-- Online End //-->
 
                     <!-- Online Ongoing -->
-                    <div class="bid-ongoing">
+                    <div class="bid-ongoing" style="display: none;">
                       <div class="topbtn-area">
                         <div class="btn_set">
                           <div class="btn_item select-bid-type-btn" data-bid-type-value="once">

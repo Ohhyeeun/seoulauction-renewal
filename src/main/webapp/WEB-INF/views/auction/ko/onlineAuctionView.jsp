@@ -63,7 +63,7 @@
                       </div>
 
                       <div class="view_scale-area">
-                        <a href="#"><i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
+                        <a href="#" class="js-popup_image_viewer"><i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
                       </div>
                     </article>
                   </div>
@@ -230,6 +230,8 @@
 <jsp:include page="popup/onlineAllLotList.jsp" />
 <jsp:include page="popup/onlineAutoBidConfirmPopup.jsp" />
 <jsp:include page="popup/onlineAutoBidStopPopup.jsp" />
+<jsp:include page="popup/onlineImageViewer.jsp" />
+<jsp:include page="popup/onlineImageViewScale.jsp" />
 <!-- Popup List //-->
 
 <jsp:include page="./onlineAuctionViewBodyJs.jsp" />
