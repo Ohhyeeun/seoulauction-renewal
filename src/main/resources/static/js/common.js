@@ -1301,11 +1301,6 @@ $(document).ready(function(){
     // document.oncontextmenu="return false style='-webkit-touch-callout:none'";
 });
 
-//오브젝트 or 배열 비었는지 확인
-function isNotObjectEmpty(param) {
-    return param.constructor === Object && Object.keys(param).length !== 0;
-}
-
 function returnLocaleValOrEmptyStr(obj, locale){
     if(obj !== undefined && isNotObjectEmpty(obj))
         return obj[locale];
