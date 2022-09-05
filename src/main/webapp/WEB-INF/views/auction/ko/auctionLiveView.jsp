@@ -1292,7 +1292,7 @@
                 $(".js-popup_images").on("click", function ($e) {
                     $e.preventDefault();
                     //TODO:저작권 작가 확대 보기 안 되게
-                    if($scope.lotInfo.IMAGE_MAGNIFY){
+                    if(!$scope.lotInfo.IMAGE_MAGNIFY){
                         popup_images.open(this); // or false
                         for (var o = $(".imageViewerpopup"), e = 0; e < o.length; e++) {
                             if (!o[e]) return !1;

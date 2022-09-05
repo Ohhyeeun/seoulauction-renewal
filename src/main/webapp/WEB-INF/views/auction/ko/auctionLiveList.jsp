@@ -204,7 +204,7 @@
                                         <li ng-repeat="item in lotList" ng-class="{cancel: item.STAT_CD === 'reentry'}">
                                             <div class="li-inner">
                                                 <%--출품취소--%>
-                                                <article ng-if="item.STAT_CD === 'reentry'" class="item-article">
+                                                <article ng-if="item.STAT_CD === 'reentry'" class="item-article item-article-cancel">
                                                     <div class="product_cancle-area">
                                                         <div class="area-inner">
                                                             <i class="icon-cancle_box"></i>
@@ -550,7 +550,7 @@
                 }else if(saleStatus === 'LIVE_ING' && !isLogin){
                     //player only 페이지 이동
                     if(DEVICE_KIND === 'is_pc'){
-                        window.open("/auction/live/bid/player/"+$scope.sale_no,"bidder", "resizable=no, status=no, menubar=no, toolbar=no, location=no, directories=no");
+                        window.open("/auction/live/bid/player/"+$scope.sale_no,"bidder", "resizable=no, status=no, menubar=no, toolbar=no, location=no, directories=no, fullscreen=yes");
                     }else{
                         window.location.href = "/auction/live/bid/player/mobile/"+$scope.sale_no;
                     }
@@ -558,7 +558,7 @@
                     return;
                 }else if(saleStatus === 'LIVE_ING' && isLogin){
                     //응찰페이지 이동
-                    window.open("/auction/live/bidder/"+$scope.sale_no, "bidder", "resizable=no, status=no, menubar=no, toolbar=no, location=no, directories=no");
+                    window.open("/auction/live/bidder/"+$scope.sale_no, "bidder", "resizable=no, status=no, menubar=no, toolbar=no, location=no, directories=no, fullscreen=yes");
                     return;
                 }
             }
