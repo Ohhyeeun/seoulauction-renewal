@@ -45,45 +45,63 @@ $(function() {
 
 
     function loadIngAuctionList() {
+        axios.get('/api/main/ingAuctions').then(function (response) {
+            let resultHtml = ``;
+            const success = response.data.success;
+            if (success) {
+                const ingAuctionList = response.data.data;
+                ingAuctionList.forEach(item => {
+                    const titleJSON = JSON.parse(item.TITLE_BLOB);
+                    const titleText = localeOrdinal(item.SALE_TH, locale) + titleJSON[locale];
+                    let linkPath = '';
+                    switch (item.SALE_KIND) {
+                        case 'LIVE':
+                            linkPath = `/auction/live/list/${item.SALE_NO}`;
+                            break;
+                        case 'ONLINE':
+                            linkPath = `/auction/online/${item.SALE_NO}`;
+                            break;
+                        // 기본: 온라인
+                        default:
+                            linkPath = `/auction/online/${item.SALE_NO}`;
+                            break;
+                    }
 
+                    let imagePath = `https://www.seoulauction.com/nas_img`;
+                    if (item.FILE_PATH && item.FILE_NAME) {
+                        imagePath = `${imagePath}/${item.FILE_PATH}/${item.FILE_NAME}`;
+                    } else {
+                        imagePath = item.DEFAULT_IMAGE_PATH;
+                    }
 
-        axios.get('api/main/ingAuctions')
-            .then(function (response) {
-                const success = response.data.success;
-                if (success) {
-                    const ingAuctionList = response.data.data;
-                    ingAuctionList.map(item => {
-                        const titleJSON = JSON.parse(item.TITLE_BLOB);
-                        const titleText = localeOrdinal(item.SALE_TH, locale) + titleJSON[locale];
-                        const path = `${item.SALE_KIND === 'LIVE'? 'live/' : ''}`;
-                        const returnDom = `<a href='/auction/${path}list/${item.SALE_NO}' class="Ingbanner" >
-                                            <figure class="border-txt-darkg Ingbanner-img">
-                                                <img src="https://www.seoulauction.com/nas_img/${item.FILE_PATH}/${item.FILE_NAME}" 
-                                                     onerror="this.src='${item.DEFAULT_IMAGE_PATH}'"
-                                                    alt="ing_auction01">
-                                            </figure>
-                                            <div class="Ingbanner-txt text-over">
-                                                <span class="auctionKind-box Ingkind-auction ${item.SALE_KIND === 'LIVE' ? 'on' : ''}">${item.SALE_KIND}</span>
-                                                  <p class="text-over" title="${titleText}">${titleText}</p>
-                                                <span class="Ingbanner-arrow"></span>
-                                            </div>
-                                        </a>`;
-                        // this.src='/images/pc/thumbnail/gnb_thubnatil_ready.jpg'
-                        if(document.querySelector(".Ingbanner-box")) {
-                            document.querySelector(".Ingbanner-box").insertAdjacentHTML('beforeend', returnDom);
-                        }
-                    });
+                    const returnDom = `
+                        <a href="${linkPath}" class="Ingbanner">
+                            <figure class="border-txt-darkg Ingbanner-img">
+                                <img src="${imagePath}" onerror="this.src='${item.DEFAULT_IMAGE_PATH}'" alt="ing_auction01" />
+                            </figure>
+                            <div class="Ingbanner-txt text-over">
+                                <span class="auctionKind-box Ingkind-auction ${item.SALE_KIND === 'LIVE' ? 'on' : ''}">${item.SALE_KIND}</span>
+                                  <p class="text-over" title="${titleText}">${titleText}</p>
+                                <span class="Ingbanner-arrow"></span>
+                            </div>
+                        </a>
+                    `.trim();
+                    resultHtml += returnDom;
+                });
 
+                /** @type {HTMLDivElement} */
+                const imgBannerBox = document.querySelector(".Ingbanner-box");
+
+                if (imgBannerBox) {
+                    imgBannerBox.insertAdjacentHTML('beforeend', resultHtml);
                 }
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+            }
+        }).catch(function (error) {
+            console.log(error);
+        });
     }
 
     function setGnbNowBadge() {
-
-
         axios.get('api/main/ingMenuCount')
             .then(function (response) {
                 const success = response.data.success;
@@ -945,7 +963,6 @@ function growPriceForOffline(price){
     } else if (price >= 2000000000){
         growPrice = 100000000;
     }
-
     return growPrice;
 }
 
@@ -1320,4 +1337,36 @@ function js_size_text_cm(sizeJson){
     returnValue += (src.DIAMETER_YN == "Y" ? "Φ " : "") + cmSize;
     returnValue += (src.SUFFIX ? " (" + src.SUFFIX + ") " : "");
     return returnValue;
+}
+
+function getAcademyImg(param){
+    if(param === "artauction"){ // 대학생 아카데미
+        return "academy-thum_student.jpg";
+    }else if(param === "artbrunch"){ // CEO
+        return "academy-thum_ceo.jpg";
+    }else if(param === "artculture"){ //아트마켓
+        return "academy-thum_market.jpg";
+    }else if(param === "artisttalk"){ //작가론
+        return "academy-thum_authorism.jpg";
+    }else if(param === "culture"){ // 건축
+        return "academy-thum_architecture.jpg";
+    }else if(param === "lecture"){ // 특강
+        return "academy-thum_lecture.jpg";
+    }
+}
+
+function getAcademyNm(param){
+    if(param === "artauction"){ // 대학생 아카데미
+        return "대학생 아카데미";
+    }else if(param === "artbrunch"){ // CEO
+        return "프라이빗";
+    }else if(param === "artculture"){ //아트마켓
+        return "아트마켓";
+    }else if(param === "artisttalk"){ //작가론
+        return "작가론";
+    }else if(param === "culture"){ // 건축
+        return "건축";
+    }else if(param === "lecture"){ // 특강
+        return "특강";
+    }
 }

@@ -38,9 +38,7 @@
                                                         <%--0823 이미지, 텍스트 분리 --%>
                                                         <figure class="img paythumb">
                                                             <img id="academy-img" data="${resultMap.ACADEMY_CD}" alt="아카데미 결제 썸네일 이미지">
-                                                            <figcaption class="paythumb-text">
-                                                                대학생 아카데미
-                                                            </figcaption>
+                                                            <figcaption id="academy-name" class="paythumb-text"></figcaption>
                                                         </figure>
                                                         <%--//0823 이미지, 텍스트 분리 --%>
 
@@ -175,24 +173,9 @@
     </div>
 </body>
 <script>
-    function getAcademyImg(param){
-        if(param == "artauction"){ // 대학생 아카데미
-            return "academy-thum_student.jpg";
-        }else if(param == "artbrunch"){ // CEO
-            return "academy-thum_ceo.jpg";
-        }else if(param == "artculture"){ //아트마켓
-            return "academy-thum_market.jpg";
-        }else if(param == "artisttalk"){ //작가론
-            return "academy-thum_authorism.jpg";
-        }else if(param == "culture"){ // 건축
-            return "academy-thum_architecture.jpg";
-        }else if(param == "lecture"){ // 특강
-            return "academy-thum_lecture.jpg";
-        }
-    }
-
     const academy_cd = $("#academy-img").attr("data");
     $("#academy-img").attr("src", "/images/pc/service/"+getAcademyImg(academy_cd));
+    $("#academy-name").text(getAcademyNm(academy_cd));
 </script>
 <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
 <!-- 아래 js는 PC 결제창 전용 js입니다.(모바일 결제창 사용시 필요 없음) -->

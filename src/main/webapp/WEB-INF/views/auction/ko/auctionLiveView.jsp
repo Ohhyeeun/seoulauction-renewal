@@ -53,11 +53,11 @@
                                                             <div class="list-box scroll-type">
                                                                 <ul id="sale_lot_list">
                                                                     <li ng-repeat="item in lotNaviList" data-index="{{item.LOT_NO}}">
-                                                                        <a href="javascript:void(0);" ng-click="goLot(item.SALE_NO, item.LOT_NO)">
+                                                                        <a href="javascript:void(0);" ng-click="goLot(sale_no, item.LOT_NO)">
                                                                             <div class="image-area">
                                                                                 <figure class="img-ratio">
                                                                                     <div class="img-align">
-                                                                                        <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="">
+                                                                                        <img src="https://www.seoulauction.com/nas_img/{{item.LOT_IMG_PATH}}/list/{{item.LOT_IMG_NAME}}" alt="">
                                                                                     </div>
                                                                                 </figure>
                                                                             </div>
@@ -135,7 +135,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="view_scale-area" ng-if="isUseViewScale">
+                                            <div class="view_scale-area" ><%--ng-if="isUseViewScale"--%>
                                                 <a class="js-popup_image_viewer" href="#">
                                                     <i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
                                             </div>
@@ -151,7 +151,7 @@
                                                     </a>
                                                     <a id="heart"
                                                        class="work_heart js-work_heart" ng-class="{on : lotInfo.FAVORITE_YN}"
-                                                       ng-click="toggleFavoriteLot(lotInfo);">
+                                                       ng-click="toggleFavoriteLot($event,lotInfo);">
                                                         <i class="icon-view_heart_off"></i>
                                                     </a>
 
@@ -270,7 +270,7 @@
                                                 </div>
 
                                                 <%--년도--%>
-                                                <div ng-if="displayLotInfo.edition">
+                                                <div ng-if="displayLotInfo.makeYear">
                                                     <span ng-bind="displayLotInfo.makeYear"></span>
                                                 </div>
 
@@ -346,56 +346,8 @@
                                     <div class="article-body">
                                         <div class="scroll-type">
                                             <div class="product-area">
-                                                <ul id="recently_views" class="product-list">
-                                                    <li class="" ng-repeat="item in recentlyViews">
-                                                        <div class="li-inner">
-                                                            <a href="/auction/live/view/{{item.SALE_NO}}/{{item.LOT_NO}}">
-                                                                <article class="item-article">
-                                                                    <div class="image-area">
-                                                                        <figure class="img-ratio">
-                                                                            <div class="img-align">
-                                                                                <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}"
-                                                                                     alt="">
-                                                                            </div>
-                                                                        </figure>
-                                                                    </div>
-                                                                    <div class="typo-area">
-                                                                        <div class="product_info">
-                                                                            <div class="num_heart-box">
-                                                                                <span class="num" ng-bind="item.LOT_NO"></span>
-
-                                                                                <a ng-class="item.FAVORITE_YN === 'Y' ? 'heart js-work_heart on' : 'heart js-work_heart'"
-                                                                                   ng-click="favorite2(item.SALE_NO, item.LOT_NO, $index);"><i
-                                                                                        class="icon-heart_off"></i></a>
-                                                                            </div>
-                                                                            <div class="info-box">
-                                                                                <a href="/auction/live/view/{{item.SALE_NO}}/{{item.LOT_NO}}">
-                                                                                    <div class="title">
-                                                                                        <span ng-bind="item.ARTIST_NAME_BLOB_JSON.ko"></span>
-                                                                                    </div>
-                                                                                    <div class="desc">
-                                                                                        <span ng-bind="item.TITLE_BLOB_JSON.ko"></span>
-                                                                                    </div>
-                                                                                </a>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="product_cancle-area">
-                                                                        <div class="area-inner">
-                                                                            <i class="icon-cancle_box"></i>
-                                                                            <div class="typo">
-                                                                                <div class="name"><span ng-bind="'LOT ' + item.LOT_NO"></span>
-                                                                                </div>
-                                                                                <div class="msg">
-                                                                                    <span>출물이 취소되었습니다.</span>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </article>
-                                                            </a>
-                                                        </div>
-                                                    </li>
+                                                <ul id="recent-lot-list" class="product-list">
+                                                    <%-- recent lot list--%>
                                                 </ul>
                                             </div>
                                         </div>
@@ -452,16 +404,12 @@
                                     <div class="mobile_scroll-type">
                                         <div class="lotlist-box">
                                             <ul class="lotlist-inner">
-                                                <li class="lotitem" ng-class="{cancel:item.STAT_CD === 'reentry'}" ng-repeat="item in moLotList" data-index="{{item.LOT_NO}}" ng-click="goLot(item.SALE_NO, item.LOT_NO)">
-                                                    <p class="txt" ng-if="item.STAT_CD === 'reentry'">
-                                                        LOT {{item.LOT_NO}}<br>
-                                                        출품이 취소되었습니다.
-                                                    </p>
-                                                    <div class="js-select_lotitem lotitem_wrap" ng-if="item.STAT_CD !== 'reentry'">
+                                                <li class="lotitem" ng-repeat="item in lotNaviList" data-index="{{item.LOT_NO}}" ng-click="goLot(sale_no, item.LOT_NO)">
+                                                    <div class="js-select_lotitem lotitem_wrap" >
                                                         <div class="view-img">
                                                             <div class="img-box">
                                                                 <div class="box-inner">
-                                                                    <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/{{item.FILE_NAME}}" alt="'LOT' + {{item.LOT_NO}}">
+                                                                    <img src="https://www.seoulauction.com/nas_img{{item.LOT_IMG_PATH}}/list/{{item.LOT_IMG_NAME}}" alt="'LOT' + {{item.LOT_NO}}">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -470,12 +418,12 @@
                                                                 <div class="num"><span class="snum" ng-bind="item.LOT_NO"></span> </div>
                                                             </div>
                                                             <div class="typo-box">
-                                                                <div class="title"><span ng-bind="item.ARTIST_NAME_JSON === null? '작자미상' : item.ARTIST_NAME_JSON.ko"></span></div>
-                                                                <div class="desc"><span  ng-bind="item.LOT_TITLE_JSON.ko"></span></div>
+                                                                <div class="title"><span ng-bind="item.ARTIST_NAME_JSON[locale] || ''"></span></div>
+                                                                <div class="desc"><span  ng-bind="item.LOT_TITLE_JSON[locale]"></span></div>
                                                             </div>
                                                             <div class="btn-box">
-                                                                <button ng-class="item.FAVORITE_YN==='Y' ? 'icon-heart_off' : 'icon-heart_on'"
-                                                                        ng-click="favorite3(item.SALE_NO,item.LOT_NO);"></button>
+                                                                <button ng-class="item.FAVORITE_YN ? 'icon-heart_on' : 'icon-heart_off'"
+                                                                        ng-click="toggleFavoriteLot($event,item);"></button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -597,55 +545,14 @@
 <%--<script type="text/javascript" src="/js/plugin/prefixfree.min.js" type="text/javascript"></script>--%>
 <%--<script type="text/javascript" src="/js/plugin/jquerylibrary.js" type="text/javascript"></script>--%>
 <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script src="/js/recentView.js" defer></script>
 
 <%--낙찰 수수료 팝업 --%>
 <jsp:include page="popup/bidCommissionPopup.jsp"/>
 
 <%--경매 호가 팝업 --%>
 <jsp:include page="popup/growBiddingPopup.jsp"/>
-<%--경매 호가 스크립트 --%>
-<script>
-    let dataArray = [];
 
-    //라이브 경매 호가
-    dataArray.push({'up': null, 'down': '100만', 'price': 50000});
-    dataArray.push({'up': '100만', 'down': '200만', 'price': 100000});
-    dataArray.push({'up': '200만', 'down': '400만', 'price': 200000});
-    dataArray.push({'up': '400만', 'down': '1000만', 'price': 300000});
-    dataArray.push({'up': '1,000만', 'down': '2,000만', 'price': 500000});
-    dataArray.push({'up': '2,000만', 'down': '3,000만', 'price': 1000000});
-    dataArray.push({'up': '3,000만', 'down': '5,000만', 'price': 2000000});
-    dataArray.push({'up': '5,000만', 'down': '1억', 'price': 3000000});
-    dataArray.push({'up': '1억', 'down': '2억', 'price': 5000000});
-    dataArray.push({'up': '2억', 'down': '3억', 'price': 10000000});
-    dataArray.push({'up': '3억', 'down': '5억', 'price': 20000000});
-    dataArray.push({'up': '5억', 'down': '10억', 'price': 30000000});
-    dataArray.push({'up': '10억', 'down': '20억', 'price': 50000000});
-    dataArray.push({'up': '20억', 'down': null, 'price': 100000000});
-
-    $.each(dataArray, function (idx, item) {
-        let text = (item.up != null ? item.up + ' 이상' : '') + ' ~ ' + (item.down != null ? item.down + ' 미만' : '');
-        let html = '<tr><td><span>' + text + '</span>'
-            + '</td><td>'
-            + '<span>' + numberWithCommas(item.price) + '</span>'
-            + '</td></tr>';
-        $("#grow_off_tbody").append(html);
-    });
-
-    var popup_alert3 = $(".js-popup_alert3").trpLayerFixedPopup("#popup_alert3-wrap");
-    $(popup_alert3.getBtn).on("click", function ($e) {
-        $e.preventDefault();
-        popup_alert3.open(this); // or false
-        popup_fixation("#popup_alert3-wrap"); // pc 스크롤
-        popup_motion_open("#popup_alert3-wrap"); // mb 모션
-    });
-
-    $("body").on("click", "#popup_alert3-wrap .js-closepop, #popup_alert3-wrap .popup-dim", function ($e) {
-        $e.preventDefault();
-        popup_alert3.close();
-        popup_motion_close("#popup_alert3-wrap");
-    });
-</script>
 <!-- swiper function-->
 <script>
     document.cookie = "crossCookie=bar; SameSite=None; Secure";
@@ -653,25 +560,17 @@
 
     /* 섬네일 활성화 */
     function view_thumnailActive($index) {
+        console.log("dd")
         $(".js-view_thumnail .slide").removeClass("active");
         $(".js-view_thumnail .slide").eq($index).addClass("active");
     };
 
-    /* 섬네일 클릭 */
-    $(".js-view_thumnail .slide.images").on("click", function () {
-        var _index = $(this).index();
-        console.log(_index);
-        view_thumnailActive(_index);
-        view_visualActive(_index);
-    });
 
     /* 비주얼 활성화 */
     function view_visualActive($index, view_visual) {
         view_visual.slideTo($index)
     };
-</script>
-<!-- [0516] 셀렉트 드롭다운 -->
-<script>
+
     let dropdown = $(".js-dropdown-btn").trpDropdown({
         list: ".trp-dropdown_list-box",
         area: ".trp-dropdown-area"
@@ -683,23 +582,13 @@
         _this.closest(".trp-dropdown-area").find(".js-dropdown-btn span").text($("span", _this).text());
         dropdown.getClose();
     });
-</script>
 
-<!-- [0628]모바일 LOT 버튼 클릭시 액션 추가 -->
-<%--<script>--%>
-<%--    $(".js-lotbox-btn").click(function () {--%>
-<%--        $(this).parent(".btn_lot-box").toggleClass("on")--%>
-<%--    })--%>
-<%--</script>--%>
-
-<!-- hold side : positionTar2 : $(".js-page_name-article"), -->
-<!-- [2022-0516] 사용 -->
-<script>
     let _hold_info = $(".js-product_detail-article").trpScrollSyncTopView({
         topStart: 172,
         topMagin: 172,
         bottomStop: 1065
     });
+
     $(window).on("scroll resize", function ($e) {
         renewalFn();
     });
@@ -723,6 +612,7 @@
     const IS_CUST_REQUIRED = ${isCustRequired};
     const SALE_NO = ${saleNo};
     const LOT_NO = ${lotNo};
+    let DEVICE_KIND = 'is_pc';
 
     /* API 호출 */
 
@@ -750,9 +640,10 @@
         }
     };
 
-    const getLotNavigation = () => {
+    const getNaviLotList = (params) => {
         try {
-            return axios.get('/api/auction/live/sale_images/'+ ${saleNo});
+            const paramString = "?" + window.Qs.stringify(params);
+            return axios.get('/api/auction/live/list/'+ SALE_NO + paramString);
         } catch (error) {
             console.error(error);
         }
@@ -774,30 +665,33 @@
         }
     }
 
-    /* 모바일용 API */
-    const getLotListInfo = (params) => {
+    const getRecentLotsInfo = (recentLots) => {
         try {
-            const paramString = "?"+window.Qs.stringify(params);
-            return axios.get('/api/auction/list/${saleNo}'+paramString);
+            const params = {lotNo : encodeURI(recentLots)};
+            const paramString = "?" + window.Qs.stringify(params);
+            return axios.get('/api/auction/live/list/'+ SALE_NO + paramString);
         } catch (error) {
             console.error(error);
         }
-    };
+    }
 
     const getCategories = () => {
         try {
-            return axios.get('/api/auction/live/sales/' + ${saleNo}+'/types');
+            return axios.get('/api/auction/live/sales/' + SALE_NO +'/types');
         } catch (error) {
             console.error(error);
         }
     }
 
     /* */
-
+    window.onload = function(){
+        DEVICE_KIND = document.body.getAttribute('data-device');
+    }
 
 
     app.value('locale', 'ko');
     app.value('is_login', true);
+    app.value('device_kind', DEVICE_KIND);
 
     app.requires.push.apply(app.requires, ["ngAnimate", "ngDialog"]);
 
@@ -821,8 +715,7 @@
         };
     });
 
-    app.controller('ctl', function ($scope, consts, common, is_login, locale, $filter) {
-
+    app.controller('ctl', function ($scope, consts, common, is_login, locale, device_kind, $filter) {
         $scope.is_login = is_login;
         $scope.locale = locale;
         $scope.sale_no = SALE_NO;
@@ -867,15 +760,18 @@
             $scope.selectCategory = categoryVal;
 
             const params = categoryVal === 'all' ? {} : { [categoryType] : categoryVal };
+            params.device = 'mo';
 
-            const result = await getLotListInfo(params);
-            console.log(result);
-            $scope.moLotList = result.data.data;
-            $scope.lotTotalCount = $scope.moLotList.length;
-
+            const result = await getNaviLotList(params);
+            $scope.lotNaviList = result.data.data.list;
+            $scope.lotTotalCount = result.data.data.count;
+            $scope.$apply();
         }
 
-        $scope.toggleFavoriteLot = async function(item) {
+        $scope.toggleFavoriteLot = async function(e,item) {
+            e.preventDefault();
+            e.stopPropagation();
+
             if(!checkLogin()){
                 return;
             }
@@ -895,7 +791,6 @@
             } catch (error) {
                 console.error(error);
             }
-
         }
 
         $scope.urlCopy = function () {
@@ -978,10 +873,10 @@
 
             //마감일
             displayLot.lotExpireDate = lotData.TITLE_JSON[locale];
-            
+
             //작품정보
             displayLot.mate = returnLocaleValOrEmptyStr(lotData.MATE_CD, locale); //재질
-            displayLot.sizeArray = returnLocaleValOrEmptyStr(JSON.parse(lotData.LOT_SIZE_ARRAY),locale); //규격
+            displayLot.sizeArray = JSON.parse(lotData.LOT_SIZE_ARRAY); //규격
             displayLot.edition = lotData.EDITION; //에디션
             displayLot.makeYear = returnLocaleValOrEmptyStr(lotData.MAKE_YEAR_JSON, locale); //제작년도
             displayLot.sign = returnLocaleValOrEmptyStr(lotData.SIGN_INFO_JSON, locale); //서명
@@ -997,16 +892,13 @@
 
             //artist 번호
             $scope.artistNo = lotData.ARTIST_NO;
-
-            // ? $scope.activeIndex = 0;
-
             $scope.displayLotInfo = displayLot;
+
             $scope.$apply();
         }
 
 
         const setArtistInfo = (artistData) =>{
-            console.log(artistData)
             if(artistData){
                 const artistLayer = document.getElementById('artist_layer');
                 const artistName = artistData.NAME_JSON['ko'] + ' ' + artistData.NAME_JSON['en'];
@@ -1056,17 +948,76 @@
             }
         }
 
+        const renderRecentLots = (baseData, apiData) => {
+            let returnDom = ``;
+            baseData.map(lotNo => {
+                const lotInfo = apiData.filter(item => item.STAT_CD !== 'reentry').find(item => lotNo === item.LOT_NO);
+                if(lotInfo){
+                    returnDom += `<li>
+                                <div class="li-inner">
+                                    <a href="/auction/live/view/\${SALE_NO}/\${lotInfo.LOT_NO}">
+                                        <article class="item-article">
+                                                <div class="image-area">
+                                                    <figure class="img-ratio">
+                                                        <div class="img-align">
+                                                            <img src="https://www.seoulauction.com/nas_img/\${lotInfo.LOT_IMG_PATH}/list/\${lotInfo.LOT_IMG_NAME}"alt="">
+                                                        </div>
+                                                    </figure>
+                                                </div>
+                                                <div class="typo-area">
+                                                    <div class="product_info">
+                                                        <div class="num_heart-box">
+                                                            <span class="num">\${lotInfo.LOT_NO}</span>
+                                                            <a  class="heart js-work_heart"
+                                                               ng-click="toggleFavoriteLot($event, lotInfo);">
+                                                                <i class="icon-heart_off"></i>
+                                                            </a>
+                                                        </div>
+                                                        <div class="info-box">
+                                                            <a href="/auction/live/view/\${lotInfo.SALE_NO}/\${lotInfo.LOT_NO}">
+                                                                <div class="title">
+                                                                    <span>\${lotInfo.ARTIST_NAME_JSON[locale] || ''}</span>
+                                                                </div>
+                                                                <div class="desc">
+                                                                    <span>\${lotInfo.LOT_TITLE_JSON[locale]}</span>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </article>
+                                    </a>
+                                </div>
+                            </li>`
+                }
+            });
+
+            document.getElementById('recent-lot-list').innerHTML = returnDom;
+
+        }
+
+        $scope.setLotNaviInfo = async function() {
+            const params = { device : DEVICE_KIND === 'is_pc'? 'pc' : 'mo'}
+            let [category, lotList] = await Promise.all([
+                getCategories(),
+                getNaviLotList(params),
+            ]);
+
+            $scope.moCategories = category.data.data;
+            $scope.moCategories.unshift({CD_ID : 'all', CD_NM : '전체', CD_NM_EN: 'All'});
+            $scope.lotNaviList = lotList.data.data.list;
+            $scope.lotTotalCount = lotList.data.data.count;
+            $scope.$apply();
+        }
+
+
         $scope.load = function () {
             let run = async function () {
-                let [r1, r2, r3, r4, r5, r6, r7] = await Promise.all([
+                let [r1, r2, r3, r4] = await Promise.all([
                     getSaleInfo(), //1
                     getLotInfo(), //2
                     getLotImages(), //3
                     getViewScaleImages(), //4
-                    getLotNavigation(), //5
-                    /*for mobile*/
-                    getCategories($scope.sale_no), //6
-                    getLotListInfo($scope.sale_no), //7
                 ]);
 
                 //common
@@ -1074,21 +1025,7 @@
                 $scope.lotInfo = r2.data.data;
                 $scope.lotImages = r3.data.data;
                 $scope.viewScaleImages = r4.data.data;
-
-                //pc
-                $scope.lotNaviList = r5.data.data;
-
-                //mo
-                $scope.moCategories = r6.data.data;
-                $scope.moCategories.unshift({CD_ID : 'all', CD_NM : '전체', CD_NM_EN: 'All'});
-                $scope.moLotList = r7.data.data;
-                $scope.lotTotalCount = $scope.moLotList.length;
-                let pp = [];
-                for (let i = 0 ; i < $scope.lotTotalCount; i++){
-                    pp.push($scope.moLotList[i]);
-                }
-                $scope.searchSaleLotList = pp;
-
+                await $scope.setLotNaviInfo();
 
 
                 //데이터 셋팅
@@ -1130,17 +1067,18 @@
                         sharedCount: 845,
                     },
                 })
-                /*
-                for (let i = 0 ; i < $scope.recentlyViews.length;i++) {
-                    if ($scope.recentlyViews[i].FAVORITE_YN === 'Y'){
-                        //console.log($("#recently_views .js-work_heart").eq(i).addClass("on"));
-                        $("#recently_views .js-work_heart").eq(i).addClass("on");
-                    }
-                }*/
+
+
+                await addRecentLots(SALE_NO, LOT_NO);
+                const recentLots = await getRecentLots(SALE_NO);
+                const result =  await getRecentLotsInfo(recentLots);
+                const recentLotInfoList = result.data.data.list;
+                await renderRecentLots(recentLots, recentLotInfoList);
+
 
                 // swiper
                 let view_visual = new Swiper(".js-view_visual .gallery_center", {
-                    loop: true,
+                    loop: false,
                     paginationClickable: true,
                     spaceBetween: 10,
                     effect: "fade",
@@ -1157,28 +1095,27 @@
                             spaceBetween: 10
                         }
                     },
-                    // on: {
-                    //     slideChange: function () {
-                    //         $scope.activeIndex = view_visual.activeIndex;
-                    //         view_thumnailActive(view_visual.activeIndex);
-                    //     }
-                    // }
+                    on: {
+                        slideChange: function () {
+                            $scope.activeIndex = view_visual.activeIndex;
+                            view_thumnailActive(view_visual.activeIndex);
+                        }
+                    }
                 });
 
                 $(".js-view_thumnail .slide").on("click", function () {
-                    var _index = $(this).index();
+                    let _index = $(this).index();
                     view_thumnailActive(_index);
                     view_visualActive(_index, view_visual);
                 });
 
-                // $(window).on("resize", function () {
-                //     view_visual.update();
-                // });
+                $(window).on("resize", function () {
+                    view_visual.update();
+                });
 
                 let viewScaleImages = $scope.viewScaleImages;
                 $scope.isUseViewScale = viewScaleImages.length > 0 && !$scope.lotInfo.IMAGE_MAGNIFY; // || viewScaleImages.isUseViewScale;
-                let lot_images = $scope.lotImages;
-
+                // console.log(viewScaleImages.length && !$scope.lotInfo.IMAGE_MAGNIFY, $scope.isUseViewScale)
                 if($scope.isUseViewScale) {
                     const el = viewScaleImages[0];
                     let size1 = 0;
@@ -1209,6 +1146,8 @@
                     $("#popup_image_viewer-wrap .gallery_center").html(swiper_slide_item);
                 }
 
+
+                let lot_images = $scope.lotImages;
                 $.each(lot_images, function (index, el) {
                     let popup_lot_no = el.LOT_NO;
                     let popup_img_url = el.IMAGE_URL + el.FILE_PATH + '/' + el.FILE_NAME;
@@ -1256,12 +1195,6 @@
                 /* [2022-0708] 수정 */
                 var imageViewer = new Swiper('.js-image_viewer .gallery_center', {
                     loop: true,
-                    // onSlideChangeStart: function (swiper) { // 움직임이 끝나면 실행
-                    //     imagesResizePcMb();
-                    // },
-                    // onSlideChangeEnd: function (swiper) { // 움직임이 끝나면 실행
-                    //     imagesResizePcMb();
-                    // },
                     on: {
                         transitionStart: function() {
                             // 움직임이 시작하면 실행
@@ -1279,7 +1212,6 @@
                     let data = $(this).attr("data-swiper-slide-index");
                     let lot_no = $(this).find(".imageViewer").attr("lot_no");
                     if (lot_no === Scope().lot_no) {
-                        console.log(data, lot_no, Scope().lot_no);
                         $("#view_lot_no").attr("sel-data-index", lot_no);
                         $("#view_lot_no").html("LOT " + lot_no);
                     }
@@ -1359,17 +1291,20 @@
                 var popup_images = $(".js-popup_images").trpLayerFixedPopup("#popup_images-wrap");
                 $(".js-popup_images").on("click", function ($e) {
                     $e.preventDefault();
-                    popup_images.open(this); // or false
-                    for (var o = $(".imageViewerpopup"), e = 0; e < o.length; e++) {
-                        if (!o[e]) return !1;
-                        var windowW = screen.availWidth;
-                        var windowH = screen.availHeight;
-                        o[e].width = windowW;
-                        o[e].height = windowH;
+                    //TODO:저작권 작가 확대 보기 안 되게
+                    if($scope.lotInfo.IMAGE_MAGNIFY){
+                        popup_images.open(this); // or false
+                        for (var o = $(".imageViewerpopup"), e = 0; e < o.length; e++) {
+                            if (!o[e]) return !1;
+                            var windowW = screen.availWidth;
+                            var windowH = screen.availHeight;
+                            o[e].width = windowW;
+                            o[e].height = windowH;
+                        }
+                        //imagesResizePcMb();
+                        imagesSwiper.update();
+                        imagesSwiper.slideTo($scope.activeIndex + 1, 0);
                     }
-                    //imagesResizePcMb();
-                    imagesSwiper.update();
-                    imagesSwiper.slideTo($scope.activeIndex + 1, 0);
                 });
                 $("body").on("click", "#popup_images-wrap .js-closepop, #popup_images-wrap .popup-dim", function ($e) {
                     $e.preventDefault();
@@ -1384,8 +1319,6 @@
                 var panzoom = "";
 
                 function panzoom_set() {
-                    console.log("=====================>panzoom_set");
-
                     panzoom = Panzoom(zoom_range, {
                         /* disablePan: true, */
                         maxScale: 4, // (Default: 4)
@@ -1403,7 +1336,6 @@
                 }
 
                 function panzoom_reset() {
-                    console.log("-------------------------->panzoom_reset");
                     panzoom.reset();
                     panzoom.destroy();
                     panzoom = "";
@@ -1417,7 +1349,6 @@
 
                 /* === 스와이퍼 === */
                 /* [0708]  스크립트 수정 */
-                console.log("스와이퍼 set");
                 var imagesSwiperIndex = 0;
                 var imagesSwiper = new Swiper('.js-imagesSwiper .gallery_center', {
                     loop: true,
@@ -1472,7 +1403,6 @@
                 })
                 $('.images-popup .page_next').on('click', function ($e) {
                     $e.preventDefault();
-                    console.log("next")
                     imagesSwiper.slideNext();
                 })
 

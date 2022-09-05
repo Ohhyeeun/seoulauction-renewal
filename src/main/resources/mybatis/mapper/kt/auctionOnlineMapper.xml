@@ -113,6 +113,7 @@
             , IFNULL(L.FRAME_CD, 'none') AS FRAME_CD
             , L.ZEROBASE_PRICE_YN
         from LOT L
+            join SALE S ON S.SALE_NO = L.SALE_NO
             left outer join (
                 select BD.*, BD.BID_PRICE as LAST_PRICE, <![CDATA[if(L.TO_DT < now(), 'Y', 'N') as SOLD_YN ]]>
                     , (select count(A.BID_NO) from BID A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO) as BID_CNT
@@ -131,7 +132,6 @@
             left outer join CODE CD	on CD.grp_id = 'material' and CD.CD_ID = L.MATE_CD
             left outer join LOT_IMG LI on LI.SALE_NO = L.SALE_NO and LI.LOT_NO = L.LOT_NO
                 and LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.DISP_ORD limit 1)
-            join SALE S ON S.SALE_NO = L.SALE_NO
             left outer join LOT_SIZE LS ON LS.SALE_NO = L.SALE_NO AND LS.LOT_NO = L.LOT_NO
         where L.WWW_DISP_YN = 'Y'
             and L.SALE_NO = #{sale_no}
@@ -174,6 +174,41 @@
             <when test="sort_by == 'BICDE'">BD.BID_CNT desc, L.LOT_NO</when>
             <otherwise>L.LOT_NO</otherwise>
         </choose>
+    </sql>
+
+    <select id="selectSimpleLotListPaging" parameterType="CommonMap" resultType="CommonMap">
+        <include refid="selectSimpleLotList"/>
+        LIMIT #{offset}, #{size}
+    </select>
+    <select id="selectSimpleLotListCount" parameterType="CommonMap" resultType="int">
+        select  count(*) as CNT
+        from (
+        <include refid="selectSimpleLotList"/>
+        ) A
+    </select>
+    <sql id="selectSimpleLotList">
+        select L.LOT_NO
+            , L.STAT_CD
+            , COLUMN_JSON(L.TITLE_BLOB) TITLE_JSON
+            , LI.FILE_PATH as LOT_IMG_PATH
+            , LI.FILE_NAME as LOT_IMG_NAME
+            , L.IMG_DISP_YN
+            , COLUMN_JSON(AT.ARTIST_NAME_BLOB) ARTIST_NAME_JSON
+        from LOT L
+            left outer join ARTIST AT on AT.ARTIST_NO = L.ARTIST_NO
+            left outer join CODE CD	on CD.grp_id = 'material' and CD.CD_ID = L.MATE_CD
+            left outer join LOT_IMG LI on LI.SALE_NO = L.SALE_NO and LI.LOT_NO = L.LOT_NO
+                and LI.IMG_NO = (select A.IMG_NO from LOT_IMG A where A.SALE_NO = L.SALE_NO and A.LOT_NO = L.LOT_NO order by A.DISP_ORD limit 1)
+        where L.WWW_DISP_YN = 'Y'
+            and L.SALE_NO = #{sale_no}
+        <if test="lot_tag != null">
+            and L.LOT_TAG = #{lot_tag}
+        </if>
+        <if test="cate_cd != null">
+            and L.CATE_CD in (select cd_id from CODE where grp_id = 'artwork_category' and p_cd_id = #{cate_cd} union
+            select cd_id from CODE where grp_id = 'artwork_category' and p_cd_id in (select cd_id from CODE where grp_id = 'artwork_category' and p_cd_id = #{cate_cd}))
+        </if>
+        order by L.LOT_NO
     </sql>
 
     <select id="selectLotInfo" parameterType="CommonMap" resultType="CommonMap">
@@ -356,13 +391,17 @@
 
     <select id="selectCurrentLotInfo" parameterType="CommonMap" resultType="CommonMap">
     <![CDATA[
-        select L.LOT_NO, (select COLUMN_JSON(AT.ARTIST_NAME_BLOB) from ARTIST AT where AT.ARTIST_NO = L.ARTIST_NO) ARTIST_NAME_JSON
-        from SALE S
-            join LOT L on S.SALE_NO = L.SALE_NO and L.WWW_DISP_YN = 'Y' and L.STAT_CD != 'reentry'
-        where DATE_ADD(S.TO_DT, INTERVAL -1 minute) <= now()
-            and L.TO_DT >= now()
-            and S.SALE_NO = #{sale_no}
-        order by LOT_NO limit 1
+        select DATE_ADD(S.TO_DT, INTERVAL -1 minute) FROM_DT, (select TO_DT from LOT L WHERE L.STAT_CD = 'entry' AND L.SALE_NO = S.SALE_NO  ORDER BY L.LOT_NO DESC LIMIT 1) TO_DT
+            , GA.LOT_NO, GA.ARTIST_NAME_JSON
+        from SALE S left outer join (
+            select S.SALE_NO, L.LOT_NO, (select COLUMN_JSON(AT.ARTIST_NAME_BLOB) from ARTIST AT where AT.ARTIST_NO = L.ARTIST_NO) ARTIST_NAME_JSON
+            from SALE S join LOT L on S.SALE_NO = L.SALE_NO and L.WWW_DISP_YN = 'Y' and L.STAT_CD != 'reentry'
+            where S.SALE_NO = #{sale_no}
+                and DATE_ADD(S.TO_DT, INTERVAL -1 minute) <= now()
+                and L.TO_DT >= now()
+            order by LOT_NO limit 1
+            ) GA on S.SALE_NO = GA.SALE_NO
+        where S.SALE_NO = #{sale_no}
      ]]>
     </select>
 
@@ -665,4 +704,16 @@
             and R.CUST_NO = #{cust_no}
         order by R.BID_PRICE desc, R.REQ_NO desc limit 1
     </select>
+
+    <insert id="insertSuccessBid" parameterType="CommonMap">
+        INSERT INTO SUCCESS_BID
+            (SALE_NO, LOT_NO, BID_NO)
+        SELECT BD.SALE_NO, BD.LOT_NO, BD.BID_NO
+        FROM BID BD
+        WHERE BD.SALE_NO = #{sale_no} and BD.LOT_NO = #{lot_no}
+        ORDER BY BD.BID_PRICE desc, BD.BID_DT asc, BD.BID_NO asc limit 1
+        ON DUPLICATE KEY
+            UPDATE BID_NO = BD.BID_NO
+                , REG_DT = now();
+    </insert>
 </mapper>

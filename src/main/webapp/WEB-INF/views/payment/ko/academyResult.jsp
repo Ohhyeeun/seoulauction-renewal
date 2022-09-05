@@ -46,38 +46,15 @@
                                                 <p class="tb1">예금주명 <em>서울옥션</em> 으로 ${vbank_exp_dt} 까지 입금해주세요.</p>
                                             </div>
                                         </li>
-<%--                                        <li>--%>
-<%--                                            <div class="account_info">--%>
-<%--                                                <p class="tit">가상계좌 정보</p>--%>
-<%--                                                <p class="txt tb1">--%>
-<%--                                                    <fmt:parseDate value="${resultMap.vbank_exp_dt}" var="vbank_exp_dt" pattern="yyyyMMdd"/>--%>
-<%--                                                    <fmt:formatDate value="${vbank_exp_dt}" var="vbank_exp_dt" pattern="yyyy-MM-dd"/>--%>
-<%--                                                    <span>${vbank_exp_dt}</span>까지 아래의<i class="br-mo"></i> 가상계좌로 결제금액을 입금해 주시기 바랍니다.--%>
-<%--                                                </p>--%>
-<%--                                                <ul class="pay_info tb1">--%>
-<%--                                                    <li>--%>
-<%--                                                        <span class="th">은행명</span>--%>
-<%--                                                        <span class="td"><strong>${resultMap.vbank_nm}</strong></span>--%>
-<%--                                                    </li>--%>
-<%--                                                    <li>--%>
-<%--                                                        <span class="th">계좌번호</span>--%>
-<%--                                                        <span class="td"><strong>${resultMap.vbank_num}</strong></span>--%>
-<%--                                                    </li>--%>
-<%--                                                </ul>--%>
-<%--                                            </div>--%>
-<%--                                        </li>--%>
                                         </c:if>
                                         <li>
                                             <div class="table_box">
                                                 <div class="guide">
                                                     <div class="product-box">
-<%--                                                        <p class="img"><img src="/images/temp/temp_img5.jpg" alt="" /></p>--%>
                                                         <%--0823 이미지, 텍스트 분리 --%>
                                                         <figure class="img paythumb">
-                                                            <img src="/images/pc/service/academy-thum_student.jpg" alt="아카데미 결제 썸네일 이미지">
-                                                            <figcaption class="paythumb-text">
-                                                                대학생 아카데미
-                                                            </figcaption>
+                                                            <img id="academy-img" data="${resultMap.ACADEMY_CD}" alt="아카데미 결제 썸네일 이미지">
+                                                            <figcaption id="academy-name" class="paythumb-text"></figcaption>
                                                         </figure>
                                                         <%-- //0823 이미지, 텍스트 분리 --%>  
                                                         <dl class="product_info">
@@ -142,16 +119,13 @@
                                     <article class="button-area">
                                         <div class="btn_set tac btn_double">
                                             <a class="btn btn_default btn_lg" href="/" role="button"><span>홈으로 이동</span></a>
-                                            <a class="btn btn_black btn_lg" href="/mypage/liveBidReqList" role="button"><span>마이페이지로 이동</span></a>
+<%--                                            <a class="btn btn_black btn_lg" onclick="goMypage();" role="button"><span>마이페이지로 이동</span></a>--%>
                                         </div>
                                     </article>
                                 </div>
-
                             </div>
-
                         </div>
                     </section>
-
                 </div>
             </div>
             <!-- //container -->
@@ -161,18 +135,27 @@
             <!-- //footer -->
 
             <!-- stykey -->
-
             <div class="scroll_top-box">
                 <div class="box-inner">
                     <a href="#" class="btn-scroll_top js-scroll_top"><i class="icon-scroll_top"></i></a>
                 </div>
             </div>
             <!-- // stykey -->
-
         </div>
     </div>
-    <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
-
 </body>
+<script>
+    const academy_cd = $("#academy-img").attr("data");
+    $("#academy-img").attr("src", "/images/pc/service/"+getAcademyImg(academy_cd));
+    $("#academy-name").text(getAcademyNm(academy_cd));
 
+    function goMypage() {
+        if(checkPlatform(window.navigator.userAgent) == "mobile") {
+            location.href = "/mypage/main";
+        } else {
+            location.href = "/mypage/liveBidReqList";
+        }
+    }
+</script>
+<script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
 </html>

@@ -15,9 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -61,7 +59,7 @@ public class SaleLiveService {
 
         //만약 라이브경매값이 없는경우 첫번째 랏을 리턴.
         if(result == null) {
-            map.put("lot_no" , 1);
+            map.put("reentry" , true);
             result = saleLiveMapper.selectLiveSaleLotByOne(map);
             result.settingJsonStrToObject();
             result.settingYNValueToBoolean();
@@ -74,16 +72,7 @@ public class SaleLiveService {
         List<CommonMap> result = saleLiveMapper.selectLiveTypes(map);
 
         //간혈적으로 정렬이 안되어 정렬 재적용.
-        result.sort((s1 , s2) -> {
-
-                 //타입이 같다면 compareTo 역순.
-                 if(s1.getString("TYPE").equals(s2.getString("TYPE"))) {
-                    return s2.getString("CD_NM").compareTo(s1.getString("CD_NM"));
-                 //기본적으로 compareTo.
-                }else {
-                    return s1.getString("CD_NM").compareTo(s2.getString("CD_NM"));
-                }
-        });
+        result.sort(Comparator.comparing(s -> s.getString("TYPE")));
         return result;
     }
     public List<CommonMap> selectLiveMyBidding(CommonMap map){
@@ -243,9 +232,72 @@ public class SaleLiveService {
             map.put("cust_no" , 0);
         }
 
+        String[] lotNoArr = (String[]) map.get("lot_no");
+        if(map.get("lot_no") != null) {
+            String lotNoStr = "";
+            for(int i = 0; i < lotNoArr.length; i++) {
+                if(i > 0) lotNoStr += ", " + lotNoArr[i];
+                else lotNoStr += lotNoArr[i];
+            }
+            map.put("lot_no" , lotNoStr);
+        }
+
         CommonMap resultMap = new CommonMap();
         resultMap.put("list" , saleLiveMapper.selectSaleList(map).stream().peek(this::settingLotData).collect(Collectors.toList()));
         resultMap.put("count" , saleLiveMapper.selectSaleListCount(map));
+
+        //LOT NO 배열 순서대로 List 정렬
+        if(map.get("lot_no") != null) {
+            List<CommonMap> saleList = (List<CommonMap>) resultMap.get("list"); //기존 List
+            List<CommonMap> saleListNewLot = new ArrayList<>();
+            for(int i = 0; i < lotNoArr.length; i++) {
+                for (var item : saleList) {
+                    if(item.get("LOT_NO").toString().equals(lotNoArr[i])) {
+                        saleListNewLot.add(item);
+                        break;
+                    }
+                }
+            }
+            resultMap.put("list", saleListNewLot);
+        }
+
+        //IMAGE_FULL_PATH 제외
+        List<CommonMap> saleListEx = (List<CommonMap>) resultMap.get("list");
+        for (var item : saleListEx) {
+            item.remove("IMAGE_FULL_PATH");
+        }
+        resultMap.put("list", saleListEx);
+
+        //랏이동(pc/mobile) 경우
+        if(map.get("device") != null) {
+            List<CommonMap> saleList = (List<CommonMap>) resultMap.get("list");
+            log.info("saleList : {}", saleList);
+            List<CommonMap> saleListNew = new ArrayList<>();
+            CommonMap saleListNewItem;
+            if(map.get("device").equals("pc")) {
+                for (var item : saleList) {
+                    saleListNewItem = new CommonMap();
+                    saleListNewItem.put("LOT_NO", item.get("LOT_NO"));
+                    saleListNewItem.put("LOT_IMG_PATH", item.get("LOT_IMG_PATH"));
+                    saleListNewItem.put("LOT_IMG_NAME", item.get("LOT_IMG_NAME"));
+                    saleListNew.add(saleListNewItem);
+                }
+            } else if(map.get("device").equals("mo")) {
+                for (var item : saleList) {
+                    saleListNewItem = new CommonMap();
+                    saleListNewItem.put("LOT_NO", item.get("LOT_NO"));
+                    saleListNewItem.put("LOT_IMG_PATH", item.get("LOT_IMG_PATH"));
+                    saleListNewItem.put("LOT_IMG_NAME", item.get("LOT_IMG_NAME"));
+                    saleListNewItem.put("ARTIST_NAME_JSON", item.get("ARTIST_NAME_JSON"));
+                    saleListNewItem.put("LOT_TITLE_JSON", item.get("LOT_TITLE_JSON"));
+                    saleListNewItem.put("FAVORITE_YN", item.get("FAVORITE_YN"));
+                    saleListNew.add(saleListNewItem);
+                }
+            }
+
+            log.info("saleListNew : {}", saleListNew);
+            resultMap.put("list", saleListNew);
+        }
 
         return resultMap;
     }
@@ -294,7 +346,7 @@ public class SaleLiveService {
     public CommonMap selectAdminLotInfo(CommonMap map){
 
         //랏 동기화.
-        lotSync(map);
+        //lotSync(map);
 
         CommonMap resultMap = new CommonMap();
         resultMap.put("lot" , settingLotData(saleLiveMapper.selectAdminLotInfo(map)));

@@ -100,7 +100,7 @@
                                                 <div class="count tb1">
                                                     <span>ALL <em ng-bind="lotTotalCount"></em></span>
                                                 </div>
-                                                <div class="select-box only-pc">
+                                                <div class="select-box">
                                                     <div class="trp-dropdown-area h42-line">
                                                         <button class="js-dropdown-btn">
                                                             <span>LOT</span><i class="form-select_arrow_md"></i>
@@ -112,12 +112,12 @@
                                                             </div>
                                                             <div class="list-box scroll-type">
                                                                 <ul id="sale_lot_list">
-                                                                    <li ng-repeat="item in saleImages" data-index="{{item.LOT_NO}}">
-                                                                        <a href="#" ng-click="goLot(item.SALE_NO, item.LOT_NO)">
+                                                                    <li ng-repeat="item in lotNaviList" data-index="{{item.LOT_NO}}">
+                                                                        <a href="#" ng-click="goLot(sale_no, item.LOT_NO)">
                                                                             <div class="image-area">
                                                                                 <figure class="img-ratio">
                                                                                     <div class="img-align">
-                                                                                        <img src="{{item.IMAGE_URL}}{{item.FILE_PATH}}/list/{{item.FILE_NAME}}" alt="LOT {{item.LOT_NO}}">
+                                                                                        <img src="https://www.seoulauction.com/nas_img{{item.LOT_IMG_PATH}}/list/{{item.LOT_IMG_NAME}}" alt="LOT {{item.LOT_NO}}">
                                                                                     </div>
                                                                                 </figure>
                                                                             </div>
@@ -131,12 +131,12 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="select-box js-lotbox-slct only-mb">
+                                                <%--<div class="select-box js-lotbox-slct only-mb">
                                                     <button class="js-lotbox-btn">
                                                         <span>LOT</span>
                                                         <i class="slct-arrow"></i>
                                                     </button>
-                                                </div>
+                                                </div>--%>
                                             </div>
                                             <%--검색, 정렬필터, 페이지 방식--%>
                                             <div class="col_item mb-col2">
@@ -733,9 +733,12 @@
                 }
             };
 
-            const getSaleImages = (saleNo) => {
+            const getNaviLotList = () => {
                 try {
-                    return axios.get('/api/auction/sale_images/'+saleNo);
+                    const params = {device : 'pc'};
+                    const paramString = "?" + window.Qs.stringify(params);
+                    return axios.get('/api/auction/live/list/'+ SALE_NO + paramString);
+                    // return axios.get('/api/auction/sale_images/'+saleNo);
                 } catch (error) {
                     console.error(error);
                 }
@@ -808,14 +811,15 @@
                 let [saleInfoData, lotListData, lotNaviData] = await Promise.all([
                     getSaleInfo($scope.sale_no),
                     getLotList(pageData),
-                    getSaleImages($scope.sale_no),
+                    getNaviLotList(),
                     // getCategories($scope.sale_no),
                     // getPaddleNumber($scope.sale_no),
                 ]);
 
                 $scope.lotList = lotListData.data.data.list;
                 $scope.lotTotalCount = lotListData.data.data.count;
-                $scope.saleImages = lotNaviData.data.data;
+                $scope.lotNaviList = lotNaviData.data.data.list;
+
 
                 await setLotListData($scope.lotList);
                 // await renderPaginationSection($scope.currentPage, $scope.lotTotalCount, $scope.pageSize);
@@ -827,7 +831,7 @@
                     let [saleInfoData, lotListData, lotNaviData, categories, paddleInfoData] = await Promise.all([
                         getSaleInfo($scope.sale_no),
                         getLotList(pageData),
-                        getSaleImages($scope.sale_no),
+                        getNaviLotList(),
                         getCategories($scope.sale_no),
                         getPaddleNumber($scope.sale_no),
                     ]);
@@ -835,7 +839,7 @@
                     $scope.saleInfoData = saleInfoData.data.data;
                     $scope.lotList = lotListData.data.data.list;
                     $scope.lotTotalCount = lotListData.data.data.count;
-                    $scope.saleImages = lotNaviData.data.data;
+                    $scope.lotNaviList = lotNaviData.data.data.list;
                     $scope.categories = categories.data.data;
                     $scope.categories.unshift({CD_ID : 'all', CD_NM : '전체', CD_NM_EN: 'All'});
                     $scope.paddNo = paddleInfoData.data.data;

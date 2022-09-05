@@ -607,7 +607,7 @@ public class ApiSaleController {
                 }
             }
         } catch (JsonProcessingException e) {
-
+            e.printStackTrace();
         }
 
 

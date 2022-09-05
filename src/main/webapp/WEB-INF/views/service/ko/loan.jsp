@@ -269,7 +269,7 @@
                                             <li>전화번호: <a href="tel:02-395-0330" class="text-flex">02-395-0330</a></li> <%-- a링크 나열 공통 클래스명 text-flex --%>
                                         </ul>
                                         <div class="btn-box">
-                                            <a class="btn btn_gray_line btn_sm" href="https://www.fss.or.kr/s1332/search/search0601.jsp" target="_blank" role="button"><span>등록대부업체 통합조회 서비스</span></a>
+                                            <a class="btn btn_gray_line btn_sm" href="javascript:void(0);" onclick="openWebBrowser('https://www.fss.or.kr/s1332/search/search0601.jsp');" target="_blank" role="button"><span>등록대부업체 통합조회 서비스</span></a>
                                         </div>
                                         <div class="description">
                                             <p>대부이자율 12%/연 연체이자율 15%/연 조기 상환 수수료 2% 조기상황조건 및 기타비용 없음.</p>

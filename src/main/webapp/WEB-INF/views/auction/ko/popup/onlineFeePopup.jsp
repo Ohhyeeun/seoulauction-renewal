@@ -2,7 +2,6 @@
 <!-- 낙찰 수수료 팝업 -->
 <template id="auction-fee-popup">
   <div class="trp popupfixed-wrap default-popup">
-    <div class="popup-dim"></div>
     <div class="popup-align mode-md mode-mb_fixed">
       <div class="popup-vertical">
         <div class="popup-layer" style="display: inline-block;">

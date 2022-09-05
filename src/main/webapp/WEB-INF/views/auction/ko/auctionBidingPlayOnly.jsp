@@ -83,9 +83,13 @@
                             <div class="bidding_pc">
                                 <div class="bidding-offline-wrap">
                                     <article class="bidding-offline-center">
-                                        <div class="notice notice-swiper" style="height: 50px; overflow: hidden">
+                                        <div class="notice notice-swiper" style="height: 50px;">
                                             <i class="icon-notice"></i>
-                                            <span class="slide-wrapper"></span>
+                                            <span class="swiper-wrapper">
+                                                <span class="swiper-slide txt">111</span>
+                                                <span class="swiper-slide txt">222</span>
+                                                <span class="swiper-slide txt">333</span>
+                                            </span>
                                         </div>
                                         <div class="video_area">
                                             <div class="view_box">
@@ -204,8 +208,7 @@
     window.onload = async () => {
 
         await init();
-
-        // setInterval(await getPollingData, 1000);
+        // setInterval(await getPollingData, 10000);
     }
 
 
@@ -234,7 +237,9 @@
 
         //공지사항
         const noticeList = noticesData.data.data;
-        bindingNoticeInfo(noticeList);
+        if(noticeList.length > 0){
+            bindingNoticeInfo(noticeList);
+        }
     }
 
     const init = async () => {
@@ -248,8 +253,10 @@
         bindingSaleInfo(saleInfo);
 
         //공지사항
-        const noticeList = noticesData.data.data;
-        bindingNoticeInfo(noticeList);
+        // const noticeList = noticesData.data.data;
+        // if(noticeList.length > 0){
+        //     bindingNoticeInfo(noticeList);
+        // }
     }
 
     const bindingSaleInfo = (data) => {
@@ -270,11 +277,14 @@
 
     const bindingNoticeInfo = (data) => {
         let noticeSlide = [];
+        saleNoticeSwiper.removeAllSlides();
         data.forEach(item => {
             noticeSlide.push(`<span class="swiper-slide txt">`+item.CONTENT_JSON[locale]+`</span>`);
         })
         saleNoticeSwiper.appendSlide(noticeSlide);
+        saleNoticeSwiper.update();
     }
+
 </script>
 <script type="text/javascript" src="/js/pages_common_ko.js" ></script>
 <script src="/js/simple.js?ver=1.0.0"></script>

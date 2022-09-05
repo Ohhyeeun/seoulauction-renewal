@@ -171,11 +171,13 @@ app.controller('auctionCtl', function($scope, consts, common, locale) {
         });
     }
     $scope.goProgressAuction = function(sale_kind_cd, sale_no) {
-        if(['online','online_zb'].indexOf(sale_kind_cd) > -1) {
-            location.href = "/auction/list/"+sale_no;
-        } else {
-            location.href = "/auction/live/list/"+sale_no;
+        // Online
+        if (['online', 'online_zb'].includes(sale_kind_cd)) {
+            location.href = "/auction/online/" + sale_no;
+            return;
         }
+        // Live
+        location.href = "/auction/live/list/" + sale_no;
     }
 
     $scope.more = function(){

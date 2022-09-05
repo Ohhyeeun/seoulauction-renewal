@@ -25,10 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @Log4j2
@@ -389,21 +386,25 @@ public class ApiSaleLiveController {
     @GetMapping(value="/list/{saleNo}")
     public ResponseEntity<RestResponse> list(
             @PathVariable("saleNo") int saleNo,
+            @RequestParam(value = "lotNo" , required = false) String[] lotNo,
             @RequestParam(value = "category" , required = false) String category,
             @RequestParam(value = "tag" , required = false) String tag,
             @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_PAGE) int page,
             @RequestParam(required = false , defaultValue = SAConst.PAGINATION_DEFAULT_SIZE) int size,
             @RequestParam(value = "lang" , defaultValue = "ko" , required = false) String lang,
             @RequestParam(value = "search" , required = false ) String search,
-            @RequestParam(required = false) String sortBy
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(value = "device" , required = false) String device
     ) {
         CommonMap commonMap = CommonMap.create(page,size);
         commonMap.put("sale_no", saleNo);
+        commonMap.put("lot_no", lotNo);
         commonMap.put("category", category);
         commonMap.put("tag", tag);
         commonMap.put("lang" , lang);
         commonMap.put("search" , search);
         commonMap.put("sort_by", sortBy);
+        commonMap.put("device", device);
         return ResponseEntity.ok(RestResponse.ok(saleLiveService.selectSaleList(commonMap)));
    }
     @RequestMapping(value = "/lotTag/{saleNo}", method = RequestMethod.GET)
@@ -537,6 +538,8 @@ public class ApiSaleLiveController {
             "<b>floor</b> -> bid_price 값 필수.  bid_notice 값이 있을경우는 공지로 인식.\n") @RequestBody OfflineBiddingForm offlineBiddingForm
             ) {
 
+        log.info("offlineBiddingForm : {} " , offlineBiddingForm);
+
         saleLiveService.insertOfflineBidding(saleNo , lotNo , offlineBiddingForm);
 
         return ResponseEntity.ok(RestResponse.ok());
@@ -648,10 +651,10 @@ public class ApiSaleLiveController {
      * LOT 동기화
      */
     @Secured("ROLE_EMPLOYEE_USER")
-    @PostMapping(value="/admin/sales/{saleNo}/sync")
+    @PostMapping(value="/admin/sales/{saleNo}/lots/{lotNo}/sync")
     public ResponseEntity<RestResponse> adminLotSync(
             @PathVariable("saleNo") int saleNo,
-            @RequestParam("lotNo") int lotNo
+            @PathVariable("lotNo") int lotNo
     ) {
         CommonMap commonMap = new CommonMap();
         commonMap.put("sale_no", saleNo);
