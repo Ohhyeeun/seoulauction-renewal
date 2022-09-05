@@ -6,6 +6,7 @@ import com.seoulauction.renewal.mapper.aws.ArtistMapper;
 import com.seoulauction.renewal.mapper.aws.MainMapper;
 import com.seoulauction.renewal.mapper.kt.AuctionOnlineMapper;
 import com.seoulauction.renewal.mapper.kt.CertificationMapper;
+import com.seoulauction.renewal.mapper.kt.SaleMapper;
 import com.seoulauction.renewal.util.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -36,6 +37,8 @@ public class AuctionOnlineService {
     private final ArtistMapper artistMapper;
 
     private final S3Service s3Service;
+
+    private final SaleMapper saleMapper;
 
     public CommonMap selectSaleInfoList(CommonMap commonMap) {
         CommonMap resultMap = auctionOnlineMapper.selectSaleInfoList(commonMap);
@@ -211,12 +214,16 @@ public class AuctionOnlineService {
             commonMap.put("IS_LOGIN", "N");
             commonMap.put("IS_MEMBERSHIP", "N");
             commonMap.put("IS_EMPLOYEE", "N");
+            commonMap.put("IS_CUST_REQUIRED", "N");
             return commonMap;
         }
 
         commonMap.put("cust_no", saUserDetails.getUserNo());
+        String isCustRequired = saleMapper.selectCustCheckRequired(commonMap) ? "Y" : "N";
         commonMap = auctionOnlineMapper.selectCustInfo(commonMap);
         commonMap.put("IS_LOGIN", "Y");
+        commonMap.put("IS_CUST_REQUIRED", isCustRequired);
+
         return commonMap;
     }
 
