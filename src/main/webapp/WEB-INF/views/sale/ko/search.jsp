@@ -567,7 +567,7 @@
         $scope.modelSortType = [{
                 name: "경매 최신순", value: 1
             }, {
-                name: "LOT 번호순", value: 2
+                name: "경매 과거순", value: 2
             }, {
                 name: "추정가 낮은순", value: 3
             }, {
@@ -592,7 +592,7 @@
             if(sort == 1){
                 $scope.sortBy = "ENDDE";
             }else if(sort == 2){
-                $scope.sortBy = "LOTAS";
+                $scope.sortBy = "ENDAS";
             }else if(sort == 3){
                 $scope.sortBy = "ESTAS";
             }else if(sort ==4){
