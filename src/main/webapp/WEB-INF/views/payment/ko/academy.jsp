@@ -181,4 +181,5 @@
 <!-- 아래 js는 PC 결제창 전용 js입니다.(모바일 결제창 사용시 필요 없음) -->
 <script src="https://web.nicepay.co.kr/v3/webstd/js/nicepay-3.0.js" type="text/javascript"></script>
 <script src="/js/payment/payment.js" type="text/javascript"></script>
+<script src="/js/payment/payment_common.js" type="text/javascript"></script>
 </html>
