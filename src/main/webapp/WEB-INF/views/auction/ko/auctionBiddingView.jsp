@@ -105,9 +105,9 @@
                                                     <%-- lot list tab menu 바인딩 영역--%>
                                                 </div>
                                             </div>
-                                            <div class="lotlist-tabCont">
-                                                <div class="mCustomScrollbar">
-                                                    <div class="lotlist-box">
+                                            <div class="lotlist-tabCont" >
+                                                <div class="mCustomScrollbar" >
+                                                    <div class="lotlist-box" >
                                                         <ul class="lotlist-inner" lot-list-ul>
                                                             <%-- lot List 바인딩 영역 --%>
                                                         </ul>
@@ -629,29 +629,29 @@
 
             const currentLotInfo = currentLotData.data.data;
             currentLotNo = currentLotInfo.LOT_NO;
-            bindingCurrentLotInfo(currentLotInfo);
+            await bindingCurrentLotInfo(currentLotInfo);
 
             if(currentLotNo !== prevLotNo ){
                 prevLotNo = currentLotNo;
-                clickLotItem(currentLotNo);
-                moveScrollToCurrentLot();
+                await clickLotItem(currentLotNo);
+                await moveScrollToCurrentLot();
             }
 
             if(currentLotNo !== 0) {
                 const bidingData = await getCurrentLotBiddingInfo(saleNo, currentLotNo);
                 const bidingInfo = bidingData.data.data;
-                bindingCurrentLotBidingInfo(bidingInfo);
+                await bindingCurrentLotBidingInfo(bidingInfo);
 
                 const lotListData = await getLotList(saleNo, selectedType, selectedCategory);
                 lotList = lotListData.data.data;
                 lotTotalCount = lotList.length;
                 if (lotTotalCount > 0)
-                    bindingLotListInfo(lotList, lotTotalCount);
+                    await bindingLotListInfo(lotList, lotTotalCount);
 
                 if (authKind !== 'viewonly') {
                     const myBidingData = await getMyBidingList(saleNo);
                     myBidingList = myBidingData.data.data;
-                    bindingMyBidingInfo(myBidingList);
+                    await bindingMyBidingInfo(myBidingList);
                 }
             }
         }
@@ -849,8 +849,6 @@
                     btnContentDom = `<p class="txt">최고가 응찰중</p>
                                      <p class="price_unit1">\${baseCurrency} \${numberWithCommas(nextBidPrice)}</p>
                                     <p class="price_unit2">\${returnPriceHtml}</p>`;
-
-
                     break;
                 case 'biding' :
                     el_bidPriceButton.classList.remove("view_only");
@@ -1218,13 +1216,13 @@
                 if(!data.LIVE_CLOSE_YN) authKind = 'biding';
                 if(!data.LIVE_CLOSE_YN && data.IS_WIN) authKind = 'highest';
             }
+
             setBidingButton(authKind, nextBidPrice);
 
             /* bidding list */
+            const el_notice = document.querySelector(`\${classForDevice} [biding-notice-div]`);
+            const el_bidRow = document.querySelector(`\${classForDevice} [biding-row]`);
             if(bidData.length > 0){
-                const el_notice = document.querySelector(`\${classForDevice} [biding-notice-div]`);
-                const el_bidRow = document.querySelector(`\${classForDevice} [biding-row]`);
-
                 if(bidData[0].BID_NOTICE !== null){
                     el_notice.querySelector('.situ_alert').innerHTML = bidData[0].BID_NOTICE;
                     el_notice.style.display = 'block';
@@ -1244,6 +1242,9 @@
                                     </li>`
                     });
                 el_bidRow.innerHTML = bidRowDom;
+            }else{
+                el_notice.style.display = 'none';
+                el_bidRow.innerHTML = ``;
             }
         }
 
@@ -1271,6 +1272,8 @@
         const moveScrollToCurrentLot = (e) => {
             const currLotElem = document.querySelector(`.lotitem[data-lotIdx='\${currentLotNo}']`);
             if(currLotElem) {
+                console.log($(currLotElem).offset());
+                console.log(document.querySelector(".mCustomScrollBox").scrollTop)
                 $(`\${classForDevice} .lotlist-tabCont .mCustomScrollBox`).animate({
                     scrollTop: $(currLotElem).offset().top - 400,
                     behavior: 'smooth'
@@ -1281,7 +1284,7 @@
         const moveCurrentLot = async (e) => {
             e.preventDefault();
             await clickLotItem(currentLotNo);
-            moveScrollToCurrentLot();
+            await moveScrollToCurrentLot();
         }
 
         const changeCategory = async ($this, type, cd_id) =>{
@@ -1298,9 +1301,9 @@
             lotList = lotListData.data.data;
             lotTotalCount = lotList.length;
             if(lotTotalCount > 0)
-                bindingLotListInfo(lotList, lotTotalCount);
+               await bindingLotListInfo(lotList, lotTotalCount);
 
-            moveScrollToCurrentLot();
+           await moveScrollToCurrentLot();
         }
 
         const changeInfoTab = ($this, tabId) => {
