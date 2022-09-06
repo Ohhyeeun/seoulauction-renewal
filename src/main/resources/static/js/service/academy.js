@@ -240,14 +240,14 @@ app.controller('academyListCtl', function($scope, consts, common) {
 		var toDt = academy.TO_DT.substring(0,10);
 		var readFlag = false;
 		if(authorities == ""){
-			if(toDt > $scope.db_now){ //미로그인 + 강의종료아님
+			if(toDt >= $scope.db_now){ //미로그인 + 강의종료아님
 				readFlag = true;
 			}
 		}else{
 			if(authorities.indexOf('ROLE_EMPLOYEE_USER') > -1){ //직원회원
 				readFlag = true;
 			}else{ //일반회원
-				if(toDt > $scope.db_now){ //일반회원 + 강의종료아님
+				if(toDt >= $scope.db_now){ //일반회원 + 강의종료아님
 					readFlag = true;
 				}	
 			}
