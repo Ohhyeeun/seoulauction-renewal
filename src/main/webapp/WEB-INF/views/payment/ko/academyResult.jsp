@@ -42,8 +42,10 @@
                                         <li class="comment_pay">
                                             <p class="tt1">가상계좌 신청이 완료 되었습니다.</p>
                                             <div class="desc-box">
+                                                <fmt:parseDate value="${resultMap.vbank_exp_dt}" var="vbank_exp_dt" pattern="yyyyMMdd"/>
+                                                <fmt:formatDate value="${vbank_exp_dt}" var="vbank_exp_dt" pattern="yyyy년 MM월 dd일"/>
                                                 <p class="tt6"><em>${resultMap.vbank_nm} ${resultMap.vbank_num}</em></p>
-                                                <p class="tb1">예금주명 <em>서울옥션</em> 으로 ${vbank_exp_dt} 까지 입금해주세요.</p>
+                                                <p class="tb1">예금주명 <em>서울옥션</em> 으로 ${vbank_exp_dt}까지 입금해주세요.</p>
                                             </div>
                                         </li>
                                         </c:if>
@@ -119,7 +121,6 @@
                                     <article class="button-area">
                                         <div class="btn_set tac btn_double">
                                             <a class="btn btn_default btn_lg" href="/" role="button"><span>홈으로 이동</span></a>
-<%--                                            <a class="btn btn_black btn_lg" onclick="goMypage();" role="button"><span>마이페이지로 이동</span></a>--%>
                                         </div>
                                     </article>
                                 </div>
@@ -148,14 +149,6 @@
     const academy_cd = $("#academy-img").attr("data");
     $("#academy-img").attr("src", "/images/pc/service/"+getAcademyImg(academy_cd));
     $("#academy-name").text(getAcademyNm(academy_cd));
-
-    function goMypage() {
-        if(checkPlatform(window.navigator.userAgent) == "mobile") {
-            location.href = "/mypage/main";
-        } else {
-            location.href = "/mypage/liveBidReqList";
-        }
-    }
 </script>
 <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
 <script src="/js/payment/payment_common.js" type="text/javascript"></script>
