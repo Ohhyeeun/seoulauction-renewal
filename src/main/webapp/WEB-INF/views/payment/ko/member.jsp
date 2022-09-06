@@ -16,7 +16,7 @@
             <jsp:include page="../../include/ko/nav.jsp" flush="false"/>
             <!-- container -->
             <div id="container">
-                <div id="" class="contents">
+                <div id="contents" class="contents">
 
                     <section class="basis-section payment-page last-section">
                         <div class="section-inner">
