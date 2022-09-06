@@ -4,7 +4,6 @@
 
 <jsp:include page="../../include/ko/header.jsp" flush="false"/>
 
-
 <body class="">
     <div class="wrapper footer-bottom">
         <div class="sub-wrap pageclass">
@@ -16,7 +15,6 @@
             <!-- container -->
             <div id="container">
                 <div id="contents" class="contents">
-
                     <section class="basis-section last-section">
                         <div class="section-inner">
 
@@ -85,36 +83,34 @@
                                                     <a id="payCard" class="btn btn_black"  role="button" data="CARD" onclick="changePayMethod(this);"><span>신용/체크카드</span></a>
                                                     <a id="payVBank" class="btn btn_default"  role="button" data="VBANK" onclick="changePayMethod(this);"><span>가상 계좌</span></a>
                                                 </div>
-
                                                 <!-- [0614]전체수정 -->
-                                                <div class="receipts">
+                                                <div class="receipts" style="display: none;">
                                                     <dl class="receipts-inner">
                                                         <dt class="tit tt5"><span>현금영수증</span></dt>
                                                         <dd class="con">
                                                             <div class="btn-area js-selt_division">
                                                             <span class="trp radio-box">
-                                                                <input id="radio1-1" type="radio" name="radioSet1" checked>
+                                                                <input id="radio1-1" type="radio" name="rcpt_type" value="1" checked>
                                                                 <i></i>
                                                                 <label for="radio1-1">개인 소득 공제</label>
                                                             </span>
                                                                 <span class="trp radio-box">
-                                                                <input id="radio1-2" type="radio" name="radioSet1">
+                                                                <input id="radio1-2" type="radio" name="rcpt_type" value="2">
                                                                 <i></i>
                                                                 <label for="radio1-2">사업자 지출 증빙</label>
                                                             </span>
                                                             </div>
                                                             <div class="form-area personal">
-                                                                <!-- [0812]개인소득공제신청양식 변경 -->
                                                                 <div class="con">
                                                                     <div class="form-wrap">
-                                                                        <input type="text" placeholder="휴대폰 번호를 입력해주세요" id="" class="h42">
+                                                                        <input type="text" placeholder="휴대폰 번호를 입력해주세요" id="rcpt_type_no1" class="h42" maxlength="13" onkeypress="phoneNumber(this);" onkeyup="onlyNumber(this);" onblur="phoneNumberBlur(this);">
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="form-area business">
                                                                 <div class="con">
                                                                     <div class="form-wrap">
-                                                                        <input type="text" placeholder="사업자번호를 입력해 주세요" id="" class="h42">
+                                                                        <input type="text" placeholder="사업자번호를 입력해 주세요" id="rcpt_type_no2" class="h42" maxlength="12" onchange="businessNumberHyphen(this);" onkeydown="businessNumberHyphen(this);">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -122,6 +118,14 @@
                                                     </dl>
                                                 </div>
                                                 <!-- //[0614]전체수정 -->
+                                                <!-- [0614]텍스트삽입 -->
+                                                <div class="text_wrap" style="display: none;">
+                                                    <dl>
+                                                        <dt class="tit tt6">법인 및 개인사업자 증빙발행 안내</dt>
+                                                        <dd class="con tb2">신용카드 매출전표 및 사업자증빙용 현금영수증은 세금계산서와 동일한 적격증빙입니다.</dd>
+                                                    </dl>
+                                                </div>
+                                                <!-- //[0614]텍스트삽입 -->
                                             </li>
                                             <li class="no-line">
                                                 <p class="list_tit tt4">총 결제금액</p>
@@ -141,13 +145,9 @@
                                             </div>
                                         </article>
                                     </div>
-
                                 </div>
-
-
-                        </div>
+                            </div>
                     </section>
-
                 </div>
             </div>
             <!-- //container -->
