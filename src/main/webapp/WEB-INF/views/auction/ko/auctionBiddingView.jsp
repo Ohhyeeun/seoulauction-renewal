@@ -617,15 +617,15 @@
         }
 
         async function getPollingData(){
-            let [currentLotData] = await Promise.all([
+            let [currentLotData, noticesData] = await Promise.all([
                 getCurrentLotInfo(saleNo),
-                // getNotices(saleNo)
+                getNotices(saleNo)
             ]);
 
-            /*const noticeList = noticesData.data.data;
+            const noticeList = noticesData.data.data;
             if(noticeList.length > 0){
                 bindingNoticeInfo(noticeList);
-            }*/
+            }
 
             const currentLotInfo = currentLotData.data.data;
             currentLotNo = currentLotInfo.LOT_NO;
@@ -749,8 +749,6 @@
 
 
         const bindingNoticeInfo = (data) => {
-            saleNoticeSwiper.removeAllSlides();
-
             let noticeSlide = [];
             data.forEach(item => {
                 noticeSlide.push(`<span class="swiper-slide txt">`+item.CONTENT_JSON[locale]+`</span>`);

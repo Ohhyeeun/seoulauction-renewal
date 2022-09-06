@@ -153,7 +153,7 @@
     }
 
     const getPollingData = async () => {
-        let [ noticesData] = await Promise.all([
+        let [noticesData] = await Promise.all([
             getNotices(SALE_NO),
         ]);
 

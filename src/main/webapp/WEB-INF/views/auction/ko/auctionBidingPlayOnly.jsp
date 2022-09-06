@@ -47,7 +47,6 @@
     <link rel="stylesheet" href="/css/plugin/csslibrary.css">
     <link rel="stylesheet" href="/css/common.css" type="text/css"/>
     <link rel="stylesheet" href="/css/pages_common_ko.css">
-    <link rel="stylesheet" href="/css/live_auction.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -85,11 +84,7 @@
                                     <article class="bidding-offline-center">
                                         <div class="notice notice-swiper" style="height: 50px;">
                                             <i class="icon-notice"></i>
-                                            <span class="swiper-wrapper">
-                                                <span class="swiper-slide txt">111</span>
-                                                <span class="swiper-slide txt">222</span>
-                                                <span class="swiper-slide txt">333</span>
-                                            </span>
+                                            <span class="swiper-wrapper"></span>
                                         </div>
                                         <div class="video_area">
                                             <div class="view_box">
@@ -208,7 +203,7 @@
     window.onload = async () => {
 
         await init();
-        // setInterval(await getPollingData, 10000);
+        setInterval(await getPollingData, 10000);
     }
 
 
@@ -253,10 +248,10 @@
         bindingSaleInfo(saleInfo);
 
         //공지사항
-        // const noticeList = noticesData.data.data;
-        // if(noticeList.length > 0){
-        //     bindingNoticeInfo(noticeList);
-        // }
+        const noticeList = noticesData.data.data;
+        if(noticeList.length > 0){
+            bindingNoticeInfo(noticeList);
+        }
     }
 
     const bindingSaleInfo = (data) => {
