@@ -14,3 +14,4 @@
 <link rel="stylesheet" href="/css/common_popup.css" type="text/css" />
 <link rel="stylesheet" href="/css/native.css" />
 <link rel="stylesheet" href="/css/in-house/lot.css" />
+<link rel="stylesheet" href="/css/in-house/my-page.css" />
