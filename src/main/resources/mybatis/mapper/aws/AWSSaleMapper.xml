@@ -13,4 +13,13 @@
           AND sale_no = #{sale_no}
         ORDER BY sort desc
     </select>
+    <select id="selectSaleNotice" parameterType="CommonMap" resultType="CommonMap">
+        SELECT id WRITE_NO FROM notice
+        WHERE notice_type = 'auction'
+          AND is_open = 'Y'
+          AND status = 'A'
+          AND sale_no = #{sale_no}
+        ORDER BY id desc
+        LIMIT 1
+    </select>
 </mapper>
