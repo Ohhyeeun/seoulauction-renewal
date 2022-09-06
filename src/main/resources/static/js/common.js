@@ -533,7 +533,7 @@ function addReadCount(id , type){
 function checkLogin(){
     if(sessionStorage.getItem("is_login") === 'false'){
         let login_message = ( getCookie('lang') === "" ||  getCookie('lang') === 'ko' ) ?
-            '로그인을 진행해주세요.' : 'Please Login in.';
+            '로그인 후 이용해주세요.' : 'Please Login in.';
         alert(login_message);
         location.href= '/login';
         return false;
