@@ -216,7 +216,7 @@
                                                     </div>
                                                 </article>
                                                 <%--출품--%>
-                                                <article ng-if="item.STAT_CD !== 'reentry'" class="item-article" ng-class="{result: item.CLOSE_YN || sale_status === 'END' || item.IMAGE_MAGNIFY }">
+                                                <article ng-if="item.STAT_CD !== 'reentry'" class="item-article" ng-class="{result: item.CLOSE_YN || sale_status === 'END'  }"> <%--|| item.IMAGE_MAGNIFY--%>
                                                     <div class="image-area">
                                                         <figure class="img-ratio">
                                                             <a ng-href="{{!is_employee && item.CLOSE_YN ? '' : '/auction/live/view/'+sale_no+'/'+item.LOT_NO}}">

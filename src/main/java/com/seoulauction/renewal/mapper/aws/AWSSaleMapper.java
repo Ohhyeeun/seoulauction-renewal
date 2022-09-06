@@ -11,4 +11,6 @@ public interface AWSSaleMapper {
     //응찰 페이지 공지사항
     List<CommonMap> selectBidNotice(CommonMap commonMap);
 
+    int selectSaleNotice(CommonMap commonMap);
+
 }
