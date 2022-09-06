@@ -21931,7 +21931,7 @@ header.win_header .header-inner .header_logo {
 
 .bidding_mo .notice {
   background: #f3f3f3;
-  padding: 18px 25px 18px 55px;
+  padding: 0 25px 0 55px;
   position: relative;
   width: calc( 100% + 50px);
   border-top: 1px solid #dedede;
@@ -21940,7 +21940,7 @@ header.win_header .header-inner .header_logo {
 .bidding_mo .notice .icon-notice {
   display: inline-block;
   position: absolute;
-  top: 18px;
+  top: 16px;
   left: 25px;
 }
 
@@ -21948,7 +21948,8 @@ header.win_header .header-inner .header_logo {
   font-size: 13px;
   color: #333;
   font-weight: 500;
-  line-height: 20px;
+  line-height: 58px;
+  height: 58px;
 }
 
 .bidding_mo .notice ~ div {
