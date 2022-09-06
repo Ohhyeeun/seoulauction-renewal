@@ -94,11 +94,14 @@ var userNo = '${userNo}';
                                                         <div class="btn_item" ng-if="is_login == 'false' && academyView.CLOSE_YN != 'Y'"  onClick="checkLogin()">
                                                             <a href="#" class="btn btn_point btn_lg" type="button"><span>수강료 결제하기</span></a>
                                                         </div>
-                                                        <div class="btn_item" ng-if="academyView.CLOSE_YN == 'Y'">
+                                                        <div class="btn_item" ng-if="academyView.CLOSE_YN == 'Y' && academyView.CANCEL_YN != 'Y' && academyView.ACADEMY_COMPLETE == 0">
                                                             <a href="#" class="btn btn_point btn_lg" type="button"><span>수강 모집 완료</span></a>
                                                         </div>
-                                                        <div class="btn_item" ng-if="academyView.ACADEMY_COMPLETE > 0 && is_login=='true' && (academyView.ACADEMY_PAY !=null && academyView.ACADEMY_PAY != 0)">
+                                                        <div class="btn_item" ng-if="academyView.ACADEMY_COMPLETE > 0 && is_login=='true' && (academyView.ACADEMY_PAY !=null && academyView.ACADEMY_PAY != 0) && academyView.CANCEL_YN != 'Y'">
                                                             <a href="#" class="btn btn_point btn_lg" type="button"><span>결제완료</span></a>
+                                                        </div>
+                                                        <div class="btn_item" ng-if="academyView.CANCEL_YN == 'Y'">
+                                                            <a href="#" class="btn btn_point btn_lg" type="button"><span>결제취소</span></a>
                                                         </div>
                                                     </div>
 
