@@ -39,7 +39,7 @@
                   <ul class="mark_dot-list">
                     <li class="text-help">낙찰가(Hammer Price) : 경매사가 낙찰봉을 두드리면서 낙찰된 금액</li>
                     <li class="text-help">구매가(Purchase Price) : 낙찰가 + 낙찰 수수료 + 부가가치세가 합산된 금액</li>
-                    <li class="text-help">현재가 기준 891,000원</li>
+                    <li class="text-help current-bid-fee">현재가 기준 891,000원</li>
                   </ul>
                 </article>
               </section>
