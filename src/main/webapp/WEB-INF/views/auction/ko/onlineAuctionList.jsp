@@ -40,7 +40,7 @@
               <!-- 헤더 //-->
 
               <!-- 마감중 헤더 -->
-              <article class="proceeding-article">
+              <article class="proceeding-article" style="display: none;">
                 <a href="#" title="" class="anchor">
                   <div class="article-inner">
                     <div class="column ing">
