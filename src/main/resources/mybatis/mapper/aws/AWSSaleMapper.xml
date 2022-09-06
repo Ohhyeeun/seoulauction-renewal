@@ -13,7 +13,7 @@
           AND sale_no = #{sale_no}
         ORDER BY sort desc
     </select>
-    <select id="selectSaleNotice" parameterType="CommonMap" resultType="CommonMap">
+    <select id="selectSaleNotice" parameterType="CommonMap" resultType="int">
         SELECT id WRITE_NO FROM notice
         WHERE notice_type = 'auction'
           AND is_open = 'Y'
