@@ -261,10 +261,26 @@ public class SaleLiveService {
             resultMap.put("list", saleListNewLot);
         }
 
-        //IMAGE_FULL_PATH 제외
+        //IMAGE_FULL_PATH 제외 & 직원 여부에 따른 이미지 노출 필터링
         List<CommonMap> saleListEx = (List<CommonMap>) resultMap.get("list");
         for (var item : saleListEx) {
+            //직원 여부
+            boolean isEmployee = false;
+            //만약 로그인을 했고 직원 이면.
+            if( saUserDetails !=null) {
+                isEmployee = saUserDetails.getAuthorities().stream().anyMatch(c -> c.getAuthority().equals("ROLE_EMPLOYEE_USER"));
+            }
+            if (item.get("IMG_DISP_YN").equals("N") && !isEmployee) {
+//                item.put("IMAGE_URL", "");
+                item.put("LOT_IMG_PATH", "");
+                item.put("LOT_IMG_NAME", "/images/bg/no_image.jpg");
+            } else {
+//                item.put("IMAGE_URL", IMAGE_URL);
+            }
+
             item.remove("IMAGE_FULL_PATH");
+            item.remove("IMG_DISP_YN");
+
         }
         resultMap.put("list", saleListEx);
 

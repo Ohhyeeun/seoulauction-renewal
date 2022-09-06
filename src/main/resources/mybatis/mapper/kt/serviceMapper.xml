@@ -90,7 +90,8 @@
 		       A.VIEW_FILE_ORG_NAME AS VIEW_FILE_ORG_NAME,
 		       A.VIEW_FILE_ORG_NAME_EN AS VIEW_FILE_ORG_NAME_EN,
 		       A.ACADEMY_PAY AS ACADEMY_PAY,		
-		       A.CLOSE_YN AS CLOSE_YN,       
+		       A.CLOSE_YN AS CLOSE_YN,
+			   (SELECT CANCEL_YN FROM ACADEMY_REQ C WHERE A.ACADEMY_NO = C.ACADEMY_NO AND C.CUST_NO = #{action_user_no}) AS CANCEL_YN,
 		       (case when #{action_user_no} = null then 0 else (SELECT COUNT(*) FROM ACADEMY_PAY C WHERE A.ACADEMY_NO = C.ACADEMY_NO AND C.CUST_NO = #{action_user_no} ) end )  AS ACADEMY_COMPLETE,
 		       IF(CAST(DATE_FORMAT(NOW(), "%Y-%m-%d") AS CHAR) > A.TO_DT, 'Y', 'N') END_YN,
 		       date_format(NOW(), '%Y-%m-%d') as DB_NOW
