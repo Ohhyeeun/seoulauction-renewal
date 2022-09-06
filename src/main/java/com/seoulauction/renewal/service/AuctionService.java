@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonArray;
 import com.seoulauction.renewal.domain.CommonMap;
 import com.seoulauction.renewal.domain.SAUserDetails;
+import com.seoulauction.renewal.mapper.aws.AWSSaleMapper;
 import com.seoulauction.renewal.mapper.aws.MainMapper;
 import com.seoulauction.renewal.mapper.kt.AuctionMapper;
 import com.seoulauction.renewal.util.SecurityUtils;
@@ -23,6 +24,8 @@ public class AuctionService {
     private final AuctionMapper auctionMapper;
 
     private final MainMapper mainMapper;
+
+    private final AWSSaleMapper awsSaleMapper;
 
     public CommonMap lot(CommonMap map){
         log.info("sale :{}", map.get("sale_no"));
@@ -76,6 +79,7 @@ public class AuctionService {
     public CommonMap selectSaleInfo(CommonMap commonMap) {
         CommonMap resultMap = auctionMapper.selectSaleInfo(commonMap);
         resultMap.put("buttonList", mainMapper.selectBrochures(commonMap));
+        resultMap.put("WRITE_NO", awsSaleMapper.selectSaleNotice(commonMap));
         resultMap.settingYNValueToBoolean();
         return resultMap;
     }
