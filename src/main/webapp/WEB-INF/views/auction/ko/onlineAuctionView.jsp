@@ -63,7 +63,7 @@
                       </div>
 
                       <div class="view_scale-area">
-                        <a href="#"><i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
+                        <a href="#" class="js-popup_image_viewer"><i class="icon-view_scale"></i><span>VIEW SCALE</span></a>
                       </div>
                     </article>
                   </div>
@@ -79,8 +79,10 @@
                             <div class="sns-layer">
                               <div class="sns-item">
                                 <button class="js-share_kakao">
-                                  <i class="icon-share_sns_kakao"></i>
-                                  <div class="txt"><span>카카오톡</span></div>
+                                  <button id="kakao-share" class="js-share_kakao">
+                                    <i class="icon-share_sns_kakao"></i>
+                                    <div class="txt"><span>카카오톡</span></div>
+                                  </button>
                                 </button>
                               </div>
                               <div class="sns-item">
@@ -219,6 +221,7 @@
 </div>
 
 <!-- Popup List -->
+<jsp:include page="popup/onlineLotListPopupMobile.jsp" />
 <jsp:include page="popup/onlineFeePopup.jsp" />
 <jsp:include page="popup/onlineGrowPricePopup.jsp" />
 <jsp:include page="popup/onlineAuthPhonePopup.jsp" />
@@ -227,6 +230,8 @@
 <jsp:include page="popup/onlineAllLotList.jsp" />
 <jsp:include page="popup/onlineAutoBidConfirmPopup.jsp" />
 <jsp:include page="popup/onlineAutoBidStopPopup.jsp" />
+<jsp:include page="popup/onlineImageViewer.jsp" />
+<jsp:include page="popup/onlineImageViewScale.jsp" />
 <!-- Popup List //-->
 
 <jsp:include page="./onlineAuctionViewBodyJs.jsp" />

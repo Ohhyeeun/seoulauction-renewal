@@ -103,7 +103,7 @@
                                 <p class="family-infotxt tit-size16">해외경매대행 "미술을 직구하다"</p>
                             </div>
                             <figure class="family-infoimg">
-                                <a href="https://www.auctionblue.com" target="_blank">
+                                <a href="javascript:void(0);" onclick="openWebBrowser('https://www.auctionblue.com');" target="_blank">
                                     <img src="/images/pc/banner/FamilyBanner_SaBlue_383x150.png" alt="서울옥션 블루" class="pc-ver" loading="lazy">
                                     <img src="/images/mobile/banner/FamilyBanner_SaBlue_520x204.png" alt="서울옥션 블루" class="m-ver" loading="lazy">
                                 </a>
@@ -115,7 +115,7 @@
                                 <p class="family-infotxt tit-size16">미술품 공동구매 플랫폼</p>
                             </div> 
                             <figure class="family-infoimg">
-                                <a href="https://sotwo.com" target="_blank">
+                                <a href="javascript:void(0);" onclick="openWebBrowser('https://sotwo.com');" target="_blank">
                                     <img src="/images/pc/banner/FamilyBanner_Sotwo_383x150.png" alt="SOTWO" class="pc-ver" loading="lazy">
                                     <img src="/images/mobile/banner/FamilyBanner_Sotwo_520x204.png" alt="SOTWO" class="m-ver" loading="lazy">
                                 </a>
@@ -127,7 +127,7 @@
                                 <p class="family-infotxt tit-size16">일상의 예술을 맛보다.</p>
                             </div>
                             <figure class="family-infoimg">
-                                <a href="https://printbakery.com" target="_blank">
+                                <a href="javascript:void(0);" onclick="openWebBrowser('https://printbakery.com');" target="_blank">
                                     <img src="/images/pc/banner/FamilyBanner_PrintBakery_383x150.png" alt="프린트 베이커리" class="pc-ver" loading="lazy">
                                     <img src="/images/mobile/banner/FamilyBanner_PrintBakery_520x204.png" alt="프린트 베이커리" class="m-ver" loading="lazy">
                                 </a>

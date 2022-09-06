@@ -44,7 +44,7 @@ $(document).ready(function(){
                         let html = `<tr>
                                         <td class="bbs-subject">
                                             <span class="bbs-media">${el.corp}</span>
-                                            <a target="_blank" id="${el.id}_id" href="${el.url}" class="tit media_click_cl">${el.title}</a>
+                                            <a target="_blank" id="${el.id}_id" href="javascript:void(0);" onclick="openWebBrowser('${el.url}');" class="tit media_click_cl">${el.title}</a>
                                         </td>
                                         <td class="bbs-date">${el.dt_date}</td>
                                     </tr>`;

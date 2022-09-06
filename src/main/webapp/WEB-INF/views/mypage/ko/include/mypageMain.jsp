@@ -69,7 +69,7 @@
 										</div>
 										
 										<div class="mem-button-wrap" ng-if="userRole=='0'">
-										<a href="/payment/member">
+										<a href="javascript:void(0);" onclick="openPayWebBrowser('/payment/member')">
 											<button class="btn btn_point btn_lg" type="button" >
 												<span>정회원 신청하기</span>
 											</button>

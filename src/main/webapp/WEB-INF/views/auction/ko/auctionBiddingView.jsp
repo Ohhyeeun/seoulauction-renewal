@@ -105,9 +105,9 @@
                                                     <%-- lot list tab menu 바인딩 영역--%>
                                                 </div>
                                             </div>
-                                            <div class="lotlist-tabCont">
-                                                <div class="mCustomScrollbar">
-                                                    <div class="lotlist-box">
+                                            <div class="lotlist-tabCont" >
+                                                <div class="mCustomScrollbar" >
+                                                    <div class="lotlist-box" >
                                                         <ul class="lotlist-inner" lot-list-ul>
                                                             <%-- lot List 바인딩 영역 --%>
                                                         </ul>
@@ -466,11 +466,6 @@
             var scope = angular.element(document.getElementById("container")).scope();
             return scope;
         }
-        function confirmEnd() {
-            $(".js-closepop").click();
-            Scope().selectedCurrencyType = Scope().currencyType;
-            Scope().$apply();
-        }
 
         /* 통화 전환 시 */
         function selectCurrency(){
@@ -622,41 +617,41 @@
         }
 
         async function getPollingData(){
-            let [currentLotData, noticesData] = await Promise.all([
+            let [currentLotData] = await Promise.all([
                 getCurrentLotInfo(saleNo),
-                getNotices(saleNo)
+                // getNotices(saleNo)
             ]);
 
-            const noticeList = noticesData.data.data;
+            /*const noticeList = noticesData.data.data;
             if(noticeList.length > 0){
                 bindingNoticeInfo(noticeList);
-            }
+            }*/
 
             const currentLotInfo = currentLotData.data.data;
             currentLotNo = currentLotInfo.LOT_NO;
-            bindingCurrentLotInfo(currentLotInfo);
+            await bindingCurrentLotInfo(currentLotInfo);
 
             if(currentLotNo !== prevLotNo ){
                 prevLotNo = currentLotNo;
-                clickLotItem(currentLotNo);
-                moveScrollToCurrentLot();
+                await clickLotItem(currentLotNo);
+                await moveScrollToCurrentLot();
             }
 
             if(currentLotNo !== 0) {
                 const bidingData = await getCurrentLotBiddingInfo(saleNo, currentLotNo);
                 const bidingInfo = bidingData.data.data;
-                bindingCurrentLotBidingInfo(bidingInfo);
+                await bindingCurrentLotBidingInfo(bidingInfo);
 
                 const lotListData = await getLotList(saleNo, selectedType, selectedCategory);
                 lotList = lotListData.data.data;
                 lotTotalCount = lotList.length;
                 if (lotTotalCount > 0)
-                    bindingLotListInfo(lotList, lotTotalCount);
+                    await bindingLotListInfo(lotList, lotTotalCount);
 
                 if (authKind !== 'viewonly') {
                     const myBidingData = await getMyBidingList(saleNo);
                     myBidingList = myBidingData.data.data;
-                    bindingMyBidingInfo(myBidingList);
+                    await bindingMyBidingInfo(myBidingList);
                 }
             }
         }
@@ -780,13 +775,39 @@
             currencyArea.innerHTML = currencyDom;
 
             el_currSelectBox.addEventListener('change', (e)=>{
-                const rate = e.target.value;
-                const currCd = e.target.options[e.target.selectedIndex].text;
-                subCurrency = currCd;
-                subCurrencyRate = rate;
-''            });
+                openTermPopup();
+            });
         }
 
+        const openTermPopup = () =>{
+            let money_help = $(".js-money_help").trpLayerFixedPopup("#money_help-wrap");
+            money_help.open(this);
+            popup_fixation("#money_help-wrap");
+            $("body").on("click", "#money_help-wrap .js-closepop, #money_help-wrap .popup-dim", function($e) {
+                $e.preventDefault();
+                money_help.close();
+            });
+        }
+
+        const confirmEnd = () =>{
+            const checkBoxId = document.getElementById("checkbox_check");
+            if(checkBoxId.checked){
+                changeSubCurrency();
+                checkBoxId.checked = false;
+                $(".js-closepop").click();
+            }else{
+                alert("약관에 동의해주세요.");
+            }
+        }
+
+        const changeSubCurrency = () => {
+            const selectorName = classForDevice === '.pcVer'? 'pc-currency-select-box' : 'mo-currency-select-box';
+            const el_currSelectBox = document.getElementById(selectorName);
+            const rate = el_currSelectBox.value;
+            const currCd = el_currSelectBox.options[el_currSelectBox.selectedIndex].text;
+            subCurrency = currCd;
+            subCurrencyRate = rate;
+        }
 
         const calSubCurrencyPrice = (basePrice, rate) =>{
             const calPrice =  Math.round(basePrice/rate);
@@ -828,8 +849,6 @@
                     btnContentDom = `<p class="txt">최고가 응찰중</p>
                                      <p class="price_unit1">\${baseCurrency} \${numberWithCommas(nextBidPrice)}</p>
                                     <p class="price_unit2">\${returnPriceHtml}</p>`;
-
-
                     break;
                 case 'biding' :
                     el_bidPriceButton.classList.remove("view_only");
@@ -1197,13 +1216,13 @@
                 if(!data.LIVE_CLOSE_YN) authKind = 'biding';
                 if(!data.LIVE_CLOSE_YN && data.IS_WIN) authKind = 'highest';
             }
+
             setBidingButton(authKind, nextBidPrice);
 
             /* bidding list */
+            const el_notice = document.querySelector(`\${classForDevice} [biding-notice-div]`);
+            const el_bidRow = document.querySelector(`\${classForDevice} [biding-row]`);
             if(bidData.length > 0){
-                const el_notice = document.querySelector(`\${classForDevice} [biding-notice-div]`);
-                const el_bidRow = document.querySelector(`\${classForDevice} [biding-row]`);
-
                 if(bidData[0].BID_NOTICE !== null){
                     el_notice.querySelector('.situ_alert').innerHTML = bidData[0].BID_NOTICE;
                     el_notice.style.display = 'block';
@@ -1223,6 +1242,9 @@
                                     </li>`
                     });
                 el_bidRow.innerHTML = bidRowDom;
+            }else{
+                el_notice.style.display = 'none';
+                el_bidRow.innerHTML = ``;
             }
         }
 
@@ -1250,6 +1272,8 @@
         const moveScrollToCurrentLot = (e) => {
             const currLotElem = document.querySelector(`.lotitem[data-lotIdx='\${currentLotNo}']`);
             if(currLotElem) {
+                console.log($(currLotElem).offset());
+                console.log(document.querySelector(".mCustomScrollBox").scrollTop)
                 $(`\${classForDevice} .lotlist-tabCont .mCustomScrollBox`).animate({
                     scrollTop: $(currLotElem).offset().top - 400,
                     behavior: 'smooth'
@@ -1260,7 +1284,7 @@
         const moveCurrentLot = async (e) => {
             e.preventDefault();
             await clickLotItem(currentLotNo);
-            moveScrollToCurrentLot();
+            await moveScrollToCurrentLot();
         }
 
         const changeCategory = async ($this, type, cd_id) =>{
@@ -1277,9 +1301,9 @@
             lotList = lotListData.data.data;
             lotTotalCount = lotList.length;
             if(lotTotalCount > 0)
-                bindingLotListInfo(lotList, lotTotalCount);
+               await bindingLotListInfo(lotList, lotTotalCount);
 
-            moveScrollToCurrentLot();
+           await moveScrollToCurrentLot();
         }
 
         const changeInfoTab = ($this, tabId) => {

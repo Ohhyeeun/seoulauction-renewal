@@ -550,7 +550,7 @@
                 }else if(saleStatus === 'LIVE_ING' && !isLogin){
                     //player only 페이지 이동
                     if(DEVICE_KIND === 'is_pc'){
-                        window.open("/auction/live/bid/player/"+$scope.sale_no,"bidder", "resizable=no, status=no, menubar=no, toolbar=no, location=no, directories=no");
+                        window.open("/auction/live/bid/player/"+$scope.sale_no,"bidder", "resizable=no, status=no, menubar=no, toolbar=no, location=no, directories=no, fullscreen=yes");
                     }else{
                         window.location.href = "/auction/live/bid/player/mobile/"+$scope.sale_no;
                     }
@@ -558,7 +558,7 @@
                     return;
                 }else if(saleStatus === 'LIVE_ING' && isLogin){
                     //응찰페이지 이동
-                    window.open("/auction/live/bidder/"+$scope.sale_no, "bidder", "resizable=no, status=no, menubar=no, toolbar=no, location=no, directories=no");
+                    window.open("/auction/live/bidder/"+$scope.sale_no, "bidder", "resizable=no, status=no, menubar=no, toolbar=no, location=no, directories=no, fullscreen=yes");
                     return;
                 }
             }

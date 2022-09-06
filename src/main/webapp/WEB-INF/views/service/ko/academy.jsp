@@ -42,7 +42,7 @@
                                     <article class="service-article option-more js-service_more">
                                         <div class="article-body">
                                             <ul class="service-list">
-                                                <li name="academyList" class="mb_show" ng-repeat="academyList in academyList" ng-if = "academyList.TO_DT.substring(0,10) > db_now">
+                                                <li name="academyList" class="mb_show" ng-repeat="academyList in academyList" ng-if = "academyList.TO_DT.substring(0,10) >= db_now">
                                                     <div class="li-inner">
                                                         <a href="/service/academyDetail?academyNo={{academyList.ACADEMY_NO}}&academyCd={{academyList.ACADEMY_CD}}">
                                                             <div class="item-area">
@@ -62,7 +62,7 @@
                                                                     <div class="state">
                                                                         <span ng-if = "academyList.CLOSE_YN == 'N' || academyList.CLOSE_YN == null" class="allowed">신청가능</span>
                                                                         <span ng-if = "academyList.CLOSE_YN == 'Y'"class="deadline">신청마감</span>
-                                                                        <span ng-if = "academyList.FROM_DT.substring(0,10) < db_now || academyList.FROM_DT.substring(0,10) == db_now" class="progress">강의진행중</span>
+                                                                        <span ng-if = "(academyList.FROM_DT.substring(0,10) < db_now || academyList.FROM_DT.substring(0,10) == db_now) && db_now < academyList.TO_DT.substring(0,10)" class="progress">강의진행중</span>
                                                                     </div>
                                                                     	<div class="title"><span class="ft_sb">{{getAcademyTitle(academyList.TITLE_JSON)}}</span></div>
                                                                 </div>

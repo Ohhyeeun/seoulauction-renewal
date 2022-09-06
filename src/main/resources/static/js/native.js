@@ -350,12 +350,33 @@ async function deleteWebviewData(key) {
  */
 async function openWebBrowser(url) {
   try {
-    window.open(url, '_blank');
-    // if ('flutter_inappwebview' in window) {
-    //   await window.flutter_inappwebview.callHandler('openWebBrowser', url);
-    // } else {
-    //   window.open(url, '_blank');
-    // }
+    let result = await isNativeApp();
+     if ('flutter_inappwebview' in window && result){
+       await window.flutter_inappwebview.callHandler('openWebBrowser', url);
+     } else {
+       window.open(url, '_blank');
+     }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+/**
+ * [Webview -> Native]
+ * 앱의 다른 ACTIVITY로 URL 열기
+ * @param {string} url
+ */
+async function openPayWebBrowser(url) {
+  try {
+    let host = window.location.host;
+    let proc = window.location.protocol;
+
+    let result = await isNativeApp();
+    if ('flutter_inappwebview' in window && result){
+      await window.flutter_inappwebview.callHandler('openPayWebBrowser', proc + "//" + host + url);
+    } else {
+      location.href = url;
+    }
   } catch (error) {
     console.error(error);
   }
