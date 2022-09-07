@@ -380,7 +380,8 @@
             L.SALE_NO and CIL.LOT_NO = L.LOT_NO and CUST_NO = #{cust_no} ) <![CDATA[ > ]]> 0 , 'Y' , 'N') FAVORITE_YN,
             L.CLOSE_YN,
             L.EXPE_PRICE_INQ_YN,
-            L.STAT_CD -- 출품취소여부
+            L.STAT_CD, -- 출품취소여부
+            L.IMG_DISP_YN
         FROM
             LOT L
             LEFT OUTER JOIN LOT_SIZE E ON L.SALE_NO = E.SALE_NO AND L.LOT_NO = E.LOT_NO
