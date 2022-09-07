@@ -141,8 +141,10 @@
                       </div>
                       <div class="other-area">
                         <div class="inquiry-box">
-                          <i class="icon-view_inquiry"></i>
-                          <span>작품문의 02-395-0330</span>
+                          <a href="tel:02-395-0330">
+                            <i class="icon-view_inquiry"></i>
+                            <span>작품문의 02-395-0330</span>
+                          </a>
                         </div>
                         <div class="print-box">
                           <button class="print-btn">

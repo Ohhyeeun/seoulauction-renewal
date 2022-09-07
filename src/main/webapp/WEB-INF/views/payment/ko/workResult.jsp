@@ -41,32 +41,13 @@
                                             <li class="comment_pay">
                                                 <p class="tt1">가상계좌 신청이 완료 되었습니다.</p>
                                                 <div class="desc-box">
+                                                    <fmt:parseDate value="${resultMap.vbank_exp_dt}" var="vbank_exp_dt" pattern="yyyyMMdd"/>
+                                                    <fmt:formatDate value="${vbank_exp_dt}" var="vbank_exp_dt" pattern="yyyy년 MM월 dd일"/>
                                                     <p class="tt6"><em>${resultMap.vbank_nm} ${resultMap.vbank_num}</em></p>
-                                                    <p class="tb1">예금주명 <em>서울옥션</em> 으로 ${vbank_exp_dt} 까지 입금해주세요.</p>
+                                                    <p class="tb1">예금주명 <em>서울옥션</em> 으로 ${vbank_exp_dt}까지 입금해주세요.</p>
                                                 </div>
                                             </li>
-<%--                                            <li>--%>
-<%--                                            <div class="account_info">--%>
-<%--                                                <p class="tit">가상계좌 정보</p>--%>
-<%--                                                <p class="txt tb1">--%>
-<%--                                                    <fmt:parseDate value="${resultMap.vbank_exp_dt}" var="vbank_exp_dt" pattern="yyyyMMdd"/>--%>
-<%--                                                    <fmt:formatDate value="${vbank_exp_dt}" var="vbank_exp_dt" pattern="yyyy-MM-dd hh:mm:ss"/>--%>
-<%--                                                    <span>${vbank_exp_dt}</span> 까지 아래의<i class="br-mo"></i> 가상계좌로 결제금액을 입금해 주시기 바랍니다.--%>
-<%--                                                </p>--%>
-<%--                                                <ul class="pay_info tb1">--%>
-<%--                                                    <li>--%>
-<%--                                                        <span class="th">은행명</span>--%>
-<%--                                                        <span class="td"><strong>${resultMap.vbank_nm}</strong></span>--%>
-<%--                                                    </li>--%>
-<%--                                                    <li>--%>
-<%--                                                        <span class="th">계좌번호</span>--%>
-<%--                                                        <span class="td"><strong>${resultMap.vbank_num}</strong></span>--%>
-<%--                                                    </li>--%>
-<%--                                                </ul>--%>
-<%--                                            </div>--%>
-<%--                                        </li>--%>
                                         </c:if>
-
 
                                         <li>
                                             <div class="table_box">
@@ -139,7 +120,6 @@
                                     <article class="button-area">
                                         <div class="btn_set tac btn_double">
                                             <a class="btn btn_default btn_lg" href="/" role="button"><span>홈으로 이동</span></a>
-<%--                                            <a class="btn btn_black btn_lg" onclick="goMypage();" role="button"><span>마이페이지로 이동</span></a>--%>
                                         </div>
                                     </article>
                                 </div>
@@ -168,16 +148,6 @@
         </div>
     </div>
 </body>
-<script>
-    function goMypage() {
-        if(checkPlatform(window.navigator.userAgent) == "mobile") {
-            location.href = "/mypage/main";
-        } else {
-            location.href = "/mypage/liveBidReqList";
-        }
-    }
-''
-</script>
 <script type="text/javascript" src="/js/plugin/mojs.core.js" type="text/javascript"></script>
 <script src="/js/payment/payment_common.js" type="text/javascript"></script>
 </html>
