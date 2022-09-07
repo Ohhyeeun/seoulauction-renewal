@@ -346,6 +346,14 @@
 <script>
     var resetPassword = '${sessionScope.PASSWD_RESET_YN}';
     var modPassword = '${sessionScope.PASSWD_MOD_NECESSARY_YN}';
+    let ip = '<%=request.getLocalAddr()%>';
+    let Name = '<%=request.getLocalName()%>';
+    let Port = '<%=request.getLocalPort()%>';
+
+    console.log('ip :' + ip);
+    console.log('Name :' + Name);
+    console.log('Port :' + Port);
+
 </script>
 
 <script src="/js/main/main.js" type="text/javascript"></script>
