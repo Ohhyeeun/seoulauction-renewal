@@ -74,8 +74,11 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
 
-    //redis
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.3.1.RELEASE'
+    // spring session data redis 추가
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+    implementation 'org.springframework.session:spring-session-data-redis'
+
 
     //static파일 수정시 서버 자동 재시작
     implementation 'org.springframework.boot:spring-boot-devtools'

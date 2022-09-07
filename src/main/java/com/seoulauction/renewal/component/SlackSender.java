@@ -27,11 +27,11 @@ public class SlackSender {
     @Value("${spring.profiles.active}")
     String active;
 
-    final Integer CAPACITY = 10;
+    final Integer CAPACITY = 10; // 큐에 쌓일수 있는 최대 메세지 갯수.
 
-    final Integer SLACK_MESSAGE_DELAY = 2 * 1000;
+    final Integer SLACK_MESSAGE_DELAY = 2 * 1000; //2초에 한번씩 전송.
 
-    final Integer MESSAGE_MAX_SIZE = 3000;
+    final Integer MESSAGE_MAX_SIZE = 3000; //메세지 최대 길이.
 
     ArrayBlockingQueue<String> slackBlockingQueue = new ArrayBlockingQueue<>(CAPACITY);
 
@@ -42,6 +42,7 @@ public class SlackSender {
         startingQueue();
     }
 
+    //메세지를 큐에 쌓는다.
     public synchronized void sendMessage(String message){
 
         if(!use){
@@ -60,6 +61,7 @@ public class SlackSender {
             e.printStackTrace();
         }
     }
+
 
     public void startingQueue(){
 
