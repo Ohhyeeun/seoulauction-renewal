@@ -238,7 +238,7 @@
                                                     <i class="icon-view_inquiry"></i>
                                                     <span>작품문의 <a href="tel:02-395-0330">02-395-0330</a></span>
                                                 </div>
-                                                <div class="print-box">
+                                                <div class="print-box only-pc">
                                                     <button class="print-btn">
                                                         <a href="/auction/view/print/{{sale_no}}/{{lot_no}}"
                                                            target="_blank">
@@ -366,7 +366,7 @@
                                 <i class="form-select_arrow_view-2x"></i>
                             </button>
                         </div>
-                        <div class="btn-box">
+                        <div class="btn-box" ng-if="sale_status === 'READY'">
                             <button ng-click="moveToBidding(lotInfo)">서면/전화 응찰 신청</button>
                         </div>
                     </div>
