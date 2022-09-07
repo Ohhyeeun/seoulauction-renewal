@@ -272,12 +272,10 @@ public class SaleLiveService {
                 isEmployee = saUserDetails.getAuthorities().stream().anyMatch(c -> c.getAuthority().equals("ROLE_EMPLOYEE_USER"));
             }
             if (!imgDispYn && !isEmployee) {
-                System.out.println("LOT List API : no image 해당 Lot No = "+item.get("LOT_NO"));
-//                item.put("IMAGE_URL", "");
+//                System.out.println("LOT List API : no image 해당 Lot No = "+item.get("LOT_NO"));
                 item.put("LOT_IMG_PATH", "");
                 item.put("LOT_IMG_NAME", "/images/bg/no_image.jpg");
             } else {
-//                item.put("IMAGE_URL", IMAGE_URL);
             }
 
             item.remove("IMAGE_FULL_PATH");
