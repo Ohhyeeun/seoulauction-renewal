@@ -131,7 +131,7 @@
                                                 <%--                                                <p class="view_count">--%>
                                                 <%--                                                    <i class="icon-viewer"></i><span class="unit">시청자</span> <span class="num" ng-bind="viewers"></span>--%>
                                                 <%--                                                </p>--%>
-                                                <button class="btn btn_gray btn_refresh"><i class="ic_refresh"></i>동영상 새로고침</button>
+                                                <button onclick="window.location.reload()" class="btn btn_gray btn_refresh"><i class="ic_refresh"></i>동영상 새로고침</button>
                                             </div>
                                         </div>
                                         <div class="my_lot my_lot_type3-box" my-info-tab>
